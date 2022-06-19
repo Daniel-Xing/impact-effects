@@ -29,10 +29,41 @@ Based on the objected-oriented idea, we separate the original programing into th
 
 Under this design, we do have several promotions.
 
-### Low coupling design && Easy to expand
+### Low coupling design && Easy to expand。
 
 We split the program into three entities, target and impactor and impact-effect. This approach allows us to expand very easily. For example, creating a impactor instance with different parameters would simulate a different comet or asteroid impact, or creating a Tagert instance to describe Mars.
 
 ### Easy to use
 
 Users only need to create Target and Impact instances first, and then use these two instances to build impact-Effects instances. The Impact-Effects example provides a number of practical useful approaches.
+
+## API design(details)
+
+### Target
+
+### Impactor
+
+### Impactor-effects
+
+```python
+class Impactor_effects:
+    
+    '''
+    '''
+    def __init_():
+    
+    '''
+    '''
+    def calc_energy():
+
+```
+
+#### calc_energy
+
+Input:
+
+pi, pdiameter, pdensity, vInput, velocity, theta, R_earth, lEarth, pEarth, mEarth, depth, 
+
+output:
+
+mass, energy0, energy0_megatons, rec_time, lratio, pratio, trot_change, enegy_atmosphere, energy_blast, energy_surface, altitudeBurst , mwater, vseafloor, delata
