@@ -2,33 +2,30 @@
 
 ## Introduction
 
-Impact Effect aim to create the python package, which provide the essiential functions for simulating the consequences of a comet or asteriod impact on earth or other planets.
-
-For achieving this, we first review the structure of the original Web-based program. Then we introduce the design of interface and function of python library.
+Impact Effect aims to create the python package, which provides the essential functions for simulating the consequences of a comet or asteroid impact on earth or other planets.
+For achieving this, we first review the structure of the original Web-based program. Then we introduce the design of the interface and function of the python library.
 
 ## Background: Structure of original program
 
 ![overall](../img/overall2.jpeg)
 
-The program get the data from User input, and check the validity of data. Then function **impact_effects** calculate all the status and results, containing plenty of sub-functions.
+The program gets the data from User input and checks the validity of data. Then function **impact_effects** calculates all the status and results, containing plenty of sub-functions.
 
 **The main logic of impact_effects is:**
 
 ![](../img/flow.jpeg)
 
-As the image shows, yellow parts are the crucial functions , using the formulas in the paper to calculate many important results. 
+As the image shows, yellow parts are the crucial functions , using the formulas in the paper to calculate many important results.
 
 ## Package design
 
 ![](../img/class.jpeg)
 
-Based on the objected-oriented idea, we sperate the original programing into three classes, which are:
+Based on the objected-oriented idea, we separate the original programing into three classes, which are:
 
 - Target: It's used to describe the planet being hit and the features of its surface, like Earth.
-
 - Impactor: Impactor is used to describe the characteristics of comets or meteorites.
-
-- Impactor-effects: take the instances of class Target and Impactor as paramaters, providing the essential functions, included in the original program.
+- Impactor-effects: take the instances of class Target and Impactor as parameters, providing the essential functions, included in the original program.
 
 Under this design, we do have several promotions.
 
