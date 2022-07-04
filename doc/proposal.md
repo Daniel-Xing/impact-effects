@@ -13,13 +13,13 @@ The program gets the data from User input and checks the validity of data. Then 
 
 **The main logic of impact_effects is:**
 
-![](../img/flow.jpeg)
+![](../img/Flowchart.jpg)
 
 As the image shows, yellow parts are the crucial functions , using the formulas in the paper to calculate many important results.
 
 ## Package design
 
-![](../img/class.jpeg)
+![](../img/pythonLibraryStructure.jpg)
 
 Based on the objected-oriented idea, we separate the original programing into three classes, which are:
 
@@ -36,34 +36,3 @@ We split the program into three entities, target and impactor and impact-effect.
 ### Easy to use
 
 Users only need to create Target and Impact instances first, and then use these two instances to build impact-Effects instances. The Impact-Effects example provides a number of practical useful approaches.
-
-## API design(details)
-
-### Target
-
-### Impactor
-
-### Impactor-effects
-
-```python
-class Impactor_effects:
-    
-    '''
-    '''
-    def __init_():
-    
-    '''
-    '''
-    def calc_energy():
-
-```
-
-#### calc_energy
-
-Input:
-
-pi, pdiameter, pdensity, vInput, velocity, theta, R_earth, lEarth, pEarth, mEarth, depth, 
-
-output:
-
-mass, energy0, energy0_megatons, rec_time, lratio, pratio, trot_change, enegy_atmosphere, energy_blast, energy_surface, altitudeBurst , mwater, vseafloor, delata
