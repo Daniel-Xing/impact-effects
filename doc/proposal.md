@@ -160,6 +160,8 @@ For single application, the common way of deployment is run on the server of a p
 ### Design Details
 
 <!-- 前端计划利用Vue框架进行实现。Vue是一个基于JavaScript的模板语言，它可以让我们在页面上进行渲染。Vue提供了很多组件，可以让我们方便的构建一个现代化的干净的界面。 -->
+
+![](https://github.com/acse-dx121/impact-effects/blob/main/img/vue_temp.png)
 **Fornt-end**
 The front-end plan is implemented using Vue framework. Vue is a javascript-based templating language that lets you render on your page. Vue provides many components that make it easy to build a modern, clean interface.
 
