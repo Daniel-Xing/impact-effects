@@ -14,7 +14,7 @@ Web programs obtain data from the user input and check the effectiveness of the 
 
 **The main logic of impact_effects is:**
 
-![](../img/Flowchart.jpg)
+![](https://github.com/acse-dx121/impact-effects/blob/main/img/Flowchart.jpg)
 
 As shown in the figure, the yellow part is the key function, and many important results are calculated using the formulas in the text. And if the box is wrapped in blue, that means that the function will print the relevant results.
 
@@ -38,7 +38,7 @@ As some of the above problems exist, we consider using Python and modern program
 
 ### Design overview
 
-![](../img/pythonLibraryStructure.jpg)
+![](https://github.com/acse-dx121/impact-effects/blob/main/img/pythonLibraryStructure.jpg)
 
 Based on object-oriented ideas, we redesigned the entire program. The picture above shows the overall structure of IMPACTEFFECT. As shown in the figure, it is roughly divided into three modules:
 
@@ -141,7 +141,7 @@ for key, val in energyMap:
 
 ## Extension: Web Application
 
-![](../img/webApp.jpeg)
+![](https://github.com/acse-dx121/impact-effects/blob/main/img/webApp.jpeg)
 
 ### Objective
 <!-- 在这一部分，我们计划设计一个现代Web应用程序，用于描述一个火山口的爆炸效果。我们的目标是构建一个可以自动化的撞击效果计算系统，并且可以可视化撞击结果。我们既希望可以模拟单一撞击器撞击效果，也希望可以模拟多个撞击器撞击效果。这样用户能够方便的模拟撞击效果，并且能够自动化的计算撞击结果。 -->
