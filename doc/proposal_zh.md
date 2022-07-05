@@ -94,7 +94,17 @@ class Generator(Object):
 
 ```
 
-另外，撞击器的参数可能服从不同的分布, 因此我们需要一个类来描述不同的分布。一种常见的设计思路是，Impact_effect包提供一个抽象父类，所有的分布需要继承这个父类。Library默认提供常见的分布实现，例如
+另外，撞击器的参数可能服从不同的分布, 因此我们需要一个类来描述不同的分布。一种常见的设计思路是，Impact_effect包提供一个抽象父类，所有的分布需要继承这个父类。Library默认提供常见的分布实现，例如联合分布和正态分布等。用户如果想要使用自定义的分布，需要继承Distribution类，并实现相关函数。
+
+```python
+class Distribution(Object):
+    def __init__():
+        return
+
+class UnionDistribution(Distribution):
+    def __init__():
+        return
+```
 
 </details>
 
