@@ -146,11 +146,4 @@ for key, val in energyMap:
 
 ```
 
-### Advantages and Disadvantages
-#### Low coupling design && Easy to expand。
-
-我们将程序分为三个实体，目标和影响者以及影响-效果。这种方法允许我们非常容易地扩展。例如，创建一个具有不同参数的撞击器实例可以模拟不同的彗星或小行星撞击，或者创建一个Tagert实例来描述火星。
-
-#### Easy to use
-
-用户只需要首先创建Target和Impact实例，然后使用这两个实例构建Impact - effects实例。Impact-Effects示例提供了许多实用的有用方法。
+## Web Application
