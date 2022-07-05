@@ -36,13 +36,13 @@ As some of the above problems exist, we consider using Python and modern program
 - Second, we wanted to integrate version control and CI/CD so that we could continue to advance and evolve our projects. CI/CD supports automated validation and deployment of our code, reducing the probability of significant bugs. 
 - In the end, we want the new Library to be easy to extend and easy to use, much of which depends on our code design.
 
-### Design Details
+### Design overview
 
 ![](../img/pythonLibraryStructure.jpg)
 
 Based on object-oriented ideas, we redesigned the entire program. The picture above shows the overall structure of IMPACTEFFECT. As shown in the figure, it is roughly divided into three modules:
 
-#### Function modules
+### Function modules
 The function module follows functional design, which contains all core calculation functions. Each function only accepts valuable parameters and returns the results of numericalization. When implementing, try to ensure the atomicity of the function, that is, there is no mutual dependence between functions. This atomic design makes the coupling of this part very low, which is conducive to subsequent expansion of new computing functions.
 
 ```python
@@ -58,7 +58,7 @@ def find_ejecta(p1, p2, p3):
 
 ```
 
-#### Impactor/ Impactor_Population/ Generator
+### Impactor/ Impactor_Population/ Generator
 
 We look forward to designing a reasonable structure in this part, which can describe both a single impactor and can describe a impactor population. Therefore, we need to design multiple classes to describe such a complex situation.
 
@@ -104,7 +104,7 @@ class UnionDistribution(Distribution):
         return
 ```
 
-#### Targets Class
+### Targets Class
 
 Targets contains main functions and user interfaces. The parameters of the constructor are related parameters of the target planet transmitted by the user. Targets contains a series of important functional interfaces, such as Find_crater(). The user calls the interface and pass the instance of the Impactor/Impactor_Population as parameters. The interface is determined to pass the parameter type and perform different logic. If the passing parameter is impactor_population, then a MAP type is returned. The MAP key is the specific impactor, and the corresponding key value is the calculation result.The core calculation logic of the interface depends on Function Module.
 
