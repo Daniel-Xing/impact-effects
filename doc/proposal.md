@@ -8,7 +8,7 @@ Our main goal is to rebuild a Python library based on the original code and thes
 
 First, let's analyze the main logic of the original web program. After sorting out, we can extract key functions from it as the basis of implementing Python Library.
 
-![overall](../img/overall2.jpeg)
+![overall](https://github.com/acse-dx121/impact-effects/blob/main/img/overall2.jpeg)
 
 Web programs obtain data from the user input and check the effectiveness of the data. The IMPACT-EFFECT function affects the effect to calculate all the states and results, which contains a large number of sub-functions. The detailed logic of Impact-Effect is as follows:
 
