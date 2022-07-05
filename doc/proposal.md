@@ -2,48 +2,49 @@
 
 ## Introduction
 
-Our main goal is to rebuild a Python library based on the original code and thesis. It can provide necessary letters and expansion to build their own applications to simulate and observe the whole process of asteroids and comet impacts.Users can use it for experimental teaching, but also use the results it produced for scientific research.Some possible application directions, for example, use the results it produces to build a risk prediction tool, predict the possible impact of impact events, and so on.We will consider the necessary expansion, including the result of a web program to visualize the impact event, and use the Python library we built as the core.In addition, we plan to support the impact of the asteroid and the comet group on the target planet, because this situation is quite common.
+Our main goal is to rebuild a Python library based on the original code and thesis. It can provide necessary functions and expansion to build their own applications to simulate and observe the whole process of asteroids and comet impacts. Users can use it for experimental teaching, but also use the results it produced for scientific research. Some possible application directions, for example, use the results it produces to build a risk prediction tool, predict the possible impact of impact events, and so on. We will consider the necessary expansion, including the result of a web program to visualize the impact event, and use the Python library we built as the core. In addition, we plan to support the impact of the asteroid and the comet population on the target planet, because this situation is quite common.
 
 ## Background: Structure of original program
 
-首先，我们分析一下原来的web程序的主要逻辑。在梳理之后，我们可以从中抽取出关键函数，作为后续实现python library的基础。
+First, let's analyze the main logic of the original web program. After sorting out, we can extract key functions from it as the basis of implementing Python Library.
 
 ![overall](../img/overall2.jpeg)
 
-Web程序从用户输入中获取数据，并检查数据的有效性。然后impact-effect函数影响效果计算所有的状态和结果，其中包含大量的子函数。impact-effect的详细逻辑如下: 
+Web programs obtain data from the user input and check the effectiveness of the data. The IMPACT-EFFECT function affects the effect to calculate all the states and results, which contains a large number of sub-functions. The detailed logic of Impact-Effect is as follows:
 
 **The main logic of impact_effects is:**
 
 ![](../img/Flowchart.jpg)
 
-如图所示，黄色部分是关键函数，利用文中的公式计算了许多重要的结果。而如果方框被蓝色包裹，代表会打印相关结果。
+As shown in the figure, the yellow part is the key function, and many important results are calculated using the formulas in the text. And if the box is wrapped in blue, that means that the function will print the relevant results.
 
-impact_effects整体逻辑比较简单，逐步计算相关的物理参数。如果撞击过程满足部分条件，则会触发额外的一些计算过程。
-
-首先，程序计算能量..根据程序注释。
+Impact_effects overall logic is relatively simple, and gradually calculates related physical parameters.If the impact process meets some conditions, some additional calculation processes will be triggered.
 
 ### Drawbacks
 
-事实上，原始的代码工作地很好，模拟器能够迅速的给出模拟结果，并展示在网页上。但是，对于我们的目标而言，它仍旧存在一些问题。首先，他是基于脚本语言perl。perl语言非常优秀，但是我们希望构建的是一个能够广泛被使用的工具。根据TIOBE最新的数据（2022年五月），perl语言的使用占比小于百分之一，排名在第十七位。而python的使用占比在12.74%，排名第一。这意味着，如果我们使用python重新构建一个library，更多的用户可以省去学习语言的成本。受众将会更广。第二点，代码结构可以满足构建web应用的需求，但是它是强耦合的。强耦合意味着程序中主要函数和变量绑定在一起，这会对后续拓展造成极大的麻烦。一个变量的改动可能牵扯到多个函数的变动。然而更加糟糕的是，没有显示的变量和函数之间的引用关系。这非常不利于代码的阅读。第三点，原始的代码不支持模块化，也不支持版本控制和持续集成等现代编程方法。这意味着代码的质量难以通过持续集成来保证，也无法受益于现代自动化部署和测试工具。不支持版本控制使得代码拓展过程中很难进行团体合作，也很难进行代码回退。
+In fact, the original code worked so well that the simulator quickly produced the results and displayed them on a web page. However, it still has some problems with our goals. 
+- First, it is based on the scripting language Perl. Perl is a great language, but we wanted to build a tool that would be widely used. According to the most recent TIOBE data (May 2022), Perl ranks 17th in usage at less than one percent. Python ranks first at 12.74\%. This means that if we rebuild a library using Python, more users can save on the cost of learning the language. The audience will be much wider.
+-  Second, the code structure can meet the requirements of building web applications, but it is strongly coupled. Strong coupling means that the main functions and variables in the program are bound together, which can cause a lot of trouble for subsequent extensions. A change in one variable may involve changes in several functions. Worse, however, are the references between variables and functions that are not shown. This is very unreadable code. 
+- Third, the original code did not support modularity, nor did it support modern programming methods such as version control and continuous integration. This means that code quality cannot be guaranteed through continuous integration or benefit from modern automated deployment and testing tools. The lack of support for version control makes it difficult to work in groups during code development and to roll back code.
 
 ## ImpactEffect(Python Library) Design
 
 ### Objective
 
-正如上述一些问题存在，我们考虑使用python以及现代编程技巧，在保留原始代码的主要功能的情况下，构建出一个可用性强和拓展性强到Library。
-- 首先希望利用面向对象编程的思想来组织我们的函数和数据。面向对象范式的优点在于讲函数和数据进行绑定，以实体的形式来模拟现实世界，例如对于撞击器来说，我们将其抽象为一个类。撞击器类包含有描述它本身性质的参数，以及一些必要的函数和方法。对于目标星球来说也是类似的逻辑。这样我们就可以将撞击过程抽象出来，它和撞击器以及被撞击星球解耦合了。
-- 其次我们希望集成版本控制以及CI/CD，这样我们可以持续推进和演化我们的项目。CI/CD支持对我们的代码进行自动化校验和自动化部署，减少重大BUG出现的概率。
-- 最后，我们希望新的Library是易于拓展和易于使用的，这很大程度上取决于我们的代码设计。
+As some of the above problems exist, we consider using Python and modern programming techniques to build a usable and extensible Library while retaining the main functions of the original code. 
+- We first want to use object-oriented programming ideas to organize our functions and data. The advantage of the object-oriented paradigm is that functions and data are bound together to simulate the real world in the form of an entity, such as an impactor, which we abstract as a class. The impactor class contains parameters that describe its properties, as well as necessary functions and methods. Similar logic applies to the target planet. So we can abstract the impact process, decouple it from the impactor and the impacted planet. 
+- Second, we wanted to integrate version control and CI/CD so that we could continue to advance and evolve our projects. CI/CD supports automated validation and deployment of our code, reducing the probability of significant bugs. 
+- In the end, we want the new Library to be easy to extend and easy to use, much of which depends on our code design.
 
 ### Design Details
 
 ![](../img/pythonLibraryStructure.jpg)
 
-基于面向对象的想法，我们重新设计了整个程序。上图显示了ImpactEffect的整体结构。如图所示，大致分为三个模块：
+Based on object -oriented ideas, we redesigned the entire program.The picture above shows the overall structure of IMPACTEFFECT.As shown in the figure, it is roughly divided into three modules:
 
 <details>
 <summary><strong>Function modules</strong></summary>
-函数模块内遵循函数式设计，包含了所有核心的计算函数。其中每一个函数，都只接受数值化的参数，并返回数值化的结果。实现的时候，要尽量保证函数的原子化，即函数之间不存在相互依赖关系。这样原子化的设计，使得这部分的耦合度非常低，有利于后续拓展新的计算函数。
+The function module follows functional design, which contains all core calculation functions.Each function only accepts valuable parameters and returns the results of numericalization.When implementing, try to ensure the atomicization of the function, that is, there is no mutual dependence between functions.This atomic design makes the coupling of this part very low, which is conducive to subsequent expansion of new computing functions.
 
 ```python
 def find_crater(p1, p2, p3):
@@ -62,10 +63,10 @@ def find_ejecta(p1, p2, p3):
 <details>
 <summary><strong>Impactor/ Impactor_Population/ Generator</strong></summary>
 
-我们期待在这一部分设计出合理的结构，既能描述单个撞击器也能描述一个撞击器分布。因此我们需要设计多个类来描述这样复杂的情况
+We look forward to designing a reasonable structure in this part, which can describe both a single impact device and can describe a impact distribution.Therefore, we need to design multiple classes to describe such a complex situation.
 
 **单一撞击器**
-我们时常考虑这样的情况，即一个单一撞击器撞击目标星球的情况。在这样的条件下，我们只需要考虑如何描述单一撞击器。这较为简单，因为单一的参数不是可变的，因此可以用一个数值来表示。
+We often consider this situation, that is, a single impactner hitting the target planet.Under such conditions, we only need to consider how to describe a single impact device.This is relatively simple, because a single parameter is not variable, so it can be represented by a value.
 ```python
 class Impactor(Object):
 
@@ -78,7 +79,7 @@ class Impactor(Object):
 ```
 
 **Population of Impactor**
-对于Population of Impactor, 情况要复杂很多。对于population of Impactor来说，描述它参数可能是由多个分布构成的。它并不是一个单一的撞击器，而是由许多撞击器构成。因此，当我们计算撞击后果的时候，直接使用参数的分布来计算是不现实的。因此，我们需要利用采样技术来选择一系列的具体的撞击器，利用他们来计算相应的撞击结果。Impactor_population 是用来描述他们的类。
+The situation is much more complicated for Population of IMPActor.For Population of Impactor, the description of its parameters may be composed of multiple distributions.It is not a single hitter, but consists of many impactters.Therefore, when we calculate the consequences of impact, it is unrealistic to use the distribution of parameters to calculate.Therefore, we need to use the sampling technology to select a series of specific impactters and use them to calculate the corresponding impact results.Impactor_population is used to describe their class.
 
 ```python
 class Impactor_population(Object):
@@ -87,14 +88,14 @@ class Impactor_population(Object):
 
 ```
 
-为了实现采样，我们首先考虑构建一个Generator类. Generator类表示了一个参数的所有取值，它既可以表示一个分布，也可以表示一个具体的值。Generater 提供基本的generate函数来返回所有的值。总的来说，Impactor_population的参数会被定义为这样的类型，Impact_population也会提供迭代器函数来生成具体的撞击器。
+In order to achieve sampling, we first consider building a generator class. The Generator class represents all the values of a parameter. It can represent a distribution or a specific value.Generator provides a basic generate function to return all values.In general, the parameter of the IMPACTOR_POPULATION will be defined as such a type, and the IMPACT_POPULATION will also provide iterators to generate specific impacts.
 
 ```python
 class Generator(Object):
 
 ```
 
-另外，撞击器的参数可能服从不同的分布, 因此我们需要一个类来描述不同的分布。一种常见的设计思路是，Impact_effect包提供一个抽象父类，所有的分布需要继承这个父类。Library默认提供常见的分布实现，例如联合分布和正态分布等。用户如果想要使用自定义的分布，需要继承Distribution类，并实现相关函数。
+In addition, the parameters of the impact may obey different distributions, so we need a class to describe different distributions.A common design idea is that the IMPACT_EFFECT package provides an abstract parent class that needs to inherit this parent class.Library provides common distribution implementation by default, such as joint distribution and normal distribution.If users want to use a custom distribution, they need to inherit the Distribution class and implement relevant functions.
 
 ```python
 class Distribution(Object):
@@ -111,7 +112,7 @@ class UnionDistribution(Distribution):
 <details>
 <summary><strong>Targets Class</strong></summary>
 
-Targets 包含主要功能以及用户接口。构造函数的参数为用户传入的关于目标星球的相关参数。Targets包含有一系列重要的函数接口，例如find_crater()等。用户调用接口，传入Impactor/Impactor_population的实例，接口通过判断传入参数类型，执行不同的逻辑。如果传入参数是impactor_population，那么返回一个Map类型。Map的键是具体的Impactor，对应的键值是计算结果。接口的核心计算逻辑依赖于Function Module。
+Targets contains main functions and user interfaces.The parameters of the constructor are related parameters of the target planet transmitted by the user.Targets contains a series of important functional interfaces, such as Find_cr ().The user calls the interface and the instance of the Impactor/Impactor_Population. The interface is determined to pass the parameter type and perform different logic.If the passing parameter is impactor_population, then a MAP type is returned.The MAP key is the specific impactor, and the corresponding key value is the calculation result.The core calculation logic of the interface depends on Function Module.
 
 ```python
 class Target(Object):
@@ -124,7 +125,7 @@ class Target(Object):
 
 
 ### User Case
-在这一部分，我们展示了用户如何使用impact-effect的基本功能。
+In this part, we show how users use the basic features of IMPACT-EFFECT.
 ```python
 import impactEffects
 
