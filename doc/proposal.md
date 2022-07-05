@@ -139,7 +139,7 @@ for key, val in energyMap:
 
 ```
 
-## Extension: Web Application
+## Extension: [Web Application](https://github.com/acse-dx121/impact-effects-web)
 
 ![](https://github.com/acse-dx121/impact-effects/blob/main/img/webApp.jpeg)
 
