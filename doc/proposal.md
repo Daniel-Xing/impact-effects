@@ -139,4 +139,28 @@ for key, val in energyMap:
 
 ```
 
-## Web Application
+## Extension: Web Application
+
+![](../img/webApp.jpeg)
+
+### Objective
+<!-- 在这一部分，我们计划设计一个现代Web应用程序，用于描述一个火山口的爆炸效果。我们的目标是构建一个可以自动化的撞击效果计算系统，并且可以可视化撞击结果。我们既希望可以模拟单一撞击器撞击效果，也希望可以模拟多个撞击器撞击效果。这样用户能够方便的模拟撞击效果，并且能够自动化的计算撞击结果。 -->
+
+In this section, we plan to design a modern Web applications, is used to describe a effect of explosion crater Our goal is to build a can automate the impact effect of computing systems, and can be visual impact results We hope can simulate both the single impactor impact effect, also hope can simulate multiple impactor impact effect In this way, users can easily simulate the impact effect, and can automatically calculate the impact results. 
+
+<!-- 从技术的角度来说，我们的应用应当能承载大规模的访问，以及做到防御一定程度的攻击，并且是非常容易部署的。 -->
+
+From a technical point of view, our application should be able to host large-scale access, defend against a certain level of attack, and be very easy to deploy.
+
+<!-- 对于单体应用来说，常见的部署方式是在服务器上运行一个进程，这个进程监听来自特定端口的请求。进程受到请求后，解析并进行处理。而这种方式的缺点是，如果服务器的负载过重，那么它就会受到大量的请求，这样就会导致服务器的压力增大。因为所有的请求都是有一个进程处理的。为了解决这个问题，我们时常会部署多个应用作为一个集群，这样就可以把大量的请求分发给每一个应用。分发操作由一个负载均衡器负责处理。另外引入docker技术，可以将应用的容器化，这样就可以让应用的部署更加灵活。用户可以很容易在本地运行服务。 -->
+
+For single application, the common way of deployment is run on the server of a process, this process to monitor from a specific port request process by request, parse and processing And the shortcoming of this approach is, if the server load is overweight, so it will be a lot of request, this will cause the server's pressure Because all the request is a process to deal with In order to solve this problem, we often deploy multiple applications as a cluster, so that you can apply a large number of distributed to every request distribution operations by a load balancer is responsible for handling Also introduced docker technology, applications can be container, so that the application of deployment is more flexible Users can easily run services locally
+
+
+### Design Details
+
+**Fornt-end**
+
+**Back-end**
+
+**Docker && Docker-Compose**
