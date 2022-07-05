@@ -111,7 +111,7 @@ class UnionDistribution(Distribution):
 <details>
 <summary><strong>Targets Class</strong></summary>
 
-Targets 包含主要功能以及用户接口。构造函数的参数为用户传入的关于目标星球的相关参数。Targets包含有一系列重要的函数接口，例如find_crater()等。用户调用接口，传入Impactor/Impactor_population的实例，接口通过判断传入参数类型，执行不同的逻辑。接口的核心计算逻辑依赖于Function Module。
+Targets 包含主要功能以及用户接口。构造函数的参数为用户传入的关于目标星球的相关参数。Targets包含有一系列重要的函数接口，例如find_crater()等。用户调用接口，传入Impactor/Impactor_population的实例，接口通过判断传入参数类型，执行不同的逻辑。如果传入参数是impactor_population，那么返回一个Map类型。Map的键是具体的Impactor，对应的键值是计算结果。接口的核心计算逻辑依赖于Function Module。
 
 ```python
 class Target(Object):
@@ -138,7 +138,12 @@ generator = impactEffects.Generator(is_range = True, Interval_left = 100, \
                             Interval_right = 10000, distribution = impactEffects.Union)
 commets = impactEffects.Impactor_population(pdiameter = )
 target = impactEffects.Targets(tdense = 100, ...)
-energyMaps = target.find_energy(commets)
+energyMap = target.find_energy(commets)
+
+## get the result from energyMap
+for key, val in energyMap:
+    print("Imapctor: ", key, " val: ", val)
+
 ```
 
 ### Advantages and Disadvantages
