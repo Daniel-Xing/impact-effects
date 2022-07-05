@@ -62,7 +62,39 @@ def find_ejecta(p1, p2, p3):
 <details>
 <summary><strong>Impactor/ Impactor_Population/ Generator</strong></summary>
 
-这一部分较为复杂，包含有多个耦合的类。设计方案如下
+我们期待在这一部分设计出合理的结构，既能描述单个撞击器也能描述一个撞击器分布。因此我们需要设计多个类来描述这样复杂的情况
+
+**单一撞击器**
+我们时常考虑这样的情况，即一个单一撞击器撞击目标星球的情况。在这样的条件下，我们只需要考虑如何描述单一撞击器。这较为简单，因为单一的参数不是可变的，因此可以用一个数值来表示。
+```python
+class Impactor(Object):
+
+    def __init__(p1, p2 ,...):
+        self.p1 = p1
+        self.p2 = p2
+    
+    def __getter__():
+        return value
+```
+
+**Population of Impactor**
+对于Population of Impactor, 情况要复杂很多。对于population of Impactor来说，描述它参数可能是由多个分布构成的。它并不是一个单一的撞击器，而是由许多撞击器构成。因此，当我们计算撞击后果的时候，直接使用参数的分布来计算是不现实的。因此，我们需要利用采样技术来选择一系列的具体的撞击器，利用他们来计算相应的撞击结果。Impactor_population 是用来描述他们的类。
+
+```python
+class Impactor_population(Object):
+    def __init__():
+        return
+
+```
+
+为了实现采样，我们首先考虑构建一个Generator类. Generator类表示了一个参数的所有取值，它既可以表示一个分布，也可以表示一个具体的值。Generater 提供基本的generate函数来返回所有的值。总的来说，Impactor_population的参数会被定义为这样的类型，Impact_population也会提供迭代器函数来生成具体的撞击器。
+
+```python
+class Generator(Object):
+
+```
+
+另外，撞击器的参数可能服从不同的分布, 因此我们需要一个类来描述不同的分布。一种常见的设计思路是，Impact_effect包提供一个抽象父类，所有的分布需要继承这个父类。Library默认提供常见的分布实现，例如
 
 </details>
 
@@ -74,7 +106,10 @@ Targets 承载了主要功能以及对外接口。构造函数的参数为用户
 </details>
 
 
+### User Case
 
+
+### Advantages and Disadvantages
 ### Low coupling design && Easy to expand。
 
 我们将程序分为三个实体，目标和影响者以及影响-效果。这种方法允许我们非常容易地扩展。例如，创建一个具有不同参数的撞击器实例可以模拟不同的彗星或小行星撞击，或者创建一个Tagert实例来描述火星。
