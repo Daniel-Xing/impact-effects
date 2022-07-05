@@ -159,8 +159,15 @@ For single application, the common way of deployment is run on the server of a p
 
 ### Design Details
 
+<!-- 前端计划利用Vue框架进行实现。Vue是一个基于JavaScript的模板语言，它可以让我们在页面上进行渲染。Vue提供了很多组件，可以让我们方便的构建一个现代化的干净的界面。 -->
 **Fornt-end**
+The front-end plan is implemented using Vue framework. Vue is a javascript-based templating language that lets you render on your page. Vue provides many components that make it easy to build a modern, clean interface.
 
+
+<!-- 后端计划基于Flask实现。Flask是一个基于Python的Web框架。他虽然简单，但是提供了大部分我们需要的功能，比如路由、数据库、缓存等等。 -->
 **Back-end**
+The back-end plan is implemented based on Flask. Flask is a Python-based Web framework. It is simple, but it provides most of the functionality we need, such as routing, database, caching, and so on.
 
+<!-- Docker技术用来容器化我们的Web应用，它能提供很好的应用隔离，并支持自动的大规模扩容以及应用重启。Docker-Compose技术用来管理我们的Docker容器集群，能够一键部署我们的应用。 -->
 **Docker && Docker-Compose**
+Docker technology is used to container our Web applications. It provides good application isolation and supports automatic mass scaling and application restart. Docker-compose technology is used to manage our Docker container cluster, enabling one-click deployment of our applications.
