@@ -111,13 +111,35 @@ class UnionDistribution(Distribution):
 <details>
 <summary><strong>Targets Class</strong></summary>
 
-Targets 承载了主要功能以及对外接口。构造函数的参数为用户传入的关于目标星球的相关参数。
+Targets 包含主要功能以及用户接口。构造函数的参数为用户传入的关于目标星球的相关参数。Targets包含有一系列重要的函数接口，例如find_crater()等。用户调用接口，传入Impactor/Impactor_population的实例，接口通过判断传入参数类型，执行不同的逻辑。接口的核心计算逻辑依赖于Function Module。
+
+```python
+class Target(Object):
+    def __init__():
+        return
+
+```
 
 </details>
 
 
 ### User Case
+在这一部分，我们展示了用户如何使用impact-effect的基本功能。
+```python
+import impactEffects
 
+# single impactor
+commet = impactEffects.Impactor(pdiameter = 100, .., type = commet)
+target = impactEffects.Targets(tdense = 100, ...)
+energy = target.find_energy(commet)
+
+# the imapctor population
+generator = impactEffects.Generator(is_range = True, Interval_left = 100, \
+                            Interval_right = 10000, distribution = impactEffects.Union)
+commets = impactEffects.Impactor_population(pdiameter = )
+target = impactEffects.Targets(tdense = 100, ...)
+energyMaps = target.find_energy(commets)
+```
 
 ### Advantages and Disadvantages
 ### Low coupling design && Easy to expand。
