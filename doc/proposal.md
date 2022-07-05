@@ -42,8 +42,7 @@ As some of the above problems exist, we consider using Python and modern program
 
 Based on object -oriented ideas, we redesigned the entire program.The picture above shows the overall structure of IMPACTEFFECT.As shown in the figure, it is roughly divided into three modules:
 
-<details>
-<summary><strong>Function modules</strong></summary>
+#### Function modules
 The function module follows functional design, which contains all core calculation functions.Each function only accepts valuable parameters and returns the results of numericalization.When implementing, try to ensure the atomicization of the function, that is, there is no mutual dependence between functions.This atomic design makes the coupling of this part very low, which is conducive to subsequent expansion of new computing functions.
 
 ```python
@@ -58,10 +57,8 @@ def find_ejecta(p1, p2, p3):
 ###### etc...
 
 ```
-</details>
 
-<details>
-<summary><strong>Impactor/ Impactor_Population/ Generator</strong></summary>
+#### Impactor/ Impactor_Population/ Generator
 
 We look forward to designing a reasonable structure in this part, which can describe both a single impact device and can describe a impact distribution.Therefore, we need to design multiple classes to describe such a complex situation.
 
@@ -107,10 +104,7 @@ class UnionDistribution(Distribution):
         return
 ```
 
-</details>
-
-<details>
-<summary><strong>Targets Class</strong></summary>
+#### Targets Class
 
 Targets contains main functions and user interfaces.The parameters of the constructor are related parameters of the target planet transmitted by the user.Targets contains a series of important functional interfaces, such as Find_cr ().The user calls the interface and the instance of the Impactor/Impactor_Population. The interface is determined to pass the parameter type and perform different logic.If the passing parameter is impactor_population, then a MAP type is returned.The MAP key is the specific impactor, and the corresponding key value is the calculation result.The core calculation logic of the interface depends on Function Module.
 
@@ -120,8 +114,6 @@ class Target(Object):
         return
 
 ```
-
-</details>
 
 
 ### User Case
