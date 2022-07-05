@@ -40,10 +40,10 @@ As some of the above problems exist, we consider using Python and modern program
 
 ![](../img/pythonLibraryStructure.jpg)
 
-Based on object -oriented ideas, we redesigned the entire program.The picture above shows the overall structure of IMPACTEFFECT.As shown in the figure, it is roughly divided into three modules:
+Based on object-oriented ideas, we redesigned the entire program. The picture above shows the overall structure of IMPACTEFFECT. As shown in the figure, it is roughly divided into three modules:
 
 #### Function modules
-The function module follows functional design, which contains all core calculation functions.Each function only accepts valuable parameters and returns the results of numericalization.When implementing, try to ensure the atomicization of the function, that is, there is no mutual dependence between functions.This atomic design makes the coupling of this part very low, which is conducive to subsequent expansion of new computing functions.
+The function module follows functional design, which contains all core calculation functions. Each function only accepts valuable parameters and returns the results of numericalization. When implementing, try to ensure the atomicity of the function, that is, there is no mutual dependence between functions. This atomic design makes the coupling of this part very low, which is conducive to subsequent expansion of new computing functions.
 
 ```python
 def find_crater(p1, p2, p3):
@@ -60,10 +60,10 @@ def find_ejecta(p1, p2, p3):
 
 #### Impactor/ Impactor_Population/ Generator
 
-We look forward to designing a reasonable structure in this part, which can describe both a single impact device and can describe a impact distribution.Therefore, we need to design multiple classes to describe such a complex situation.
+We look forward to designing a reasonable structure in this part, which can describe both a single impactor and can describe a impactor population. Therefore, we need to design multiple classes to describe such a complex situation.
 
-**单一撞击器**
-We often consider this situation, that is, a single impactner hitting the target planet.Under such conditions, we only need to consider how to describe a single impact device.This is relatively simple, because a single parameter is not variable, so it can be represented by a value.
+**Single Impactor**
+We often consider this situation, that is, a single impactor hitting the target planet. Under such conditions, we only need to consider how to describe a single impactor. This is relatively simple, because a single parameter is not a distribution, so it can be represented by a value.
 ```python
 class Impactor(Object):
 
@@ -76,7 +76,7 @@ class Impactor(Object):
 ```
 
 **Population of Impactor**
-The situation is much more complicated for Population of IMPActor.For Population of Impactor, the description of its parameters may be composed of multiple distributions.It is not a single hitter, but consists of many impactters.Therefore, when we calculate the consequences of impact, it is unrealistic to use the distribution of parameters to calculate.Therefore, we need to use the sampling technology to select a series of specific impactters and use them to calculate the corresponding impact results.Impactor_population is used to describe their class.
+The situation is much more complicated for Population of Impactor. For Population of Impactor, the description of its parameters may be composed of multiple distributions. It is not a single hitter, but consists of many Impactors. Therefore, when we calculate the consequences of impact, it is unrealistic to use the distribution of parameters to calculate directly. Therefore, we need to use the sampling technology to select a series of specific impactors and use them to calculate the corresponding impact results. Impactor_population is used to describe their class.
 
 ```python
 class Impactor_population(Object):
@@ -85,14 +85,14 @@ class Impactor_population(Object):
 
 ```
 
-In order to achieve sampling, we first consider building a generator class. The Generator class represents all the values of a parameter. It can represent a distribution or a specific value.Generator provides a basic generate function to return all values.In general, the parameter of the IMPACTOR_POPULATION will be defined as such a type, and the IMPACT_POPULATION will also provide iterators to generate specific impacts.
+In order to achieve sampling, we first consider building a generator class. The Generator class represents all the values of a parameter. It can represent a distribution or a specific value.Generator provides a basic generate function to return all values. In general, the parameter of the IMPACTOR_POPULATION will be defined as such a type, and the IMPACT_POPULATION will also provide iterators to generate specific impacts.
 
 ```python
 class Generator(Object):
 
 ```
 
-In addition, the parameters of the impact may obey different distributions, so we need a class to describe different distributions.A common design idea is that the IMPACT_EFFECT package provides an abstract parent class that needs to inherit this parent class.Library provides common distribution implementation by default, such as joint distribution and normal distribution.If users want to use a custom distribution, they need to inherit the Distribution class and implement relevant functions.
+In addition, the parameters of the impact may obey different distributions, so we need a class to describe different distributions. A common design idea is that the IMPACT_EFFECT package provides an abstract parent class that all distribution needs to inherit this parent class. Library provides common distribution implementation by default, such as Union distribution and Gaussion distribution.If users want to use a custom distribution, they need to inherit the Distribution class and implement relevant functions.
 
 ```python
 class Distribution(Object):
@@ -106,7 +106,7 @@ class UnionDistribution(Distribution):
 
 #### Targets Class
 
-Targets contains main functions and user interfaces.The parameters of the constructor are related parameters of the target planet transmitted by the user.Targets contains a series of important functional interfaces, such as Find_cr ().The user calls the interface and the instance of the Impactor/Impactor_Population. The interface is determined to pass the parameter type and perform different logic.If the passing parameter is impactor_population, then a MAP type is returned.The MAP key is the specific impactor, and the corresponding key value is the calculation result.The core calculation logic of the interface depends on Function Module.
+Targets contains main functions and user interfaces. The parameters of the constructor are related parameters of the target planet transmitted by the user. Targets contains a series of important functional interfaces, such as Find_crater(). The user calls the interface and pass the instance of the Impactor/Impactor_Population as parameters. The interface is determined to pass the parameter type and perform different logic. If the passing parameter is impactor_population, then a MAP type is returned. The MAP key is the specific impactor, and the corresponding key value is the calculation result.The core calculation logic of the interface depends on Function Module.
 
 ```python
 class Target(Object):
