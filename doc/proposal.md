@@ -127,9 +127,10 @@ target = impactEffects.Targets(tdense = 100, ...)
 energy = target.find_energy(commet)
 
 # the imapctor population
-generator = impactEffects.Generator(is_range = True, Interval_left = 100, \
+generator = impactEffects.Generator(is_range = false, Interval_left = 100, \
                             Interval_right = 10000, distribution = impactEffects.Union)
-commets = impactEffects.Impactor_population(pdiameter = )
+
+commets = impactEffects.Impactor_population(pdiameter = generator, p2 = )
 target = impactEffects.Targets(tdense = 100, ...)
 energyMap = target.find_energy(commets)
 
