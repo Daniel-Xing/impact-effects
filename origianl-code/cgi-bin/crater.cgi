@@ -431,9 +431,9 @@ sub atmospheric_entry
 		
       ## Take the maximum of the extrapolated surface velocity and the terminal velocity
       if ($vTerminal > $vSurface) {
-	$velocity = $vTerminal;
+	      $velocity = $vTerminal;
       } else {
-	$velocity = $vSurface;
+	      $velocity = $vSurface;
       }
 
     } else {			# projectile does not land intact

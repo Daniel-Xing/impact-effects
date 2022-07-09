@@ -6,15 +6,91 @@ from src.Targets import *
 
 
 def atmospheric_entry(impactor: Impactor, target: Target):
+    pdensity, dragC, rhoSurface, scaleHeight, pdiameter, velocity, theta, fp = \
+        impactor.get_density(), target.get_dragC(), target.get_rhoSurface(), target.get_schaleHeight(), \
+            impactor.get_pdiameter(), impactor.get_velocity(), impactor.get_theta(), target.get_fp()
     ## Approximate the strength of the impactor using the density function in
     ## Eq. 9 of Collins et al. (2005)
-    _yield = 10 ** (2.107 + 0.0624 * impactor.pdensity ** (1 / 2))
+    _yield = 10 ** (2.107 + 0.0624 * pdensity ** (1 / 2))
     ## Define a relative strength of the impactor compared to the
     ## maximum possible stagnation pressure on entry
-    _rStrength = _yield / (target.rhoSurface * (impactor.velocity * 1000) ** 2)
-    ## Define the exponent of Eq. 8 for the case of impact at the surface
-    _av = 3 * target.rhoSurface * target.dragC * target.schaleHeight / \
-        (4 * impactor.density * impactor.pdiameter * math.sin())
+    _rStrength = _yield / (rhoSurface * (velocity * 1000) ** 2)
+    ## Define the exponent of Eq. 8 for the case of impat at the surface
+    _av = 3 * rhoSurface * dragC * scaleHeight / \
+        (4 * pdensity * pdiameter * math.sin(theta * PI / 180))
+        
+    iFactor = 2.7185 * _av * _rStrength
+    
+    if iFactor >= 1:
+        ## Burst altitude is zero
+        altitudeBurst = 0
+
+        ## Define the terminal velocity
+        # Assuming drag coefficient of 2
+        _vTerminal = min(impactor.get_velocity(), \
+                         (4 * impactor.density * impactor.pdiameter * target.g / (3 * target.rhoSurface * target.dragC) )**(1/2)) 
+
+        ## Define the surface velocity assuming continual spreading using Eq. 8
+        _vSurface = impactor.vInput * 1000 * math.exp(-_av)
+            
+        ## Take the maximum of the extrapolated surface velocity and the terminal velocity
+        if _vTerminal > _vSurface:
+            velocity_at_surface = _vTerminal
+        else:
+            velocity_at_surface = _vSurface
+    else:
+        ## Compute the first term in Eq. 11
+        altitude1 = - target.scaleHeight * math.log(_rStrength)
+
+        ## Define the second, third and fourth terms (inside the brackets) in Eq. 11
+        omega = 1.308 - 0.314 * iFactor - 1.303 * (1 - iFactor)**0.5
+
+        ## Compute the breakup altitude by combining above parameters to evaluate Eq. 11
+        altitudeBU = altitude1 - omega * target.scaleHeight
+
+        ## Define velocity at breakup altitude using Eq. 8 (and Eq. 5)
+        vBU = impactor.get_velocity() * 1000 * math.exp(- _av * math.exp(- altitudeBU/target.scaleHeight)) # m/s
+
+        ## Define factor for evaluating Eq. 17
+        vFac = 0.75 * (target.get_dragC() * target.get_rhoSurface() / impactor.get_density())**0.5 * \
+                    math.exp(- altitudeBU / (2 * target.get_schaleHeight())) # Assuming drag coefficient of 2
+
+        ## Define dispersion length-scale (Eq. 16)
+        lDisper = impactor.get_pdiameter() * math.sin(impactor.get_theta() * PI / 180) * \
+            (pdensity / (dragC * rhoSurface) )**(1/2) * exp(altitudeBU / (2 * scaleHeight)) # Assuming drag coefficient of 2
+
+        ## Define the alpha parameters used to evaluate Eq. 18 and Eq. 19
+        alpha2 = (fp**2 - 1)**(1/2)
+
+        ## Define the burst altitude using Eq. 18
+        altitudePen = 2 * scaleHeight * log(1 + alpha2 * lDisper /(2 * scaleHeight))
+        altitudeBurst = altitudeBU - altitudePen
+        
+        if altitudeBurst > 0:
+            ## Evaluate Eq. 19 (without factor lL_0^2; $lDisper * $pdiameter**2)
+            expfac = 1/24 * alpha2 *(24 + 8 * alpha2**2 + 6 * alpha2 * lDisper / scaleHeight + 3 * alpha2**3 * lDisper / scaleHeight)
+
+            ## Evaluate velocity at burst using Eq. 17 
+            ## (note that factor $lDisper * $pdiameter**2 in $expfac cancels with same factor in $vFac)
+            velocity_at_surface = vBU * exp(- expfac * vFac)
+        else:
+            ## Define (l/H) for use in Eq. 20
+            altitudeScale = scaleHeight / lDisper
+
+            ## Evaluate Eq. 20 (without factor lL_0^2; $lDisper * $pdiameter**2)
+            ## (note that this Eq. is not correct in the paper)
+            integral = altitudeScale**3 / 3 * (3 * (4 + 1/altitudeScale**2) * exp(altitudeBU / scaleHeight) + \
+                6 * exp(2 * altitudeBU / scaleHeight) - 16 * exp(1.5 * altitudeBU / scaleHeight ) - 3 / altitudeScale**2 - 2)
+
+            ## Evaluate velocity at the surface using Eq. 17
+            velocity_at_surface = vBU * exp(- vFac * integral)
+
+            ## Evaluate dispersion of impactor at impact using Eq. 15
+            dispersion = pdiameter * (1 + 4 * altitudeScale**2 * (exp(altitudeBU / (2 * scaleHeight)) - 1)**2)**(1/2)
+
+    velocity_at_surface /= 1000
+    
+    return velocity_at_surface, iFactor, altitudeBU, altitudeBurst, dispersion
 
 
 def calc_energy(impactor: Impactor, target: Target):
@@ -23,9 +99,9 @@ def calc_energy(impactor: Impactor, target: Target):
     """
     mass = impactor.get_mass()
     # 单位坐标转换
-    energy0 = 0.5 * mass * (impactor.velocity * 1000) ** 2
+    energy0 = impactor.get_energy0()
     # 焦耳到兆吨的转换
-    energy0_megatons = energy0 * joules2megatones
+    energy0_megatons = impactor.get_energy0_megatons()
 
     # Compute the recurrence interval for this energy impact
     # New model (after Bland and Artemieva (2006) MAPS 41 (607-621).
