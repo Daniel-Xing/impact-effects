@@ -13,7 +13,7 @@ from src.config import *
 
 class Target:
 
-    def __init__(self, rhoSurface=1, dragC=2, schaleHeight=8000,
+    def __init__(self, depth, distance, rhoSurface=1, dragC=2, schaleHeight=8000,
                  fp=7, pEarth=1.794 * 10 ** 32, mEarth=5.97 * 10 ** 24,
                  lEarth=5.86 * 10 ** 33, g=9.8, R_earth=6370, surface_wave_v=5,
                  melt_coeff=8.9 * 10 ** -21, vEarth=1.1 * 10 ** 12):
@@ -30,6 +30,8 @@ class Target:
         self.surface_wave_v = surface_wave_v
         self.melt_coeff = melt_coeff
         self.vEarth = vEarth
+        self.depth = depth
+        self.distance = distance
 
         return
 
@@ -68,3 +70,9 @@ class Target:
     
     def get_v_earth(self):
         return self.vEarth
+    
+    def get_depth(self):
+        return self.depth
+    
+    def get_distance(self):
+        return self.distance

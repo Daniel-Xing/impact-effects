@@ -17,11 +17,12 @@ class Impactor:
     __init__
     """
 
-    def __init__(self, diameter, density, velocity, theta, type):
+    def __init__(self, diameter, density, velocity, theta, depth, type):
         self.pdiameter = diameter
         self.density = density
         self.velocity = velocity
         self.theta = theta
+        
         self.type = type
 
         self.mass = None
@@ -100,3 +101,5 @@ class Impactor:
     
     def get_theta(self):
         return self.theta
+    
+

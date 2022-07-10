@@ -60,36 +60,27 @@ def calc_energy(impactor: Impactor, target: Target):
         logging.warning("Impactor is less than a kilogram. Impactor will burn up in the atmosphere.")
 
     ### Calculate the effects of atmospheric entry
-    velocity_at_surface, iFactor, altitudeBU, altitudeBurst, dispersion = atmospheric_entry(impactor, target)
+    velocity, iFactor, altitudeBU, altitudeBurst, dispersion = atmospheric_entry(impactor, target)
     
     ### Compute linear and angular momentum as a fraction of Earth's
-    linmom = mass * (velocity_at_surface * 1000)
-    angmom = mass * (velocity_at_surface * 1000) * cos(theta * PI / 180) * R_earth
+    linmom, angmom, energy0 = fraction_of_momentum(impactor, target, velocity)
     
-    trot_change = (1.25/PI)*(mass/mEarth)*cos(theta * PI / 180) / R_earth * velocity_at_surface * (24.*60.*60.)**2
+    trot_change = cal_trot_change(impactor, target, velocity) 
 	
     ### Compute energy of airburst, or energy after deceleration by atmosphere
-    $energy_atmosphere = 0.5 * $mass * (($vInput * 1000)**2 - ($velocity * 1000)**2);
-    if ($altitudeBurst > 0) {
-      # Blast energy is airburst energy (kTons)
-      $energy_blast = $energy_atmosphere / (4.186 * 10**12);
-      $energy_surface = $energy_atmosphere;
-    } else {
-      $altitudeBurst = 0;
-      $energy_surface = 0.5 * $mass * ($velocity * 1000)**2;
-      # Blast energy is larger of airburt and impact energy (kTons)
-      if ($energy_atmosphere > $energy_surface) {
-        $energy_blast = $energy_atmosphere / (4.186 * 10**12);
-      } else {
-        $energy_blast = $energy_surface / (4.186 * 10**12);
-      }
-    }
-    $energy_megatons = $energy_surface / (4.186 * 10**15); ### joules to megatons conversion
+    energy_atmosphere = cal_energy_atmosphere(impactor, target, velocity)
+    energy_blast, energy_surface = cal_energy_blast_surface(impactor, target, velocity, altitudeBurst, energy_atmosphere)
+    energy_megatons = energy_surface / (4.186 * 10**15) ### joules to megatons conversion
 
     ### Account for the decelerating effect of the water layer
-    $mwater = ($pi * $pdiameter**2 / 4) * ($depth / sin($theta * $pi / 180)) * 1000;	
-    $vseafloor = $velocity * exp(-(3 * 1000 * 0.877 * $depth) / (2 * $pdensity * $pdiameter * sin($theta * $pi / 180)));
-    $energy_seafloor = 0.5 * $mass * ($vseafloor * 1000)**2;
+    mwater = cal_mass_of_water(impactor, target, velocity)
+    vseafloor = cal_velocity_projectile(impactor, target, velocity)
+    energy_seafloor = cal_energy_at_seafloor(impactor, target, vseafloor)
 	
-    ### Compute the epicentral angle for use in several subsequent calculations.
-    $delta = (180 / $pi) * ($distance/$R_earth);
+    # ### Compute the epicentral angle for use in several subsequent calculations.
+    delta = cal_energy_at_seafloor(target)
+    
+    return velocity, altitudeBU, altitudeBurst, dispersion, linmom, angmom, energy0, trot_change, \
+      energy_atmosphere, energy_blast, energy_surface, energy_megatons, mwater, vseafloor, energy_seafloor, delta
+    
+    

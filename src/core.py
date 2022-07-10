@@ -9,6 +9,8 @@ Version          :1.0
 import math
 import logging
 
+from sympy import im
+
 from src.Impactor import *
 from src.Targets import *
 from src.config import *
@@ -321,7 +323,7 @@ def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = N
     
     
     if velocity == None:
-        velocity = brust_velocity()
+        velocity = brust_velocity(impactor, target)
 
     linmom = impactor.get_mass() * (velocity * 1000)
     angmom = impactor.get_mass() * (velocity * 1000) * \
@@ -331,10 +333,145 @@ def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = N
     # relativistic effects, multiply energy by 1/sqrt(1 - v^2/c^2)
     if impactor.get_velocity() > (0.25 * 3 * 10**5):
         beta = 1 / (1 - impactor.get_velocity()**2 / 9 * 10**10)**0.5
-        impactor.energy0 *= beta
+        energy0 = impactor.energy0 * beta
         linmom *= beta
         angmom *= beta
 
     lratio = angmom / target.get_lEarth()
     pratio = linmom / target.get_pEarth()
-    return lratio, pratio
+    return lratio, pratio, energy0
+
+def cal_trot_change(impactor:Impactor, target:Target, velocity:float=None):
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    
+    if velocity == None:
+        velocity = brust_velocity(impactor, target)
+
+    mass = impactor.get_mass()
+    mEarth = target.get_mEarth()
+    theta = impactor.get_theta()
+    R_earth = target.get_R_earth()
+    
+    return (1.25/PI)*(mass/mEarth)*cos(theta * PI / 180) / \
+        R_earth * velocity * (24.*60.*60.)**2
+
+def cal_energy_atmosphere(impactor:Impactor, target:Target, velocity: float = None) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    
+    if velocity == None:
+        velocity = brust_velocity(impactor, target)
+        
+    energy_atmosphere = 0.5 * impactor.get_mass() * ((impactor.get_velocity() * 1000)**2 - (velocity * 1000)**2)
+    return energy_atmosphere
+
+
+def cal_energy_blast_surface(impactor:Impactor, target:Target, velocity: float = None, altitudeBurst:float = None, energy_atmosphere:float = None) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    if altitudeBurst == None:
+        i_factor, _av, _rStrength = iFactor(impactor, target)
+        altitudeBU = altitude_of_breakup(target.get_schaleHeight(), _rStrength, i_factor)
+        lDisper = dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+                                          target.get_dragC(), target.get_rhoSurface(), altitudeBU, target.get_schaleHeight())
+        
+        alpha2 = (target.get_fp()**2 - 1)**(1/2)
+        altitudeBurst = airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU)
+    
+    if velocity == None:
+        velocity = brust_velocity(impactor, target, altitudeBurst, altitudeBU, None, lDisper)
+    
+    
+    if altitudeBurst > 0:
+        # Blast energy is airburst energy (kTons)
+        energy_blast = energy_atmosphere / (4.186 * 10**12)
+        energy_surface = energy_atmosphere
+    else:
+        altitudeBurst = 0
+        energy_surface = 0.5 * impactor.get_mass() * (velocity * 1000)**2
+        # Blast energy is larger of airburt and impact energy (kTons)
+        if energy_atmosphere > energy_surface:
+            energy_blast = energy_atmosphere / (4.186 * 10**12)
+        else:
+            energy_blast = energy_surface / (4.186 * 10**12)
+    
+    return energy_blast, energy_surface
+
+def cal_mass_of_water(impactor:Impactor, target:Target) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    
+    mwater = (PI * impactor.get_pdiameter()**2 / 4) * (target.get_depth() / sin(impactor.get_theta() * PI / 180)) * 1000
+    return mwater
+
+def cal_velocity_projectile(impactor:Impactor, target:Target, velocity:float = None) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    
+    if velocity == None:
+        velocity = brust_velocity(impactor, target)
+        
+    vseafloor = velocity * exp(-(3 * 1000 * 0.877 * target.get_depth()) / (2 * impactor.get_density() * impactor.get_pdiameter() * sin(impactor.get_theta() * PI / 180)))
+    return vseafloor
+
+def cal_energy_at_seafloor(impactor:Impactor, target:Target, vseafloor: float = None) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    if vseafloor == None:
+        vseafloor = cal_velocity_projectile(impactor, target)
+    
+    energy_seafloor = 0.5 * impactor.get_mass() * (vseafloor * 1000)**2
+    return energy_seafloor
+
+def cal_epicentral_angle(target:Target) -> float:
+    return (180 / PI) * (target.get_distance()/target.get_R_earth())
