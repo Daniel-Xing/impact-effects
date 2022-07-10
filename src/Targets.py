@@ -1,3 +1,13 @@
+# -*- encoding: utf-8 -*-
+'''
+Filename         :Targets.py
+Description      :
+Time             :2022/07/10 09:38:31
+Author           :daniel
+Version          :1.0
+'''
+
+
 from src.config import *
 
 

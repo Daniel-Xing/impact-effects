@@ -1,3 +1,13 @@
+# -*- encoding: utf-8 -*-
+'''
+Filename         :Impactor_population.py
+Description      :
+Time             :2022/07/10 09:38:36
+Author           :daniel
+Version          :1.0
+'''
+
+
 import random
 
 class Distribution:
