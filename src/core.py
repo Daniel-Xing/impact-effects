@@ -474,4 +474,15 @@ def cal_energy_at_seafloor(impactor:Impactor, target:Target, vseafloor: float = 
     return energy_seafloor
 
 def cal_epicentral_angle(target:Target) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    
     return (180 / PI) * (target.get_distance()/target.get_R_earth())
