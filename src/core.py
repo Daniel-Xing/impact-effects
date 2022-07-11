@@ -8,6 +8,7 @@ Version          :1.0
 '''
 import math
 import logging
+from msilib import type_string
 import tarfile
 
 from src.Impactor import *
@@ -792,8 +793,20 @@ def cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = 
     return eff_mag, seismic_arrival
 
 
-def air_blast(impactor: Impactor, target: Target, energy_blast: float = None, altitudeBurst: float = None):
+def cal_shock_arrival(impactor:Impactor, target:Target, altitudeBurst: float = None) -> float:
+    vsound = 330		# speed of sound in m/s
+    slantRange = 0  # in km
 
+    # Arrival time is straight line distance divided by sound speed
+    # for air burst, distance is slant range from explosion
+    slantRange = (target.get_distance()**2 + (altitudeBurst/1000)**2)**(1/2)
+    # distance in meters divided by velocity of sound in m/s
+    shock_arrival = (slantRange * 1000)/vsound
+    
+    return shock_arrival
+
+
+def cal_vmax(impactor:Impactor, target:Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
     Po = target.get_Po()
     vsound = 330		# speed of sound in m/s
     r_cross = 0  # radius at which relationship between overpressure and distance changes
@@ -802,21 +815,12 @@ def air_blast(impactor: Impactor, target: Target, energy_blast: float = None, al
     op_cross = 75000  # overpressure at crossover
     energy_ktons = 0  # energy in kilotons
     d_scale = 0  # distance scaled for 1 kTon blast
-    slantRange = 0  # in km
     d_smooth = 0
     p_machT = 0
-    p_0 = 0
-    expFactor = 0
     p_regT = 0
 
     #energy_ktons = 1000 * energy_megatons
     energy_ktons = energy_blast
-
-    # Arrival time is straight line distance divided by sound speed
-    # for air burst, distance is slant range from explosion
-    slantRange = (target.get_distance()**2 + (altitudeBurst/1000)**2)**(1/2)
-    # distance in meters divided by velocity of sound in m/s
-    shock_arrival = (slantRange * 1000)/vsound
 
     # Scale distance to equivalent for a kiloton explosion
     sf = (energy_ktons)**(1/3)
@@ -833,9 +837,6 @@ def air_blast(impactor: Impactor, target: Target, energy_blast: float = None, al
         d_smooth = z_scale**2 * 0.00328
         p_machT = ((r_cross * op_cross) / 4) * (1 / (r_mach + d_smooth)
                                                 ) * (1 + 3*(r_cross / (r_mach + d_smooth))**(1.3))
-        #p_0 = 3.1423e11 / z_scale**2.6
-        #expFactor = - 34.87 / z_scale**1.73
-        #p_regT = p_0 * exp(expFactor * (r_mach - d_smooth))
         p_regT = 3.14e11 * ((r_mach - d_smooth)**2 + z_scale ** 2) ** (-1.3) + \
             1.8e7 * ((r_mach - d_smooth)**2 + z_scale ** 2) ** (-0.565)
     else:
@@ -846,7 +847,6 @@ def air_blast(impactor: Impactor, target: Target, energy_blast: float = None, al
         opressure = ((r_cross * op_cross) / 4) * (1 / d_scale) * \
             (1 + 3*(r_cross / d_scale)**(1.3))
     elif d_scale <= (r_mach - d_smooth):
-        #opressure = p_0 * exp(expFactor * d_scale)
         opressure = 3.14e11 * (d_scale ** 2 + z_scale ** 2) ** (-1.3) + \
             1.8e7 * (d_scale ** 2 + z_scale ** 2) ** (-0.565)
     else:
@@ -856,6 +856,54 @@ def air_blast(impactor: Impactor, target: Target, energy_blast: float = None, al
     # Wind velocity
     vmax = ((5 * opressure) / (7 * Po)) * \
         (vsound / (1 + (6 * opressure) / (7 * Po))**(1/2))
+    
+    return vmax
+
+def cal_dec_level(impactor:Impactor, target:Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
+    
+    r_cross = 0  # radius at which relationship between overpressure and distance changes
+    # radius at which relationship between overpressure and distance changes (for surface burst)
+    r_cross0 = 290
+    op_cross = 75000  # overpressure at crossover
+    energy_ktons = 0  # energy in kilotons
+    d_scale = 0  # distance scaled for 1 kTon blast
+    d_smooth = 0
+    p_machT = 0
+    p_regT = 0
+
+    #energy_ktons = 1000 * energy_megatons
+    energy_ktons = energy_blast
+
+    # Scale distance to equivalent for a kiloton explosion
+    sf = (energy_ktons)**(1/3)
+    d_scale = (target.get_distance() * 1000) / sf
+
+    # Scale burst altitude to equivalent for a kiloton explosion
+    z_scale = altitudeBurst / sf
+    r_cross = r_cross0 + 0.65 * z_scale
+    r_mach = 550 * z_scale / (1.2 * (550 - z_scale))
+    if z_scale >= 550:
+        r_mach = 1e30
+
+    if altitudeBurst > 0:
+        d_smooth = z_scale**2 * 0.00328
+        p_machT = ((r_cross * op_cross) / 4) * (1 / (r_mach + d_smooth)
+                                                ) * (1 + 3*(r_cross / (r_mach + d_smooth))**(1.3))
+        p_regT = 3.14e11 * ((r_mach - d_smooth)**2 + z_scale ** 2) ** (-1.3) + \
+            1.8e7 * ((r_mach - d_smooth)**2 + z_scale ** 2) ** (-0.565)
+    else:
+        d_smooth = 0
+        p_machT = 0
+
+    if d_scale >= (r_mach + d_smooth):
+        opressure = ((r_cross * op_cross) / 4) * (1 / d_scale) * \
+            (1 + 3*(r_cross / d_scale)**(1.3))
+    elif d_scale <= (r_mach - d_smooth):
+        opressure = 3.14e11 * (d_scale ** 2 + z_scale ** 2) ** (-1.3) + \
+            1.8e7 * (d_scale ** 2 + z_scale ** 2) ** (-0.565)
+    else:
+        opressure = p_regT - (d_scale - r_mach + d_smooth) * \
+            0.5 * (p_regT - p_machT)/d_smooth
 
     # sound intensity
     if opressure > 0:
@@ -863,39 +911,60 @@ def air_blast(impactor: Impactor, target: Target, energy_blast: float = None, al
     else:
         dec_level = 0
 
+    return dec_level
 
-def tsunami(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
-    shallowness = 0                     # Ratio of Impactor diameter to water depth
+
+def cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+    
+    TsunamiSpeed = 0                    # Tsunami speed in m/s
+    TsunamiWavelength = 0               # Tsunami wavelength in m
+    
+    # Tsunami arrival time assumes linear wave theory
+    TsunamiWavelength = 2.*wdiameter
+    TsunamiSpeed = sqrt(0.5*target.get_g()*TsunamiWavelength/PI *
+                        tanh(2.*PI*target.get_depth()/TsunamiWavelength))
+    TsunamiArrivalTime = target.get_distance()*1000/TsunamiSpeed
+    
+    return TsunamiArrivalTime
+
+
+def cal_WaveAmplitudeUpperLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+
     MaxWaveAmplitude = 0                # Maximum rim wave amplitude
     MaxWaveRadius = 0                   # Radius where max rim wave is formed (upper estimate)
+    RimWaveExponent = 0                 # Attenuation factor for rim wave
+
+    # Define parameters
+    RimWaveExponent = 1.
+    MaxWaveRadius = 0.001*wdiameter
+    
+    MaxWaveAmplitude = min(0.07*wdiameter, target.get_depth())
+    WaveAmplitudeUpperLimit = MaxWaveAmplitude * \
+        (MaxWaveRadius/target.get_distance())**RimWaveExponent
+    
+    return WaveAmplitudeUpperLimit
+
+
+def cal_WaveAmplitudeLowerLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+    
+    shallowness = 0                     # Ratio of Impactor diameter to water depth
+    MaxWaveAmplitude = 0                # Maximum rim wave amplitude
     MinWaveRadius = 0                   # Radius where max rim wave is formed (lower estimate)
     CollapseWaveRadius = 0              # Radius where collapse wave is formed
     RimWaveExponent = 0                 # Attenuation factor for rim wave
     CollapseWaveExponent = 0            # Attenuation factor for collapse wave
     MaxCollapseWaveAmplitude = 0        # Maximum collapse wave amplitude
     CollapseWaveAmplitude = 0           # Amplitude of collapse wave at specified distance
-    TsunamiSpeed = 0                    # Tsunami speed in m/s
-    TsunamiWavelength = 0               # Tsunami wavelength in m
 
     # Define parameters
     shallowness = impactor.get_pdiameter()/target.get_depth()
     RimWaveExponent = 1.
-    MaxWaveRadius = 0.001*wdiameter
     MinWaveRadius = 0.0005*wdiameter
-
-    # Tsunami arrival time assumes linear wave theory
-    TsunamiWavelength = 2.*wdiameter
-    TsunamiSpeed = sqrt(0.5*target.get_g()*TsunamiWavelength/PI *
-                        tanh(2.*PI*target.get_depth()/TsunamiWavelength))
-    TsunamiArrivalTime = target.get_distance()*1000/TsunamiSpeed
-
-    # Rim wave upper and lower limit estimates
+    
     MaxWaveAmplitude = min(0.07*wdiameter, target.get_depth())
-    WaveAmplitudeUpperLimit = MaxWaveAmplitude * \
-        (MaxWaveRadius/target.get_distance())**RimWaveExponent
     WaveAmplitudeLowerLimit = MaxWaveAmplitude * \
         (MinWaveRadius/target.get_distance())**RimWaveExponent
-
+        
     # Collapse wave correction to lower limit for deep-water impacts
     if shallowness < 0.5:
         CollapseWaveExponent = 3.*exp(-0.8*shallowness)
@@ -906,4 +975,5 @@ def tsunami(impactor: Impactor, target: Target, wdiameter: float = None) -> floa
             (CollapseWaveRadius/target.get_distance())**CollapseWaveExponent
         WaveAmplitudeLowerLimit = min(CollapseWaveAmplitude, WaveAmplitudeLowerLimit)
 
-    return TsunamiArrivalTime, WaveAmplitudeUpperLimit, WaveAmplitudeLowerLimit
+    return WaveAmplitudeLowerLimit
+    
