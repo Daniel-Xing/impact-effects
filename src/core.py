@@ -8,6 +8,7 @@ Version          :1.0
 '''
 import math
 import logging
+from matplotlib.pyplot import flag
 
 from sympy import im
 
@@ -248,8 +249,7 @@ def brust_velocity(impactor: Impactor, target: Target, altitudeBurst: float = No
 
     # Define factor for evaluating Eq. 17
     vFac = 0.75 * (target.get_dragC() * target.get_rhoSurface() / impactor.get_density())**0.5 * \
-        exp(- altitudeBU / (2 * target.get_schaleHeight())
-            )  # Assuming drag coefficient of 2
+        exp(-altitudeBU / (2 * target.get_schaleHeight()))  # Assuming drag coefficient of 2
 
     if altitudeBurst > 0:
         # Evaluate Eq. 19 (without factor lL_0^2; $lDisper * $pdiameter**2)
@@ -487,7 +487,35 @@ def cal_epicentral_angle(target:Target) -> float:
     
     return (180 / PI) * (target.get_distance()/target.get_R_earth())
 
-def cal_wdiameter(impactor:Impactor, target:Target, velocity:float = None) -> float:
+def cal_scaling_diameter_constant(impactor:Impactor) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    
+    if impactor.type == 1:
+        Cd = 1.88
+        beta = 0.22
+    elif impactor.type == 2:
+        Cd = 1.54
+        beta = 0.165
+    else:
+        Cd = 1.6
+        beta = 0.22
+    return Cd, beta
+
+
+def cal_anglefac(impactor:Impactor) ->float:
+    return (sin(impactor.get_theta() * PI / 180))**(1/3)
+
+
+def cal_wdiameter(impactor:Impactor, target:Target, anglefac:float = None, velocity:float = None) -> float:
     """
     
     Arguments
@@ -504,16 +532,8 @@ def cal_wdiameter(impactor:Impactor, target:Target, velocity:float = None) -> fl
     if velocity == None:
         velocity = brust_velocity(impactor, target)
     
-    anglefac = (sin(impactor.get_theta() * PI / 180))**(1/3)
-    if impactor.type == 1:
-        Cd = 1.88
-        beta = 0.22
-    elif impactor.type == 2:
-        Cd = 1.54
-        beta = 0.165
-    else:
-        Cd = 1.6
-        beta = 0.22
+    if anglefac == None:
+        anglefac = cal_anglefac(impactor)
     
     mass, tdensity, g, pdiameter = impactor.get_mass(), impactor.get_density(), target.get_g(), impactor.get_pdiameter()
     
@@ -526,3 +546,131 @@ def cal_wdiameter(impactor:Impactor, target:Target, velocity:float = None) -> fl
     impactor.set_density(2700)
     
     return wdiameter
+
+def cal_transient_crater_diameter(impactor:Impactor, target:Target, Cd:float = None, beta:float = None, anglefac:float = None, vseafloor:float = None) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    if Cd == None or beta ==None:
+       Cd , beta =  cal_scaling_diameter_constant(impactor)
+    
+    if anglefac == None:
+        anglefac = cal_anglefac(impactor)
+        
+    if vseafloor == None:
+        vseafloor = cal_velocity_projectile(impactor, target)
+        
+    mass, tdensity, g, pdiameter = impactor.get_mass(), impactor.get_density(), target.get_g(), impactor.get_pdiameter()
+    Dtr = Cd * ((mass / tdensity)**(1/3)) * ( (1.61*g*pdiameter)/(vseafloor*1000)**2)**(-beta)
+    Dtr *= anglefac
+    
+    return Dtr
+    
+
+def cal_depthr(impactor:Impactor, target:Target, Dtr:float=None):
+    if Dtr == None:
+        Dtr = cal_transient_crater_diameter(impactor, target)
+    
+    return Dtr / 2.828
+
+def cal_cdiamater(impactor:Impactor, target:Target, Dtr:float=None):
+    if Dtr == None:
+        Dtr = cal_transient_crater_diameter(impactor, target)
+    
+    if Dtr * 1.25  >= 3200:
+        cdiameter = (1.17 * Dtr**1.13) / (3200**0.13)
+    else:
+        cdiameter = 1.25 * Dtr
+    
+    return cdiameter
+
+def cal_depthfr(impactor:Impactor, target:Target, Dtr:float=None, depthtr:float = None, cdiameter:float=None):
+    if Dtr == None:
+        Dtr = cal_transient_crater_diameter(impactor, target)
+    if depthtr == None:
+        depthtr = cal_depthr(impactor, target, Dtr)
+    if cdiameter == None:
+        cdiameter = cal_cdiamater(impactor, target, Dtr)
+    
+    if Dtr * 1.25  >= 3200:
+        depthfr = 37 * cdiameter**0.301
+    else:
+        #Breccia lens volume in m^3
+        vbreccia = 0.032 * cdiameter**3		# in m^3
+      
+        #Rim height of final crater in m
+        rimHeightf = 0.07 * Dtr**4 / cdiameter**3
+      
+        #Thickness of breccia lens in m
+        brecciaThickness = 2.8 * vbreccia * ((depthtr + rimHeightf) / (depthtr * cdiameter**2))
+      
+        #Final crater depth (in m) = transient crater depth + final rim height - breccia thickness
+        depthfr = depthtr + rimHeightf - brecciaThickness
+    
+    return depthfr
+
+
+def cal_vCrater(impactor:Impactor, target:Target, Dtr:float = None) -> float:
+    if Dtr == None:
+        Dtr = cal_transient_crater_diameter(impactor, target)
+    
+    return (PI / 24) * (Dtr/1000)**3
+
+
+def cal_vratio(impactor:Impactor, target:Target, vCrater:float = None, Dtr:float = None) -> float:
+    if Dtr == None:
+        Dtr = cal_transient_crater_diameter(impactor, target)
+    if vCrater == None:
+        vCrater = cal_vCrater(impactor, target, Dtr)
+        
+
+def cal_vCrater_vRation(impactor:Impactor, target:Target, Dtr:float = None) -> float:
+    if Dtr == None:
+        Dtr = cal_transient_crater_diameter(impactor, target)
+    
+    vCrater = (PI / 24) * (Dtr/1000)**3
+    vRatio = vCrater / target.get_v_earth()
+    return vCrater, vRatio
+
+def cal_vMelt(impactor:Impactor, target:Target, velocity:float = None, energy_seafloor:float = None) -> float:
+    if velocity == None:
+        velocity = brust_velocity(impactor, target)
+    
+    if energy_seafloor == None:
+        energy_seafloor = cal_energy_at_seafloor(impactor, target)
+    
+    if velocity < 12:
+        raise ValueError("Velocity is less than 12 m/s")
+    
+    vMelt = target.get_melt_coeff() * (energy_seafloor) * sin(impactor.get_theta() * PI / 180)
+    if vMelt > target.vEarth:
+        vMelt = target.get_v_earth()
+    
+    return vMelt
+
+
+def cal_mratio_and_mcratio(impactor:Impactor, target:Target, velocity:float = None, vMelt:float = None, vCrater:float = None, Dtr:float = None) -> float:
+    if velocity == None:
+        velocity = brust_velocity(impactor, target)
+    
+    if velocity < 12:
+        raise ValueError("Velocity is less than 12 m/s")
+    
+    if Dtr == None:
+        Dtr = cal_transient_crater_diameter(impactor, target)
+    if vMelt == None:
+        vMelt = cal_vMelt(impactor, target)
+    if vCrater == None:
+        vCrater = cal_vCrater(impactor, target, Dtr)
+    
+    mcratio = vMelt / vCrater
+    mratio = vMelt / target.get_v_earth()
+    return mratio, mcratio
+
