@@ -252,18 +252,18 @@ def brust_velocity(impactor: Impactor, target: Target, altitudeBurst: float = No
         exp(-altitudeBU / (2 * target.get_schaleHeight()))  # Assuming drag coefficient of 2
 
     if altitudeBurst > 0:
-        # Evaluate Eq. 19 (without factor lL_0^2; $lDisper * $pdiameter**2)
+        # Evaluate Eq. 19 (without factor lL_0^2 lDisper * pdiameter**2)
         expfac = 1/24 * alpha2 * (24 + 8 * alpha2**2 + 6 * alpha2 * lDisper /
                                   target.get_schaleHeight() + 3 * alpha2**3 * lDisper / target.get_schaleHeight())
 
         # Evaluate velocity at burst using Eq. 17
-        # (note that factor $lDisper * $pdiameter**2 in $expfac cancels with same factor in $vFac)
+        # (note that factor lDisper * pdiameter**2 in expfac cancels with same factor in vFac)
         velocity = vBU * exp(- expfac * vFac)
     else:
         # Define (l/H) for use in Eq. 20
         altitudeScale = target.get_schaleHeight() / lDisper
 
-        # Evaluate Eq. 20 (without factor lL_0^2; $lDisper * $pdiameter**2)
+        # Evaluate Eq. 20 (without factor lL_0^2 lDisper * pdiameter**2)
         # (note that this Eq. is not correct in the paper)
         integral = altitudeScale**3 / 3 * (3 * (4 + 1/altitudeScale**2) * exp(altitudeBU / target.get_schaleHeight()) +
                                            6 * exp(2 * altitudeBU / target.get_schaleHeight()) - 16 * exp(1.5 * altitudeBU / target.get_schaleHeight()) - 3 / altitudeScale**2 - 2)
@@ -473,7 +473,7 @@ def cal_energy_at_seafloor(impactor:Impactor, target:Target, vseafloor: float = 
     energy_seafloor = 0.5 * impactor.get_mass() * (vseafloor * 1000)**2
     return energy_seafloor
 
-def cal_epicentral_angle(target:Target) -> float:
+def cal_ePIcentral_angle(target:Target) -> float:
     """
     
     Arguments
@@ -674,3 +674,54 @@ def cal_mratio_and_mcratio(impactor:Impactor, target:Target, velocity:float = No
     mratio = vMelt / target.get_v_earth()
     return mratio, mcratio
 
+def cal_eject_arrival(impactor:Impactor, target:Target, altitudeBurst:float = None):
+    if altitudeBurst > 0:
+        raise ValueError("Altitude of burst is greater than 0")
+    
+    phi = (target.get_distance()) / (2 * target.get_R_earth())
+    X = (2 * tan(phi)) / (1 + tan(phi))
+    e = -(0.5 * (X - 1)**2 + 0.5)**0.5 # eccentricity of eliptical path of the ejecta
+    a = (X * target.get_R_earth() * 1000) / (2 * (1 - e**2))	# semi major axis of elliptical path
+    
+    part1 = a**1.5 / (g * (target.get_R_earth() * 1000)**2)**0.5
+    term1 = 2* atan(((1 - e)/(1 + e))**0.5 * tan (phi / 2))
+    term2 = e * (1 - e**2)**0.5 * sin (phi)/ (1 + e * cos(phi))
+    ejecta_arrival = 2 * part1 * (term1 - term2)
+    
+    return ejecta_arrival
+
+def cal_ejecta_thickness(impactor:Impactor, target:Target, altitudeBurst:float = None, Dtr:float = None):
+    if altitudeBurst > 0:
+        raise ValueError("Altitude of burst is greater than 0")
+    
+    ejecta_thickness = Dtr**4/(112 * (target.get_distance() * 1000)**3)
+    return ejecta_thickness
+
+def cal_themal(impactor:Impactor, target:Target, energy_surface:float =None, \
+                    delta:float = None):
+    eta = 3 * 10**-3	                ## factor for scaling thermal energy
+    T_star = 3000		                ## temperature of fireball
+    Rf = 2* 10**-6* (energy_surface)**(1/3)  ## Rf is in km
+    sigma = 5.67 * 10**-8	                ## Stephan-Boltzmann constant
+  
+    thermal_exposure = (eta * energy_surface)/(2 * PI * (target.get_distance* 1000)**2)
+  
+    h = (1 - cos(delta * PI/180))* R_earth ## h is in km, R_earth is in km	
+    Del = acos(h / Rf)
+    f = (2/PI)*(Del - (h/Rf)*sin(Del))
+  
+    if h > Rf:
+      no_radiation = 1
+      return thermal_exposure, no_radiation
+  
+    no_radiation = 0
+    thermal_exposure *= f
+  
+    max_rad_time = Rf / velocity           ## Rf in km / velocity in km/s
+    irradiation_time = (eta * energy_surface)/(2 * PI * (Rf*1000)**2 * sigma * T_star**4)
+  
+    megaton_factor = (energy_megatons)**(1/6)
+
+    thermal_power = log(thermal_exposure)/log(10)
+    thermal_power = int(thermal_power)
+    thermal_exposure /= 10**thermal_power

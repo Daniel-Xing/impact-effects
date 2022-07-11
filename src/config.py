@@ -19,3 +19,5 @@ exp = math.exp
 log = math.log
 cos = math.cos
 sin = math.sin
+tan = math.tan
+atan = math.atan
