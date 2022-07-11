@@ -8,9 +8,6 @@ Version          :1.0
 '''
 import math
 import logging
-from matplotlib.pyplot import flag
-
-from sympy import im
 
 from src.Impactor import *
 from src.Targets import *
@@ -698,7 +695,7 @@ def cal_ejecta_thickness(impactor:Impactor, target:Target, altitudeBurst:float =
     return ejecta_thickness
 
 def cal_themal(impactor:Impactor, target:Target, energy_surface:float =None, \
-                    delta:float = None):
+                    delta:float = None, velocity: float = None, energy_megatons:float = None):
     eta = 3 * 10**-3	                ## factor for scaling thermal energy
     T_star = 3000		                ## temperature of fireball
     Rf = 2* 10**-6* (energy_surface)**(1/3)  ## Rf is in km
@@ -706,7 +703,7 @@ def cal_themal(impactor:Impactor, target:Target, energy_surface:float =None, \
   
     thermal_exposure = (eta * energy_surface)/(2 * PI * (target.get_distance* 1000)**2)
   
-    h = (1 - cos(delta * PI/180))* R_earth ## h is in km, R_earth is in km	
+    h = (1 - cos(delta * PI/180))* target.get_R_earth() ## h is in km, R_earth is in km	
     Del = acos(h / Rf)
     f = (2/PI)*(Del - (h/Rf)*sin(Del))
   
@@ -725,3 +722,32 @@ def cal_themal(impactor:Impactor, target:Target, energy_surface:float =None, \
     thermal_power = log(thermal_exposure)/log(10)
     thermal_power = int(thermal_power)
     thermal_exposure /= 10**thermal_power
+    
+    return thermal_exposure, no_radiation, max_rad_time, irradiation_time, megaton_factor, thermal_power
+
+def cal_magnitude(impactor:Impactor, target:Target, energy_seafloor:float = None):
+    
+    magnitude = 0.67 * ((log(energy_seafloor))/(log(10))) - 5.87
+    return magnitude
+
+
+def cal_magnitude2(impactor:Impactor, target:Target, energy_seafloor:float = None,\
+                        distance:float = None, surface_wave_v:float = None) -> float:
+    
+    Ax = 0         # factor for determining "effective magnitude" at given distance
+    magnitude = cal_magnitude(impactor, target, energy_seafloor)
+    
+    if distance >= 700:
+        Ax = 20 * 10**(magnitude - 1.66 * (log (delta) / log (10)) - 3.3)
+        Ax /= 1000
+    elif distance >= 60:
+        Ax = 10**(magnitude - (0.0048*distance + 2.5644))
+        
+    else:
+        Ax = 10**(magnitude - (0.00238*distance + 1.3342))
+    
+    eff_mag = (log (Ax) / log (10)) + 1.4
+    seismic_arrival = distance / surface_wave_v
+    
+    return eff_mag, seismic_arrival
+

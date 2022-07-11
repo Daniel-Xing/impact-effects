@@ -21,3 +21,4 @@ cos = math.cos
 sin = math.sin
 tan = math.tan
 atan = math.atan
+acos = math.acos
