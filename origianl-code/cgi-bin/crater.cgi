@@ -269,7 +269,7 @@ sub impact_effects
 
       ### For high-velocity impacts, calculate the fireball size, thermal radiation
       if ($velocity >= 15) {
-	&find_thermal();
+	      &find_thermal();
       }
 
       ### Calculate the earthquake magnitude and damage
@@ -279,8 +279,8 @@ sub impact_effects
       ### Print results (only print ejecta if inside the crater)
       print_crater();
       if ($distance * 1000 <= $Dtr/2) {
-	print_ejecta();
-	return;
+        print_ejecta();
+        return;
       }		
       print_thermal();
       print_seismic();

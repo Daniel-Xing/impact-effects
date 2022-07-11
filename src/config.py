@@ -20,5 +20,8 @@ log = math.log
 cos = math.cos
 sin = math.sin
 tan = math.tan
+tanh = math.tanh
 atan = math.atan
 acos = math.acos
+
+sqrt = math.sqrt
