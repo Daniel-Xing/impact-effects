@@ -547,7 +547,7 @@ sub find_crater()
       $wdiameter = 1.88 * (($mass / $tdensity)**(1/3)) * ( (1.61*$g*$pdiameter)/($velocity*1000)**2)**(- 0.22);
       $wdiameter *= $anglefac;
       
-      $tdensity = 2700;	# change target density for seafloor crater calculation
+      $tdensity = 2700;	# change target density for seafloor crater calculation // TODO:注意变换
     }
     
     # vseafloor == surface velocity if there is no water

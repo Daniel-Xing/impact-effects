@@ -486,3 +486,43 @@ def cal_epicentral_angle(target:Target) -> float:
     """
     
     return (180 / PI) * (target.get_distance()/target.get_R_earth())
+
+def cal_wdiameter(impactor:Impactor, target:Target, velocity:float = None) -> float:
+    """
+    
+    Arguments
+    ---------
+    
+    
+    Returns
+    -------
+    
+    """
+    if target.get_depth() == 0:
+        raise ValueError("Target depth is 0")
+    
+    if velocity == None:
+        velocity = brust_velocity(impactor, target)
+    
+    anglefac = (sin(impactor.get_theta() * PI / 180))**(1/3)
+    if impactor.type == 1:
+        Cd = 1.88
+        beta = 0.22
+    elif impactor.type == 2:
+        Cd = 1.54
+        beta = 0.165
+    else:
+        Cd = 1.6
+        beta = 0.22
+    
+    mass, tdensity, g, pdiameter = impactor.get_mass(), impactor.get_density(), target.get_g(), impactor.get_pdiameter()
+    
+    
+    wdiameter = 1.88 * (( mass / tdensity)**(1/3)) * ( (1.61*g*pdiameter)/(velocity*1000)**2)**(- 0.22)
+    wdiameter *= anglefac
+    
+    # update tdensity which should be return as value
+    logging.log(logging.INFO, "update the impactor density for seafloor: {}".format(wdiameter))
+    impactor.set_density(2700)
+    
+    return wdiameter
