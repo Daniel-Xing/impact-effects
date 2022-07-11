@@ -590,6 +590,16 @@ def cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd: float 
 
 
 def cal_depthr(impactor: Impactor, target: Target, Dtr: float = None):
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if Dtr == None:
         Dtr = cal_transient_crater_diameter(impactor, target)
 
@@ -597,6 +607,16 @@ def cal_depthr(impactor: Impactor, target: Target, Dtr: float = None):
 
 
 def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if Dtr == None:
         Dtr = cal_transient_crater_diameter(impactor, target)
 
@@ -609,6 +629,16 @@ def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
 
 
 def cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: float = None, cdiameter: float = None):
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if Dtr == None:
         Dtr = cal_transient_crater_diameter(impactor, target)
     if depthtr == None:
@@ -636,6 +666,16 @@ def cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: 
 
 
 def cal_vCrater(impactor: Impactor, target: Target, Dtr: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if Dtr == None:
         Dtr = cal_transient_crater_diameter(impactor, target)
 
@@ -643,6 +683,16 @@ def cal_vCrater(impactor: Impactor, target: Target, Dtr: float = None) -> float:
 
 
 def cal_vratio(impactor: Impactor, target: Target, vCrater: float = None, Dtr: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if Dtr == None:
         Dtr = cal_transient_crater_diameter(impactor, target)
     if vCrater == None:
@@ -650,6 +700,16 @@ def cal_vratio(impactor: Impactor, target: Target, vCrater: float = None, Dtr: f
 
 
 def cal_vCrater_vRation(impactor: Impactor, target: Target, Dtr: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if Dtr == None:
         Dtr = cal_transient_crater_diameter(impactor, target)
 
@@ -659,6 +719,16 @@ def cal_vCrater_vRation(impactor: Impactor, target: Target, Dtr: float = None) -
 
 
 def cal_vMelt(impactor: Impactor, target: Target, velocity: float = None, energy_seafloor: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if velocity == None:
         velocity = brust_velocity(impactor, target)
 
@@ -677,6 +747,16 @@ def cal_vMelt(impactor: Impactor, target: Target, velocity: float = None, energy
 
 
 def cal_mratio_and_mcratio(impactor: Impactor, target: Target, velocity: float = None, vMelt: float = None, vCrater: float = None, Dtr: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if velocity == None:
         velocity = brust_velocity(impactor, target)
 
@@ -696,6 +776,16 @@ def cal_mratio_and_mcratio(impactor: Impactor, target: Target, velocity: float =
 
 
 def cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst: float = None):
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
@@ -706,7 +796,7 @@ def cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst: float =
     a = (X * target.get_R_earth() * 1000) / \
         (2 * (1 - e**2))  # semi major axis of elliptical path
 
-    part1 = a**1.5 / (g * (target.get_R_earth() * 1000)**2)**0.5
+    part1 = a**1.5 / (target.get_g() * (target.get_R_earth() * 1000)**2)**0.5
     term1 = 2 * atan(((1 - e)/(1 + e))**0.5 * tan(phi / 2))
     term2 = e * (1 - e**2)**0.5 * sin(phi) / (1 + e * cos(phi))
     ejecta_arrival = 2 * part1 * (term1 - term2)
@@ -715,6 +805,16 @@ def cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst: float =
 
 
 def cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBurst: float = None, Dtr: float = None):
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
@@ -724,6 +824,16 @@ def cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBurst: floa
 
 def cal_themal(impactor: Impactor, target: Target, energy_surface: float = None, altitudeBurst: float = None,
                delta: float = None, velocity: float = None, energy_megatons: float = None):
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
@@ -761,7 +871,16 @@ def cal_themal(impactor: Impactor, target: Target, energy_surface: float = None,
 
 
 def cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: float = None, energy_seafloor: float = None):
+    """
 
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
@@ -771,7 +890,16 @@ def cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: float = Non
 
 def cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = None, altitudeBurst: float = None,
                    distance: float = None, surface_wave_v: float = None, delta: float = None) -> float:
+    """
 
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
@@ -794,6 +922,16 @@ def cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = 
 
 
 def cal_shock_arrival(impactor:Impactor, target:Target, altitudeBurst: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     vsound = 330		# speed of sound in m/s
     slantRange = 0  # in km
 
@@ -807,6 +945,16 @@ def cal_shock_arrival(impactor:Impactor, target:Target, altitudeBurst: float = N
 
 
 def cal_vmax(impactor:Impactor, target:Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     Po = target.get_Po()
     vsound = 330		# speed of sound in m/s
     r_cross = 0  # radius at which relationship between overpressure and distance changes
@@ -860,7 +1008,16 @@ def cal_vmax(impactor:Impactor, target:Target, energy_blast: float = None, altit
     return vmax
 
 def cal_dec_level(impactor:Impactor, target:Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
-    
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     r_cross = 0  # radius at which relationship between overpressure and distance changes
     # radius at which relationship between overpressure and distance changes (for surface burst)
     r_cross0 = 290
@@ -915,7 +1072,16 @@ def cal_dec_level(impactor:Impactor, target:Target, energy_blast: float = None, 
 
 
 def cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
-    
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     TsunamiSpeed = 0                    # Tsunami speed in m/s
     TsunamiWavelength = 0               # Tsunami wavelength in m
     
@@ -929,7 +1095,16 @@ def cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter: float 
 
 
 def cal_WaveAmplitudeUpperLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+    """
 
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     MaxWaveAmplitude = 0                # Maximum rim wave amplitude
     MaxWaveRadius = 0                   # Radius where max rim wave is formed (upper estimate)
     RimWaveExponent = 0                 # Attenuation factor for rim wave
@@ -946,7 +1121,16 @@ def cal_WaveAmplitudeUpperLimit(impactor: Impactor, target: Target, wdiameter: f
 
 
 def cal_WaveAmplitudeLowerLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
-    
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
     shallowness = 0                     # Ratio of Impactor diameter to water depth
     MaxWaveAmplitude = 0                # Maximum rim wave amplitude
     MinWaveRadius = 0                   # Radius where max rim wave is formed (lower estimate)
