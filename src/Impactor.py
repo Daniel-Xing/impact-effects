@@ -7,12 +7,10 @@ Author           :daniel
 Version          :1.0
 '''
 
-
 from src.config import *
 
 
 class Impactor:
-
     """
     __init__
     """
@@ -22,7 +20,7 @@ class Impactor:
         self.density = density
         self.velocity = velocity
         self.theta = theta
-        
+
         self.type = type
 
         self.mass = None
@@ -46,10 +44,10 @@ class Impactor:
             self.calculate_energy0()
 
         self.energy0_megatons = self.energy0 * joules2megatones
-        
+
     def calculate_recTime(self):
         mass = self.get_mass()
-        
+
         # Compute the recurrence interval for this energy impact
         # New model (after Bland and Artemieva (2006) MAPS 41 (607-621).
         if mass < 3:
@@ -62,10 +60,10 @@ class Impactor:
             self.rec_time = 10 ** (-0.086) * mass ** 0.454
         else:
             self.rec_time = 10 ** (-3.352) * mass ** 0.672
-            
+
         energy0_megatons = self.get_energy0_megatons()
         self.rec_time = max(self.rec_time, 110 * (energy0_megatons) ** 0.77)
-        
+
     def get_energy0(self) -> float:
         if self.energy0 < 0:
             self.calculate_energy0()
@@ -76,6 +74,7 @@ class Impactor:
             self.calcualte_energy0_megatons()
 
         return self.calcualte_energy0_megatons
+
     def get_rec_time(self):
         if self.rec_time == None:
             self.calculate_recTime()
@@ -98,8 +97,6 @@ class Impactor:
             self.calculate_mass()
 
         return self.mass
-    
+
     def get_theta(self):
         return self.theta
-    
-
