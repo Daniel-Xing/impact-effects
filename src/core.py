@@ -13,15 +13,12 @@ from src.Targets import *
 from src.config import *
 
 
-# implement equation 1
-
-
 def kinetic_energy(impactor: Impactor) -> float:
     """
 
     Arguments
     ---------
-
+    impactor: Instance of Impactor, containning 
 
     Returns
     -------
