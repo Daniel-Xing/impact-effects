@@ -13,7 +13,7 @@ from src.Targets import *
 from src.config import *
 
 
-def kinetic_energy(impactor: Impactor) -> float:
+def collins_kinetic_energy(impactor: Impactor) -> float:
     """
 
     Arguments
@@ -28,7 +28,7 @@ def kinetic_energy(impactor: Impactor) -> float:
     return impactor.get_energy0()
 
 
-def kinetic_energy_megatons(impactor: Impactor) -> float:
+def collins_kinetic_energy_megatons(impactor: Impactor) -> float:
     """
 
     Arguments
@@ -43,7 +43,7 @@ def kinetic_energy_megatons(impactor: Impactor) -> float:
     return impactor.get_energy0_megatons()
 
 
-def rec_time(impactor: Impactor) -> float:
+def collins_rec_time(impactor: Impactor) -> float:
     """
 
     Arguments
@@ -55,10 +55,28 @@ def rec_time(impactor: Impactor) -> float:
 
     """
 
-    return impactor.get_rec_time()
+    mass = impactor.get_mass()
+
+    # Compute the recurrence interval for this energy impact
+    # New model (after Bland and Artemieva (2006) MAPS 41 (607-621).
+    if mass < 3:
+        rec_time = 10 ** (-4.568) * mass ** 0.480
+    elif mass < 1.7E10:
+        rec_time = 10 ** (-4.739) * mass ** 0.926
+    elif mass < 3.3E12:
+        rec_time = 10 ** (0.922) * mass ** 0.373
+    elif mass < 8.4E14:
+        rec_time = 10 ** (-0.086) * mass ** 0.454
+    else:
+        rec_time = 10 ** (-3.352) * mass ** 0.672
+
+    energy0_megatons = impactor.get_energy0_megatons()
+    rec_time = max(rec_time, 110 * (energy0_megatons) ** 0.77)
+    
+    return rec_time
 
 
-def iFactor(impactor: Impactor, target: Target) -> float:
+def collins_cal_iFactor(impactor: Impactor, target: Target) -> float:
     """
 
     Arguments
@@ -85,11 +103,11 @@ def iFactor(impactor: Impactor, target: Target) -> float:
     _av = 3 * rhoSurface * dragC * scaleHeight / \
           (4 * pdensity * pdiameter * math.sin(theta * PI / 180))
 
-    iFactor = 2.7185 * _av * _rStrength
-    return iFactor, _av, _rStrength
+    collins_iFactor = 2.7185 * _av * _rStrength
+    return collins_iFactor, _av, _rStrength
 
 
-def burst_velocity_at_zero(impactor: Impactor, target: Target) -> float:
+def collins_burst_velocity_at_zero(impactor: Impactor, target: Target) -> float:
     """
 
     Arguments
@@ -100,7 +118,7 @@ def burst_velocity_at_zero(impactor: Impactor, target: Target) -> float:
     -------
 
     """
-    i_factor, _av, _ = iFactor(impactor, target)
+    i_factor, _av, _ = collins_cal_iFactor(impactor, target)
 
     # check
     if i_factor < 1:
@@ -126,7 +144,7 @@ def burst_velocity_at_zero(impactor: Impactor, target: Target) -> float:
     return velocity_at_surface
 
 
-def altitude_of_breakup(scaleHeight: float, rStrength: float, iFactor: float) -> float:
+def collins_altitude_of_breakup(scaleHeight: float, rStrength: float, collins_iFactor: float) -> float:
     """
 
     Arguments
@@ -142,7 +160,7 @@ def altitude_of_breakup(scaleHeight: float, rStrength: float, iFactor: float) ->
     altitude1 = - scaleHeight * log(rStrength)
 
     # Define the second, third and fourth terms (inside the brackets) in Eq. 11
-    omega = 1.308 - 0.314 * iFactor - 1.303 * (1 - iFactor) ** 0.5
+    omega = 1.308 - 0.314 * collins_iFactor - 1.303 * (1 - collins_iFactor) ** 0.5
 
     # Compute the breakup altitude by combining above parameters to evaluate Eq. 11
     altitudeBU = altitude1 - omega * scaleHeight
@@ -150,7 +168,7 @@ def altitude_of_breakup(scaleHeight: float, rStrength: float, iFactor: float) ->
     return altitudeBU
 
 
-def velocity_at_breakup(velocity: float, av: float, altitudeBU: float, scaleHeight: float) -> float:
+def collins_velocity_at_breakup(velocity: float, av: float, altitudeBU: float, scaleHeight: float) -> float:
     """
 
     Arguments
@@ -166,7 +184,7 @@ def velocity_at_breakup(velocity: float, av: float, altitudeBU: float, scaleHeig
     return velocity * 1000 * exp(- av * math.exp(- altitudeBU / scaleHeight))
 
 
-def dispersion_length_scale(diameter: float, theta: float, density: float, dragC: float, rhoSurface: float,
+def collins_dispersion_length_scale(diameter: float, theta: float, density: float, dragC: float, rhoSurface: float,
                             altitudeBU: float, scaleHeight: float) -> float:
     """
 
@@ -183,7 +201,7 @@ def dispersion_length_scale(diameter: float, theta: float, density: float, dragC
         altitudeBU / (2 * scaleHeight))
 
 
-def airburst_altitude(impactor: Impactor, target: Target, alpha2: float = None, lDisper: float = None,
+def collins_airburst_altitude(impactor: Impactor, target: Target, alpha2: float = None, lDisper: float = None,
                       altitudeBU: float = None) -> float:
     """
 
@@ -196,13 +214,13 @@ def airburst_altitude(impactor: Impactor, target: Target, alpha2: float = None, 
 
     """
     if lDisper is None:
-        lDisper = dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+        lDisper = collins_dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
                                           target.get_dragC(), target.get_rhoSurface(), altitudeBU,
                                           target.get_schaleHeight())
 
     if altitudeBU is None:
-        i_factor, _, _rStrength = iFactor(impactor, target)
-        altitudeBU = altitude_of_breakup(
+        i_factor, _, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(
             target.get_schaleHeight(), _rStrength, i_factor)
 
     if alpha2 is None:
@@ -215,7 +233,7 @@ def airburst_altitude(impactor: Impactor, target: Target, alpha2: float = None, 
     return altitudeBurst
 
 
-def brust_velocity(impactor: Impactor, target: Target, altitudeBurst: float = None, altitudeBU: float = None,
+def collins_brust_velocity(impactor: Impactor, target: Target, altitudeBurst: float = None, altitudeBU: float = None,
                    vBu: float = None, lDisper: float = None) -> float:
     """
 
@@ -229,23 +247,23 @@ def brust_velocity(impactor: Impactor, target: Target, altitudeBurst: float = No
     """
 
     if altitudeBU is None:
-        i_factor, _av, _rStrength = iFactor(impactor, target)
-        altitudeBU = altitude_of_breakup(
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(
             target.get_schaleHeight(), _rStrength, i_factor)
 
     if vBu == None:
-        i_factor, _av, _rStrength = iFactor(impactor, target)
-        vBU = velocity_at_breakup(impactor.get_velocity(
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        vBU = collins_velocity_at_breakup(impactor.get_velocity(
         ), _av, altitudeBU, target.get_schaleHeight())
 
     if lDisper is None:
-        lDisper = dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+        lDisper = collins_dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
                                           target.get_dragC(), target.get_rhoSurface(), altitudeBU,
                                           target.get_schaleHeight())
 
     if altitudeBurst == None:
         alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
-        altitudeBurst = airburst_altitude(
+        altitudeBurst = collins_airburst_altitude(
             impactor, target, alpha2, lDisper, altitudeBU)
 
     # Define factor for evaluating Eq. 17
@@ -278,7 +296,7 @@ def brust_velocity(impactor: Impactor, target: Target, altitudeBurst: float = No
     return velocity
 
 
-def dispersion_of_impactor(impactor: Impactor, target: Target, l_disper: float = None, altitude_bu: float = None,
+def collins_dispersion_of_impactor(impactor: Impactor, target: Target, l_disper: float = None, altitude_bu: float = None,
                            altitude_burst: float = None) -> float:
     """
 
@@ -292,18 +310,18 @@ def dispersion_of_impactor(impactor: Impactor, target: Target, l_disper: float =
     """
 
     if altitude_bu is None:
-        i_factor, _av, _rStrength = iFactor(impactor, target)
-        altitude_bu = altitude_of_breakup(
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitude_bu = collins_altitude_of_breakup(
             target.get_schaleHeight(), _rStrength, i_factor)
 
     if l_disper is None:
-        l_disper = dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+        l_disper = collins_dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
                                            target.get_dragC(), target.get_rhoSurface(), altitude_bu,
                                            target.get_schaleHeight())
 
     if altitude_burst is None:
         alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
-        altitude_burst = airburst_altitude(
+        altitude_burst = collins_airburst_altitude(
             impactor, target, alpha2, l_disper, altitude_bu)
 
     if altitude_burst > 0:
@@ -315,7 +333,7 @@ def dispersion_of_impactor(impactor: Impactor, target: Target, l_disper: float =
     return dispersion
 
 
-def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = None):
+def collins_fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = None):
     """
 
     Arguments
@@ -328,7 +346,7 @@ def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = N
     """
 
     if velocity == None:
-        velocity = brust_velocity(impactor, target)
+        velocity = collins_brust_velocity(impactor, target)
 
     linmom = impactor.get_mass() * (velocity * 1000)
     angmom = impactor.get_mass() * (velocity * 1000) * \
@@ -347,7 +365,7 @@ def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = N
     return lratio, pratio, energy0
 
 
-def cal_trot_change(impactor: Impactor, target: Target, velocity: float = None):
+def collins_cal_trot_change(impactor: Impactor, target: Target, velocity: float = None):
     """
 
     Arguments
@@ -360,7 +378,7 @@ def cal_trot_change(impactor: Impactor, target: Target, velocity: float = None):
     """
 
     if velocity == None:
-        velocity = brust_velocity(impactor, target)
+        velocity = collins_brust_velocity(impactor, target)
 
     mass = impactor.get_mass()
     mEarth = target.get_mEarth()
@@ -371,7 +389,7 @@ def cal_trot_change(impactor: Impactor, target: Target, velocity: float = None):
            R_earth * velocity * (24. * 60. * 60.) ** 2
 
 
-def cal_energy_atmosphere(impactor: Impactor, target: Target, velocity: float = None) -> float:
+def collins_cal_energy_atmosphere(impactor: Impactor, target: Target, velocity: float = None) -> float:
     """
 
     Arguments
@@ -384,14 +402,14 @@ def cal_energy_atmosphere(impactor: Impactor, target: Target, velocity: float = 
     """
 
     if velocity == None:
-        velocity = brust_velocity(impactor, target)
+        velocity = collins_brust_velocity(impactor, target)
 
     energy_atmosphere = 0.5 * impactor.get_mass() * ((impactor.get_velocity() * 1000)
                                                      ** 2 - (velocity * 1000) ** 2)
     return energy_atmosphere
 
 
-def cal_energy_blast_surface(impactor: Impactor, target: Target, velocity: float = None, altitudeBurst: float = None,
+def collins_cal_energy_blast_surface(impactor: Impactor, target: Target, velocity: float = None, altitudeBurst: float = None,
                              energy_atmosphere: float = None) -> float:
     """
 
@@ -404,19 +422,19 @@ def cal_energy_blast_surface(impactor: Impactor, target: Target, velocity: float
 
     """
     if altitudeBurst == None:
-        i_factor, _av, _rStrength = iFactor(impactor, target)
-        altitudeBU = altitude_of_breakup(
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(
             target.get_schaleHeight(), _rStrength, i_factor)
-        lDisper = dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+        lDisper = collins_dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
                                           target.get_dragC(), target.get_rhoSurface(), altitudeBU,
                                           target.get_schaleHeight())
 
         alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
-        altitudeBurst = airburst_altitude(
+        altitudeBurst = collins_airburst_altitude(
             impactor, target, alpha2, lDisper, altitudeBU)
 
     if velocity == None:
-        velocity = brust_velocity(
+        velocity = collins_brust_velocity(
             impactor, target, altitudeBurst, altitudeBU, None, lDisper)
 
     if altitudeBurst > 0:
@@ -435,7 +453,7 @@ def cal_energy_blast_surface(impactor: Impactor, target: Target, velocity: float
     return energy_blast, energy_surface
 
 
-def cal_mass_of_water(impactor: Impactor, target: Target) -> float:
+def collins_cal_mass_of_water(impactor: Impactor, target: Target) -> float:
     """
 
     Arguments
@@ -452,7 +470,7 @@ def cal_mass_of_water(impactor: Impactor, target: Target) -> float:
     return mwater
 
 
-def cal_velocity_projectile(impactor: Impactor, target: Target, velocity: float = None) -> float:
+def collins_cal_velocity_projectile(impactor: Impactor, target: Target, velocity: float = None) -> float:
     """
 
     Arguments
@@ -465,14 +483,14 @@ def cal_velocity_projectile(impactor: Impactor, target: Target, velocity: float 
     """
 
     if velocity == None:
-        velocity = brust_velocity(impactor, target)
+        velocity = collins_brust_velocity(impactor, target)
 
     vseafloor = velocity * exp(-(3 * 1000 * 0.877 * target.get_depth()) / (
             2 * impactor.get_density() * impactor.get_pdiameter() * sin(impactor.get_theta() * PI / 180)))
     return vseafloor
 
 
-def cal_energy_at_seafloor(impactor: Impactor, target: Target, vseafloor: float = None) -> float:
+def collins_cal_energy_at_seafloor(impactor: Impactor, target: Target, vseafloor: float = None) -> float:
     """
 
     Arguments
@@ -484,13 +502,13 @@ def cal_energy_at_seafloor(impactor: Impactor, target: Target, vseafloor: float 
 
     """
     if vseafloor == None:
-        vseafloor = cal_velocity_projectile(impactor, target)
+        vseafloor = collins_cal_velocity_projectile(impactor, target)
 
     energy_seafloor = 0.5 * impactor.get_mass() * (vseafloor * 1000) ** 2
     return energy_seafloor
 
 
-def cal_ePIcentral_angle(target: Target) -> float:
+def collins_cal_ePIcentral_angle(target: Target) -> float:
     """
 
     Arguments
@@ -505,7 +523,7 @@ def cal_ePIcentral_angle(target: Target) -> float:
     return (180 / PI) * (target.get_distance() / target.get_R_earth())
 
 
-def cal_scaling_diameter_constant(impactor: Impactor) -> float:
+def collins_cal_scaling_diameter_constant(impactor: Impactor) -> float:
     """
 
     Arguments
@@ -529,11 +547,11 @@ def cal_scaling_diameter_constant(impactor: Impactor) -> float:
     return Cd, beta
 
 
-def cal_anglefac(impactor: Impactor) -> float:
+def collins_cal_anglefac(impactor: Impactor) -> float:
     return (sin(impactor.get_theta() * PI / 180)) ** (1 / 3)
 
 
-def cal_wdiameter(impactor: Impactor, target: Target, anglefac: float = None, velocity: float = None) -> float:
+def collins_cal_wdiameter(impactor: Impactor, target: Target, anglefac: float = None, velocity: float = None) -> float:
     """
 
     Arguments
@@ -548,10 +566,10 @@ def cal_wdiameter(impactor: Impactor, target: Target, anglefac: float = None, ve
         raise ValueError("Target depth is 0")
 
     if velocity == None:
-        velocity = brust_velocity(impactor, target)
+        velocity = collins_brust_velocity(impactor, target)
 
     if anglefac == None:
-        anglefac = cal_anglefac(impactor)
+        anglefac = collins_cal_anglefac(impactor)
 
     mass, tdensity, g, pdiameter = impactor.get_mass(
     ), impactor.get_density(), target.get_g(), impactor.get_pdiameter()
@@ -568,7 +586,7 @@ def cal_wdiameter(impactor: Impactor, target: Target, anglefac: float = None, ve
     return wdiameter
 
 
-def cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd: float = None, beta: float = None,
+def collins_cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd: float = None, beta: float = None,
                                   anglefac: float = None, vseafloor: float = None) -> float:
     """
 
@@ -581,13 +599,13 @@ def cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd: float 
 
     """
     if Cd == None or beta == None:
-        Cd, beta = cal_scaling_diameter_constant(impactor)
+        Cd, beta = collins_cal_scaling_diameter_constant(impactor)
 
     if anglefac == None:
-        anglefac = cal_anglefac(impactor)
+        anglefac = collins_cal_anglefac(impactor)
 
     if vseafloor == None:
-        vseafloor = cal_velocity_projectile(impactor, target)
+        vseafloor = collins_cal_velocity_projectile(impactor, target)
 
     mass, tdensity, g, pdiameter = impactor.get_mass(
     ), impactor.get_density(), target.get_g(), impactor.get_pdiameter()
@@ -598,7 +616,7 @@ def cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd: float 
     return Dtr
 
 
-def cal_depthr(impactor: Impactor, target: Target, Dtr: float = None):
+def collins_cal_depthr(impactor: Impactor, target: Target, Dtr: float = None):
     """
 
     Arguments
@@ -610,12 +628,12 @@ def cal_depthr(impactor: Impactor, target: Target, Dtr: float = None):
 
     """
     if Dtr == None:
-        Dtr = cal_transient_crater_diameter(impactor, target)
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
 
     return Dtr / 2.828
 
 
-def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
+def collins_cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
     """
 
     Arguments
@@ -627,7 +645,7 @@ def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
 
     """
     if Dtr == None:
-        Dtr = cal_transient_crater_diameter(impactor, target)
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
 
     if Dtr * 1.25 >= 3200:
         cdiameter = (1.17 * Dtr ** 1.13) / (3200 ** 0.13)
@@ -637,7 +655,7 @@ def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
     return cdiameter
 
 
-def cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: float = None, cdiameter: float = None):
+def collins_cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: float = None, cdiameter: float = None):
     """
 
     Arguments
@@ -649,11 +667,11 @@ def cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: 
 
     """
     if Dtr == None:
-        Dtr = cal_transient_crater_diameter(impactor, target)
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
     if depthtr == None:
-        depthtr = cal_depthr(impactor, target, Dtr)
+        depthtr = collins_cal_depthr(impactor, target, Dtr)
     if cdiameter == None:
-        cdiameter = cal_cdiamater(impactor, target, Dtr)
+        cdiameter = collins_cal_cdiamater(impactor, target, Dtr)
 
     if Dtr * 1.25 >= 3200:
         depthfr = 37 * cdiameter ** 0.301
@@ -674,7 +692,7 @@ def cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: 
     return depthfr
 
 
-def cal_vCrater(impactor: Impactor, target: Target, Dtr: float = None) -> float:
+def collins_cal_vCrater(impactor: Impactor, target: Target, Dtr: float = None) -> float:
     """
 
     Arguments
@@ -686,12 +704,12 @@ def cal_vCrater(impactor: Impactor, target: Target, Dtr: float = None) -> float:
 
     """
     if Dtr == None:
-        Dtr = cal_transient_crater_diameter(impactor, target)
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
 
     return (PI / 24) * (Dtr / 1000) ** 3
 
 
-def cal_vratio(impactor: Impactor, target: Target, vCrater: float = None, Dtr: float = None) -> float:
+def collins_cal_vratio(impactor: Impactor, target: Target, vCrater: float = None, Dtr: float = None) -> float:
     """
 
     Arguments
@@ -703,12 +721,12 @@ def cal_vratio(impactor: Impactor, target: Target, vCrater: float = None, Dtr: f
 
     """
     if Dtr == None:
-        Dtr = cal_transient_crater_diameter(impactor, target)
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
     if vCrater == None:
-        vCrater = cal_vCrater(impactor, target, Dtr)
+        vCrater = collins_cal_vCrater(impactor, target, Dtr)
 
 
-def cal_vCrater_vRation(impactor: Impactor, target: Target, Dtr: float = None) -> float:
+def collins_cal_vCrater_vRation(impactor: Impactor, target: Target, Dtr: float = None) -> float:
     """
 
     Arguments
@@ -720,14 +738,14 @@ def cal_vCrater_vRation(impactor: Impactor, target: Target, Dtr: float = None) -
 
     """
     if Dtr == None:
-        Dtr = cal_transient_crater_diameter(impactor, target)
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
 
     vCrater = (PI / 24) * (Dtr / 1000) ** 3
     vRatio = vCrater / target.get_v_earth()
     return vCrater, vRatio
 
 
-def cal_vMelt(impactor: Impactor, target: Target, velocity: float = None, energy_seafloor: float = None) -> float:
+def collins_cal_vMelt(impactor: Impactor, target: Target, velocity: float = None, energy_seafloor: float = None) -> float:
     """
 
     Arguments
@@ -739,10 +757,10 @@ def cal_vMelt(impactor: Impactor, target: Target, velocity: float = None, energy
 
     """
     if velocity == None:
-        velocity = brust_velocity(impactor, target)
+        velocity = collins_brust_velocity(impactor, target)
 
     if energy_seafloor == None:
-        energy_seafloor = cal_energy_at_seafloor(impactor, target)
+        energy_seafloor = collins_cal_energy_at_seafloor(impactor, target)
 
     if velocity < 12:
         raise ValueError("Velocity is less than 12 m/s")
@@ -755,7 +773,7 @@ def cal_vMelt(impactor: Impactor, target: Target, velocity: float = None, energy
     return vMelt
 
 
-def cal_mratio_and_mcratio(impactor: Impactor, target: Target, velocity: float = None, vMelt: float = None,
+def collins_cal_mratio_and_mcratio(impactor: Impactor, target: Target, velocity: float = None, vMelt: float = None,
                            vCrater: float = None, Dtr: float = None) -> float:
     """
 
@@ -768,24 +786,24 @@ def cal_mratio_and_mcratio(impactor: Impactor, target: Target, velocity: float =
 
     """
     if velocity == None:
-        velocity = brust_velocity(impactor, target)
+        velocity = collins_brust_velocity(impactor, target)
 
     if velocity < 12:
         raise ValueError("Velocity is less than 12 m/s")
 
     if Dtr == None:
-        Dtr = cal_transient_crater_diameter(impactor, target)
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
     if vMelt == None:
-        vMelt = cal_vMelt(impactor, target)
+        vMelt = collins_cal_vMelt(impactor, target)
     if vCrater == None:
-        vCrater = cal_vCrater(impactor, target, Dtr)
+        vCrater = collins_cal_vCrater(impactor, target, Dtr)
 
     mcratio = vMelt / vCrater
     mratio = vMelt / target.get_v_earth()
     return mratio, mcratio
 
 
-def cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst: float = None):
+def collins_cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst: float = None):
     """
 
     Arguments
@@ -814,7 +832,7 @@ def cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst: float =
     return ejecta_arrival
 
 
-def cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBurst: float = None, Dtr: float = None):
+def collins_cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBurst: float = None, Dtr: float = None):
     """
 
     Arguments
@@ -832,7 +850,7 @@ def cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBurst: floa
     return ejecta_thickness
 
 
-def cal_themal(impactor: Impactor, target: Target, energy_surface: float = None, altitudeBurst: float = None,
+def collins_cal_themal(impactor: Impactor, target: Target, energy_surface: float = None, altitudeBurst: float = None,
                delta: float = None, velocity: float = None, energy_megatons: float = None):
     """
 
@@ -880,7 +898,7 @@ def cal_themal(impactor: Impactor, target: Target, energy_surface: float = None,
     return thermal_exposure, no_radiation, max_rad_time, irradiation_time, megaton_factor, thermal_power
 
 
-def cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: float = None, energy_seafloor: float = None):
+def collins_cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: float = None, energy_seafloor: float = None):
     """
 
     Arguments
@@ -898,7 +916,7 @@ def cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: float = Non
     return magnitude
 
 
-def cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = None, altitudeBurst: float = None,
+def collins_cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = None, altitudeBurst: float = None,
                    distance: float = None, surface_wave_v: float = None, delta: float = None) -> float:
     """
 
@@ -914,7 +932,7 @@ def cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = 
         raise ValueError("Altitude of burst is greater than 0")
 
     Ax = 0  # factor for determining "effective magnitude" at given distance
-    magnitude = cal_magnitude(impactor, target, energy_seafloor)
+    magnitude = collins_cal_magnitude(impactor, target, energy_seafloor)
 
     if distance >= 700:
         Ax = 20 * 10 ** (magnitude - 1.66 * (log(delta) / log(10)) - 3.3)
@@ -931,7 +949,7 @@ def cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = 
     return eff_mag, seismic_arrival
 
 
-def cal_shock_arrival(impactor: Impactor, target: Target, altitudeBurst: float = None) -> float:
+def collins_cal_shock_arrival(impactor: Impactor, target: Target, altitudeBurst: float = None) -> float:
     """
 
     Arguments
@@ -954,7 +972,7 @@ def cal_shock_arrival(impactor: Impactor, target: Target, altitudeBurst: float =
     return shock_arrival
 
 
-def cal_vmax(impactor: Impactor, target: Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
+def collins_cal_vmax(impactor: Impactor, target: Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
     """
 
     Arguments
@@ -1018,7 +1036,7 @@ def cal_vmax(impactor: Impactor, target: Target, energy_blast: float = None, alt
     return vmax
 
 
-def cal_dec_level(impactor: Impactor, target: Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
+def collins_cal_dec_level(impactor: Impactor, target: Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
     """
 
     Arguments
@@ -1082,7 +1100,7 @@ def cal_dec_level(impactor: Impactor, target: Target, energy_blast: float = None
     return dec_level
 
 
-def cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+def collins_cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
     """
 
     Arguments
@@ -1105,7 +1123,7 @@ def cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter: float 
     return TsunamiArrivalTime
 
 
-def cal_WaveAmplitudeUpperLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+def collins_cal_WaveAmplitudeUpperLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
     """
 
     Arguments
@@ -1131,7 +1149,7 @@ def cal_WaveAmplitudeUpperLimit(impactor: Impactor, target: Target, wdiameter: f
     return WaveAmplitudeUpperLimit
 
 
-def cal_WaveAmplitudeLowerLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+def collins_cal_WaveAmplitudeLowerLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
     """
 
     Arguments
