@@ -7,7 +7,7 @@ Author           :daniel
 Version          :1.0
 '''
 
-from src.config import *
+from impactEffects.core.config import *
 
 
 class Impactor:

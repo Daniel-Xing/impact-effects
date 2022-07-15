@@ -8,10 +8,10 @@ Version          :1.0
 '''
 import logging
 
-from src.Impactor import *
-from src.Targets import *
-from src.config import *
-from src.core.core_collins import *
+from impactEffects.instances.Impactor import *
+from impactEffects.instances.Targets import *
+from impactEffects.core.config import *
+from impactEffects.core.core_collins import *
 
 
 def kinetic_energy(impactor: Impactor, type: Choices = Choices.Collins) -> float:

@@ -1,1 +1,5 @@
-.vscode
+.vscode/
+impactEffects.egg-info
+origin
+.eggs
+.idea
