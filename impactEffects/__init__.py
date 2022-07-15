@@ -1,3 +1,3 @@
-from . import core, examples, functions, instances
+from . import core, examples, instances, functions
 
 __all__ = ["core", "examples", "instances", "functions"]

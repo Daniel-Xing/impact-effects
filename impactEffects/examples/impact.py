@@ -6,7 +6,7 @@ Time             :2022/07/10 10:39:57
 Author           :daniel
 Version          :1.0
 '''
-from impactEffects.functions import *
+from impactEffects.functions.functions import *
 
 
 def atmospheric_entry(impactor: Impactor, target: Target):
