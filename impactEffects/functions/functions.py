@@ -8,8 +8,8 @@ Version          :1.0
 '''
 import logging
 
-from impactEffects.instances.Impactor import *
-from impactEffects.instances.Targets import *
+from impactEffects.instances.ImpactorClass import *
+from impactEffects.instances.TargetClass import *
 from impactEffects.core.config import *
 from impactEffects.core.core_collins import *
 

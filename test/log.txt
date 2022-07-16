@@ -1,0 +1,965 @@
+============================= test session starts ==============================
+platform linux -- Python 3.9.12, pytest-7.1.1, pluggy-1.0.0 -- /home/daniel/anaconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /home/daniel/impactEffects
+plugins: anyio-3.5.0
+collecting ... collected 42 items
+
+test_functions_collins.py::test_Kinetic_energy PASSED
+test_functions_collins.py::test_kinetic_energy_megatons PASSED
+test_functions_collins.py::test_rec_time PASSED
+test_functions_collins.py::test_iFactor FAILED
+test_functions_collins.py::test_burst_velocity_at_zero FAILED
+test_functions_collins.py::test_altitude_of_breakup FAILED
+test_functions_collins.py::test_velocity_at_breakup FAILED
+test_functions_collins.py::test_dispersion_length_scale FAILED
+test_functions_collins.py::test_airburst_altitude FAILED
+test_functions_collins.py::test_brust_velocity PASSED
+test_functions_collins.py::test_dispersion_of_impactor FAILED
+test_functions_collins.py::test_fraction_of_momentum PASSED
+test_functions_collins.py::test_cal_trot_change PASSED
+test_functions_collins.py::test_cal_energy_atmosphere PASSED
+test_functions_collins.py::test_cal_energy_blast_surface FAILED
+test_functions_collins.py::test_cal_mass_of_water PASSED
+test_functions_collins.py::test_cal_velocity_projectile PASSED
+test_functions_collins.py::test_cal_energy_at_seafloor PASSED
+test_functions_collins.py::test_cal_ePIcentral_angle PASSED
+test_functions_collins.py::test_cal_scaling_diameter_constant PASSED
+test_functions_collins.py::test_cal_anglefac PASSED
+test_functions_collins.py::test_cal_wdiameter FAILED
+test_functions_collins.py::test_cal_transient_crater_diameter FAILED
+test_functions_collins.py::test_cal_depthr PASSED
+test_functions_collins.py::test_cal_cdiamater PASSED
+test_functions_collins.py::test_cal_depthfr PASSED
+test_functions_collins.py::test_cal_vCrater FAILED
+test_functions_collins.py::test_cal_vratio FAILED
+test_functions_collins.py::test_cal_vCrater_vRation FAILED
+test_functions_collins.py::test_cal_vMelt PASSED
+test_functions_collins.py::test_cal_mratio_and_mcratio FAILED
+test_functions_collins.py::test_cal_eject_arrival FAILED
+test_functions_collins.py::test_cal_ejecta_thickness FAILED
+test_functions_collins.py::test_cal_themal FAILED
+test_functions_collins.py::test_cal_magnitude FAILED
+test_functions_collins.py::test_cal_magnitude2 FAILED
+test_functions_collins.py::test_cal_shock_arrival FAILED
+test_functions_collins.py::test_cal_vmax FAILED
+test_functions_collins.py::test_cal_dec_level FAILED
+test_functions_collins.py::test_cal_TsunamiArrivalTime FAILED
+test_functions_collins.py::test_cal_WaveAmplitudeUpperLimit FAILED
+test_functions_collins.py::test_cal_WaveAmplitudeLowerLimit FAILED
+
+=================================== FAILURES ===================================
+_________________________________ test_iFactor _________________________________
+
+    def test_iFactor():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+        res = iFactor(impactor, targets)
+    
+>       assert np.allclose(res, i_Factor)
+E       assert False
+E        +  where False = <function allclose at 0x7f1ba456ce50>((1.76668230930805e-07, 1.3773689431439933, 4.7182270552283685e-08), 1.76668348132175e-07)
+E        +    where <function allclose at 0x7f1ba456ce50> = np.allclose
+
+test_functions_collins.py:84: AssertionError
+_________________________ test_burst_velocity_at_zero __________________________
+
+    def test_burst_velocity_at_zero():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = burst_velocity_at_zero(impactor, targets)
+
+test_functions_collins.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:99: in burst_velocity_at_zero
+    return collins_burst_velocity_at_zero(impactor, target)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a75d60>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a75c70>
+
+    def collins_burst_velocity_at_zero(impactor: Impactor, target: Target) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        i_factor, _av, _ = collins_cal_iFactor(impactor, target)
+    
+        # check
+        if i_factor < 1:
+>           raise ValueError("I_factor should be greater than 1!")
+E           ValueError: I_factor should be greater than 1!
+
+../impactEffects/core/core_collins.py:125: ValueError
+___________________________ test_altitude_of_breakup ___________________________
+
+    def test_altitude_of_breakup():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = altitude_of_breakup(impactor, targets)
+E       TypeError: altitude_of_breakup() missing 1 required positional argument: 'iFactor'
+
+test_functions_collins.py:101: TypeError
+___________________________ test_velocity_at_breakup ___________________________
+
+    def test_velocity_at_breakup():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = velocity_at_breakup(impactor, targets)
+E       TypeError: velocity_at_breakup() missing 2 required positional arguments: 'altitudeBU' and 'scaleHeight'
+
+test_functions_collins.py:110: TypeError
+_________________________ test_dispersion_length_scale _________________________
+
+    def test_dispersion_length_scale():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = dispersion_length_scale(impactor, targets)
+E       TypeError: dispersion_length_scale() missing 5 required positional arguments: 'density', 'dragC', 'rhoSurface', 'altitudeBU', and 'scaleHeight'
+
+test_functions_collins.py:119: TypeError
+____________________________ test_airburst_altitude ____________________________
+
+    def test_airburst_altitude():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = airburst_altitude(impactor, targets)
+
+test_functions_collins.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:172: in airburst_altitude
+    return collins_airburst_altitude(impactor, target, alpha2, lDisper, altitudeBU)
+../impactEffects/core/core_collins.py:217: in collins_airburst_altitude
+    lDisper = collins_dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+diameter = 111, theta = 45, density = 111, dragC = 2, rhoSurface = 1
+altitudeBU = None, scaleHeight = 8000
+
+    def collins_dispersion_length_scale(diameter: float, theta: float, density: float, dragC: float, rhoSurface: float,
+                                altitudeBU: float, scaleHeight: float) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        # Assuming drag coefficient of 2
+        return diameter * sin(theta * PI / 180) * (density / (dragC * rhoSurface)) ** 0.5 * exp(
+>           altitudeBU / (2 * scaleHeight))
+E       TypeError: unsupported operand type(s) for /: 'NoneType' and 'int'
+
+../impactEffects/core/core_collins.py:201: TypeError
+_________________________ test_dispersion_of_impactor __________________________
+
+    def test_dispersion_of_impactor():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = dispersion_of_impactor(impactor, targets)
+
+test_functions_collins.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:210: in dispersion_of_impactor
+    return collins_dispersion_of_impactor(impactor, target, l_disper, altitude_bu, altitude_burst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b979cb7c0>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b979cb790>
+l_disper = 2685216.487057288, altitude_bu = 134913.9806334879
+altitude_burst = 21963.771219123868
+
+    def collins_dispersion_of_impactor(impactor: Impactor, target: Target, l_disper: float = None, altitude_bu: float = None,
+                               altitude_burst: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+    
+        if altitude_bu is None:
+            i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+            altitude_bu = collins_altitude_of_breakup(
+                target.get_schaleHeight(), _rStrength, i_factor)
+    
+        if l_disper is None:
+            l_disper = collins_dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+                                               target.get_dragC(), target.get_rhoSurface(), altitude_bu,
+                                               target.get_schaleHeight())
+    
+        if altitude_burst is None:
+            alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+            altitude_burst = collins_airburst_altitude(
+                impactor, target, alpha2, l_disper, altitude_bu)
+    
+        if altitude_burst > 0:
+>           raise ValueError("Impactor is not dispersionless at the surface")
+E           ValueError: Impactor is not dispersionless at the surface
+
+../impactEffects/core/core_collins.py:328: ValueError
+________________________ test_cal_energy_blast_surface _________________________
+
+    def test_cal_energy_blast_surface():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_energy_blast_surface(impactor, targets)
+
+test_functions_collins.py:182: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:282: in cal_energy_blast_surface
+    return collins_cal_energy_blast_surface(impactor, target, velocity, altitudeBurst, energy_atmosphere)
+../impactEffects/core/core_collins.py:437: in collins_cal_energy_blast_surface
+    velocity = collins_brust_velocity(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97934310>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97934940>
+altitudeBurst = 21963.771219123868, altitudeBU = 134913.9806334879, vBu = None
+lDisper = 2685216.487057288
+
+    def collins_brust_velocity(impactor: Impactor, target: Target, altitudeBurst: float = None, altitudeBU: float = None,
+                       vBu: float = None, lDisper: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+    
+        if altitudeBU is None:
+            i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+            altitudeBU = collins_altitude_of_breakup(
+                target.get_schaleHeight(), _rStrength, i_factor)
+    
+        if vBu == None:
+            i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+            vBU = collins_velocity_at_breakup(impactor.get_velocity(
+            ), _av, altitudeBU, target.get_schaleHeight())
+    
+        if lDisper is None:
+            lDisper = collins_dispersion_length_scale(impactor.get_pdiameter(), impactor.get_theta(), impactor.get_density(),
+                                              target.get_dragC(), target.get_rhoSurface(), altitudeBU,
+                                              target.get_schaleHeight())
+    
+        if altitudeBurst == None:
+            alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+            altitudeBurst = collins_airburst_altitude(
+                impactor, target, alpha2, lDisper, altitudeBU)
+    
+        # Define factor for evaluating Eq. 17
+        vFac = 0.75 * (target.get_dragC() * target.get_rhoSurface() / impactor.get_density()) ** 0.5 * \
+               exp(-altitudeBU / (2 * target.get_schaleHeight())
+                   )  # Assuming drag coefficient of 2
+    
+        if altitudeBurst > 0:
+            # Evaluate Eq. 19 (without factor lL_0^2 l_disper * pdiameter**2)
+>           expfac = 1 / 24 * alpha2 * (24 + 8 * alpha2 ** 2 + 6 * alpha2 * lDisper /
+                                        target.get_schaleHeight() + 3 * alpha2 ** 3 * lDisper / target.get_schaleHeight())
+E           UnboundLocalError: local variable 'alpha2' referenced before assignment
+
+../impactEffects/core/core_collins.py:276: UnboundLocalError
+______________________________ test_cal_wdiameter ______________________________
+
+    def test_cal_wdiameter():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_wdiameter(impactor, targets)
+
+test_functions_collins.py:245: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:406: in cal_wdiameter
+    return collins_cal_wdiameter(impactor, target, anglefac, velocity)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b9798e400>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b9798e940>
+anglefac = None, velocity = None
+
+    def collins_cal_wdiameter(impactor: Impactor, target: Target, anglefac: float = None, velocity: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        if target.get_depth() == 0:
+>           raise ValueError("Target depth is 0")
+E           ValueError: Target depth is 0
+
+../impactEffects/core/core_collins.py:566: ValueError
+______________________ test_cal_transient_crater_diameter ______________________
+
+    def test_cal_transient_crater_diameter():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_transient_crater_diameter(impactor, targets)
+
+test_functions_collins.py:263: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:424: in cal_transient_crater_diameter
+    return collins_cal_transient_crater_diameter(impactor, target, Cd, beta, anglefac, vseafloor)
+../impactEffects/core/core_collins.py:602: in collins_cal_transient_crater_diameter
+    Cd, beta = collins_cal_scaling_diameter_constant(impactor)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+target = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97976ee0>
+
+    def collins_cal_scaling_diameter_constant(target: Target) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+    
+>       if target.type == 1:
+E       AttributeError: 'Impactor' object has no attribute 'type'
+
+../impactEffects/core/core_collins.py:538: AttributeError
+_______________________________ test_cal_vCrater _______________________________
+
+    def test_cal_vCrater():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_vCrater(impactor, targets)
+
+test_functions_collins.py:299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:492: in cal_vCrater
+    return collins_cal_vCrater(impactor, target, Dtr)
+../impactEffects/core/core_collins.py:713: in collins_cal_vCrater
+    Dtr = collins_cal_transient_crater_diameter(impactor, target)
+../impactEffects/core/core_collins.py:602: in collins_cal_transient_crater_diameter
+    Cd, beta = collins_cal_scaling_diameter_constant(impactor)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+target = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a898e0>
+
+    def collins_cal_scaling_diameter_constant(target: Target) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+    
+>       if target.type == 1:
+E       AttributeError: 'Impactor' object has no attribute 'type'
+
+../impactEffects/core/core_collins.py:538: AttributeError
+_______________________________ test_cal_vratio ________________________________
+
+    def test_cal_vratio():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_vratio(impactor, targets)
+
+test_functions_collins.py:308: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a98100>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a987f0>
+vCrater = None, Dtr = None, type = <Choices.Collins: 0>
+
+    def cal_vratio(impactor: Impactor, target: Target, vCrater: float = None, Dtr: float = None, type: Choices = Choices.Collins) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        if type is Choices.Collins:
+>           return collins_cal_vratio(impactor, target, vCrater, Dtr)
+E           NameError: name 'collins_cal_vratio' is not defined
+
+../impactEffects/functions/functions.py:509: NameError
+___________________________ test_cal_vCrater_vRation ___________________________
+
+    def test_cal_vCrater_vRation():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_vCrater_vRation(impactor, targets)
+
+test_functions_collins.py:317: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:526: in cal_vCrater_vRation
+    return collins_cal_vCrater_vRation(impactor, target, Dtr)
+../impactEffects/core/core_collins.py:730: in collins_cal_vCrater_vRation
+    Dtr = collins_cal_transient_crater_diameter(impactor, target)
+../impactEffects/core/core_collins.py:602: in collins_cal_transient_crater_diameter
+    Cd, beta = collins_cal_scaling_diameter_constant(impactor)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+target = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a23a00>
+
+    def collins_cal_scaling_diameter_constant(target: Target) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+    
+>       if target.type == 1:
+E       AttributeError: 'Impactor' object has no attribute 'type'
+
+../impactEffects/core/core_collins.py:538: AttributeError
+_________________________ test_cal_mratio_and_mcratio __________________________
+
+    def test_cal_mratio_and_mcratio():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_mratio_and_mcratio(impactor, targets)
+
+test_functions_collins.py:335: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:561: in cal_mratio_and_mcratio
+    return collins_cal_mratio_and_mcratio(impactor, target, velocity, vMelt, vCrater, Dtr)
+../impactEffects/core/core_collins.py:784: in collins_cal_mratio_and_mcratio
+    Dtr = collins_cal_transient_crater_diameter(impactor, target)
+../impactEffects/core/core_collins.py:602: in collins_cal_transient_crater_diameter
+    Cd, beta = collins_cal_scaling_diameter_constant(impactor)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+target = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a7a970>
+
+    def collins_cal_scaling_diameter_constant(target: Target) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+    
+>       if target.type == 1:
+E       AttributeError: 'Impactor' object has no attribute 'type'
+
+../impactEffects/core/core_collins.py:538: AttributeError
+____________________________ test_cal_eject_arrival ____________________________
+
+    def test_cal_eject_arrival():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_eject_arrival(impactor, targets)
+
+test_functions_collins.py:344: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:578: in cal_eject_arrival
+    return collins_cal_eject_arrival(impactor, target, altitudeBurst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97991280>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97991040>
+altitudeBurst = None
+
+    def collins_cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst: float = None):
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+>       if altitudeBurst > 0:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+../impactEffects/core/core_collins.py:806: TypeError
+__________________________ test_cal_ejecta_thickness ___________________________
+
+    def test_cal_ejecta_thickness():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_ejecta_thickness(impactor, targets)
+
+test_functions_collins.py:353: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:595: in cal_ejecta_thickness
+    return collins_cal_ejecta_thickness(impactor, target, altitudeBurst, Dtr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97aa9220>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97aa9ca0>
+altitudeBurst = None, Dtr = None
+
+    def collins_cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBurst: float = None, Dtr: float = None):
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+>       if altitudeBurst > 0:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+../impactEffects/core/core_collins.py:835: TypeError
+_______________________________ test_cal_themal ________________________________
+
+    def test_cal_themal():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_themal(impactor, targets)
+
+test_functions_collins.py:362: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a45940>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a45970>
+energy_surface = None, altitudeBurst = None, delta = None, velocity = None
+energy_megatons = None, type = <Choices.Collins: 0>
+
+    def cal_themal(impactor: Impactor, target: Target, energy_surface: float = None, altitudeBurst: float = None,
+                   delta: float = None, velocity: float = None, energy_megatons: float = None, type: Choices = Choices.Collins) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        if type is Choices.Collins:
+>           return collins_cal_ejecta_thickness(impactor, target, energy_surface, altitudeBurst, delta, velocity, energy_megatons)
+E           TypeError: collins_cal_ejecta_thickness() takes from 2 to 4 positional arguments but 7 were given
+
+../impactEffects/functions/functions.py:613: TypeError
+______________________________ test_cal_magnitude ______________________________
+
+    def test_cal_magnitude():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_magnitude(impactor, targets)
+
+test_functions_collins.py:371: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:630: in cal_magnitude
+    return collins_cal_magnitude(impactor, target, altitudeBurst, energy_seafloor)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a9ef70>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a9e6d0>
+altitudeBurst = None, energy_seafloor = None
+
+    def collins_cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: float = None, energy_seafloor: float = None):
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+>       if altitudeBurst > 0:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+../impactEffects/core/core_collins.py:901: TypeError
+_____________________________ test_cal_magnitude2 ______________________________
+
+    def test_cal_magnitude2():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_magnitude2(impactor, targets)
+
+test_functions_collins.py:380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:648: in cal_magnitude2
+    return collins_cal_magnitude2(impactor, target, altitudeBurst, energy_seafloor, distance, surface_wave_v, delta)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b979ccb50>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b979ccb80>
+energy_seafloor = None, altitudeBurst = None, distance = None
+surface_wave_v = None, delta = None
+
+    def collins_cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = None, altitudeBurst: float = None,
+                       distance: float = None, surface_wave_v: float = None, delta: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+>       if altitudeBurst > 0:
+E       TypeError: '>' not supported between instances of 'NoneType' and 'int'
+
+../impactEffects/core/core_collins.py:920: TypeError
+____________________________ test_cal_shock_arrival ____________________________
+
+    def test_cal_shock_arrival():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_shock_arrival(impactor, targets)
+
+test_functions_collins.py:389: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:665: in cal_shock_arrival
+    return collins_cal_shock_arrival(impactor, target, altitudeBurst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a9ef40>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a9e370>
+altitudeBurst = None
+
+    def collins_cal_shock_arrival(impactor: Impactor, target: Target, altitudeBurst: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        vsound = 330  # speed of sound in m/s
+        slantRange = 0  # in km
+    
+        # Arrival time is straight line distance divided by sound speed
+        # for air burst, distance is slant range from explosion
+>       slantRange = (target.get_distance() ** 2 + (altitudeBurst / 1000) ** 2) ** (1 / 2)
+E       TypeError: unsupported operand type(s) for /: 'NoneType' and 'int'
+
+../impactEffects/core/core_collins.py:957: TypeError
+________________________________ test_cal_vmax _________________________________
+
+    def test_cal_vmax():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_vmax(impactor, targets)
+
+test_functions_collins.py:398: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:682: in cal_vmax
+    return collins_cal_vmax(impactor, target, energy_blast, altitudeBurst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a2ce20>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a2cdc0>
+energy_blast = None, altitudeBurst = None
+
+    def collins_cal_vmax(impactor: Impactor, target: Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        Po = target.get_Po()
+        vsound = 330  # speed of sound in m/s
+        r_cross = 0  # radius at which relationship between overpressure and distance changes
+        # radius at which relationship between overpressure and distance changes (for surface burst)
+        r_cross0 = 290
+        op_cross = 75000  # overpressure at crossover
+        energy_ktons = 0  # energy in kilotons
+        d_scale = 0  # distance scaled for 1 kTon blast
+        d_smooth = 0
+        p_machT = 0
+        p_regT = 0
+    
+        # energy_ktons = 1000 * energy_megatons
+        energy_ktons = energy_blast
+    
+        # Scale distance to equivalent for a kiloton explosion
+>       sf = (energy_ktons) ** (1 / 3)
+E       TypeError: unsupported operand type(s) for ** or pow(): 'NoneType' and 'float'
+
+../impactEffects/core/core_collins.py:991: TypeError
+______________________________ test_cal_dec_level ______________________________
+
+    def test_cal_dec_level():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_dec_level(impactor, targets)
+
+test_functions_collins.py:408: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:699: in cal_dec_level
+    return collins_cal_dec_level(impactor, target, energy_blast, altitudeBurst)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a09160>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a09ac0>
+energy_blast = None, altitudeBurst = None
+
+    def collins_cal_dec_level(impactor: Impactor, target: Target, energy_blast: float = None, altitudeBurst: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        r_cross = 0  # radius at which relationship between overpressure and distance changes
+        # radius at which relationship between overpressure and distance changes (for surface burst)
+        r_cross0 = 290
+        op_cross = 75000  # overpressure at crossover
+        energy_ktons = 0  # energy in kilotons
+        d_scale = 0  # distance scaled for 1 kTon blast
+        d_smooth = 0
+        p_machT = 0
+        p_regT = 0
+    
+        # energy_ktons = 1000 * energy_megatons
+        energy_ktons = energy_blast
+    
+        # Scale distance to equivalent for a kiloton explosion
+>       sf = (energy_ktons) ** (1 / 3)
+E       TypeError: unsupported operand type(s) for ** or pow(): 'NoneType' and 'float'
+
+../impactEffects/core/core_collins.py:1053: TypeError
+_________________________ test_cal_TsunamiArrivalTime __________________________
+
+    def test_cal_TsunamiArrivalTime():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_TsunamiArrivalTime(impactor, targets)
+
+test_functions_collins.py:419: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:716: in cal_TsunamiArrivalTime
+    return collins_cal_TsunamiArrivalTime(impactor, target, wdiameter)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a233a0>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a23460>
+wdiameter = None
+
+    def collins_cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        TsunamiSpeed = 0  # Tsunami speed in m/s
+        TsunamiWavelength = 0  # Tsunami wavelength in m
+    
+        # Tsunami arrival time assumes linear wave theory
+>       TsunamiWavelength = 2. * wdiameter
+E       TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'
+
+../impactEffects/core/core_collins.py:1107: TypeError
+_______________________ test_cal_WaveAmplitudeUpperLimit _______________________
+
+    def test_cal_WaveAmplitudeUpperLimit():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_WaveAmplitudeUpperLimit(impactor, targets)
+
+test_functions_collins.py:428: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:733: in cal_WaveAmplitudeUpperLimit
+    return collins_cal_WaveAmplitudeUpperLimit(impactor, target, wdiameter)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a9eb80>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a9e460>
+wdiameter = None
+
+    def collins_cal_WaveAmplitudeUpperLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        MaxWaveAmplitude = 0  # Maximum rim wave amplitude
+        MaxWaveRadius = 0  # Radius where max rim wave is formed (upper estimate)
+        RimWaveExponent = 0  # Attenuation factor for rim wave
+    
+        # Define parameters
+        RimWaveExponent = 1.
+>       MaxWaveRadius = 0.001 * wdiameter
+E       TypeError: unsupported operand type(s) for *: 'float' and 'NoneType'
+
+../impactEffects/core/core_collins.py:1132: TypeError
+_______________________ test_cal_WaveAmplitudeLowerLimit _______________________
+
+    def test_cal_WaveAmplitudeLowerLimit():
+        impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                                 theta=45, depth=0, ttype=3)
+        targets = TargetClass.Target(depth=0, distance=75)
+    
+>       res = cal_WaveAmplitudeLowerLimit(impactor, targets)
+
+test_functions_collins.py:437: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../impactEffects/functions/functions.py:750: in cal_WaveAmplitudeLowerLimit
+    return collins_cal_WaveAmplitudeLowerLimit(impactor, target, wdiameter)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+impactor = <impactEffects.instances.ImpactorClass.Impactor object at 0x7f1b97a75460>
+target = <impactEffects.instances.TargetClass.Target object at 0x7f1b97a75f40>
+wdiameter = None
+
+    def collins_cal_WaveAmplitudeLowerLimit(impactor: Impactor, target: Target, wdiameter: float = None) -> float:
+        """
+    
+        Arguments
+        ---------
+    
+    
+        Returns
+        -------
+    
+        """
+        shallowness = 0  # Ratio of Impactor diameter to water depth
+        MaxWaveAmplitude = 0  # Maximum rim wave amplitude
+        MinWaveRadius = 0  # Radius where max rim wave is formed (lower estimate)
+        CollapseWaveRadius = 0  # Radius where collapse wave is formed
+        RimWaveExponent = 0  # Attenuation factor for rim wave
+        CollapseWaveExponent = 0  # Attenuation factor for collapse wave
+        MaxCollapseWaveAmplitude = 0  # Maximum collapse wave amplitude
+        CollapseWaveAmplitude = 0  # Amplitude of collapse wave at specified distance
+    
+        # Define parameters
+>       shallowness = impactor.get_pdiameter() / target.get_depth()
+E       ZeroDivisionError: division by zero
+
+../impactEffects/core/core_collins.py:1162: ZeroDivisionError
+=========================== short test summary info ============================
+FAILED test_functions_collins.py::test_iFactor - assert False
+FAILED test_functions_collins.py::test_burst_velocity_at_zero - ValueError: I...
+FAILED test_functions_collins.py::test_altitude_of_breakup - TypeError: altit...
+FAILED test_functions_collins.py::test_velocity_at_breakup - TypeError: veloc...
+FAILED test_functions_collins.py::test_dispersion_length_scale - TypeError: d...
+FAILED test_functions_collins.py::test_airburst_altitude - TypeError: unsuppo...
+FAILED test_functions_collins.py::test_dispersion_of_impactor - ValueError: I...
+FAILED test_functions_collins.py::test_cal_energy_blast_surface - UnboundLoca...
+FAILED test_functions_collins.py::test_cal_wdiameter - ValueError: Target dep...
+FAILED test_functions_collins.py::test_cal_transient_crater_diameter - Attrib...
+FAILED test_functions_collins.py::test_cal_vCrater - AttributeError: 'Impacto...
+FAILED test_functions_collins.py::test_cal_vratio - NameError: name 'collins_...
+FAILED test_functions_collins.py::test_cal_vCrater_vRation - AttributeError: ...
+FAILED test_functions_collins.py::test_cal_mratio_and_mcratio - AttributeErro...
+FAILED test_functions_collins.py::test_cal_eject_arrival - TypeError: '>' not...
+FAILED test_functions_collins.py::test_cal_ejecta_thickness - TypeError: '>' ...
+FAILED test_functions_collins.py::test_cal_themal - TypeError: collins_cal_ej...
+FAILED test_functions_collins.py::test_cal_magnitude - TypeError: '>' not sup...
+FAILED test_functions_collins.py::test_cal_magnitude2 - TypeError: '>' not su...
+FAILED test_functions_collins.py::test_cal_shock_arrival - TypeError: unsuppo...
+FAILED test_functions_collins.py::test_cal_vmax - TypeError: unsupported oper...
+FAILED test_functions_collins.py::test_cal_dec_level - TypeError: unsupported...
+FAILED test_functions_collins.py::test_cal_TsunamiArrivalTime - TypeError: un...
+FAILED test_functions_collins.py::test_cal_WaveAmplitudeUpperLimit - TypeErro...
+FAILED test_functions_collins.py::test_cal_WaveAmplitudeLowerLimit - ZeroDivi...
+======================== 25 failed, 17 passed in 0.55s =========================

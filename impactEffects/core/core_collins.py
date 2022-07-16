@@ -8,8 +8,8 @@ Version          :1.0
 '''
 import logging
 
-from impactEffects.instances.Impactor import *
-from impactEffects.instances.Targets import *
+from impactEffects.instances.ImpactorClass import *
+from impactEffects.instances.TargetClass import *
 from impactEffects.core.config import *
 
 
@@ -587,7 +587,7 @@ def collins_cal_wdiameter(impactor: Impactor, target: Target, anglefac: float = 
 
 
 def collins_cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd: float = None, beta: float = None,
-                                  anglefac: float = None, vseafloor: float = None) -> float:
+                                  anglefac: float = None, vseafloor: float = None, dispersion:float = None) -> float:
     """
 
     Arguments
@@ -606,12 +606,18 @@ def collins_cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd
 
     if vseafloor == None:
         vseafloor = collins_cal_velocity_projectile(impactor, target)
+    
+    if dispersion == None:
+        dispersion = collins_dispersion_of_impactor(impactor, target)
 
     mass, tdensity, g, pdiameter = impactor.get_mass(
     ), impactor.get_density(), target.get_g(), impactor.get_pdiameter()
     Dtr = Cd * ((mass / tdensity) ** (1 / 3)) * \
           ((1.61 * g * pdiameter) / (vseafloor * 1000) ** 2) ** (-beta)
     Dtr *= anglefac
+    
+    if dispersion >= Dtr:		# if crater field is formed, compute crater dimensions assuming 
+      Dtr /= 2;			# impact of largest fragment (with diameter = 1/2 initial diameter)
 
     return Dtr
 
@@ -707,23 +713,6 @@ def collins_cal_vCrater(impactor: Impactor, target: Target, Dtr: float = None) -
         Dtr = collins_cal_transient_crater_diameter(impactor, target)
 
     return (PI / 24) * (Dtr / 1000) ** 3
-
-
-def collins_cal_vratio(impactor: Impactor, target: Target, vCrater: float = None, Dtr: float = None) -> float:
-    """
-
-    Arguments
-    ---------
-
-
-    Returns
-    -------
-
-    """
-    if Dtr == None:
-        Dtr = collins_cal_transient_crater_diameter(impactor, target)
-    if vCrater == None:
-        vCrater = collins_cal_vCrater(impactor, target, Dtr)
 
 
 def collins_cal_vCrater_vRation(impactor: Impactor, target: Target, Dtr: float = None) -> float:

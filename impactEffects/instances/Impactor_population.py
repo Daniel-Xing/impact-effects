@@ -17,6 +17,7 @@ class Distribution:
 
 class nomal_distribution(Distribution):
     def __init__(self, mean, std):
+        super().__init__()
         self.mean = mean
         self.std = std
         return
@@ -25,6 +26,6 @@ class nomal_distribution(Distribution):
         return random.normalvariate(self.mean, self.std)
 
 
-class Impactor_population:
-    def __init__(self):
-        return
+# class Impactor_population:
+#     def __init__(self):
+#         return

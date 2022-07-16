@@ -1,3 +1,3 @@
-from . import Impactor, Impactor_population, Targets
+from . import Impactor_population, ImpactorClass, TargetClass
 
-__all__ = ["Impactor", "Impactor_population", "Targets"]
+__all__ = ["ImpactorClass", "Impactor_population", "TargetClass"]
