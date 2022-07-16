@@ -20,8 +20,7 @@ class Impactor:
         self.density = density
         self.velocity = velocity
         self.theta = theta
-
-        self.type = type
+        self.ttype = type
 
         self.mass = None
         self.energy0 = None
@@ -88,9 +87,6 @@ class Impactor:
 
     def get_velocity(self) -> float:
         return self.velocity
-
-    def get_type(self) -> int:
-        return self.type
 
     def get_mass(self) -> float:
         if self.mass < 0:

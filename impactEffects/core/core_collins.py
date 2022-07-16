@@ -523,7 +523,7 @@ def collins_cal_ePIcentral_angle(target: Target) -> float:
     return (180 / PI) * (target.get_distance() / target.get_R_earth())
 
 
-def collins_cal_scaling_diameter_constant(impactor: Impactor) -> float:
+def collins_cal_scaling_diameter_constant(target: Target) -> float:
     """
 
     Arguments
@@ -535,10 +535,10 @@ def collins_cal_scaling_diameter_constant(impactor: Impactor) -> float:
 
     """
 
-    if impactor.type == 1:
+    if target.type == 1:
         Cd = 1.88
         beta = 0.22
-    elif impactor.type == 2:
+    elif target.type == 2:
         Cd = 1.54
         beta = 0.165
     else:
