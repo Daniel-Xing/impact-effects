@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-'''
+"""
 Filename         :Impactor.py
 Description      :
 Time             :2022/07/10 09:38:24
 Author           :daniel
 Version          :1.0
-'''
+"""
 
 from impactEffects.core.config import *
 
@@ -51,11 +51,11 @@ class Impactor:
         # New model (after Bland and Artemieva (2006) MAPS 41 (607-621).
         if mass < 3:
             self.rec_time = 10 ** (-4.568) * mass ** 0.480
-        elif mass < 1.7E10:
+        elif mass < 1.7e10:
             self.rec_time = 10 ** (-4.739) * mass ** 0.926
-        elif mass < 3.3E12:
+        elif mass < 3.3e12:
             self.rec_time = 10 ** (0.922) * mass ** 0.373
-        elif mass < 8.4E14:
+        elif mass < 8.4e14:
             self.rec_time = 10 ** (-0.086) * mass ** 0.454
         else:
             self.rec_time = 10 ** (-3.352) * mass ** 0.672
@@ -99,5 +99,7 @@ class Impactor:
 
 
 if __name__ == "__main__":
-    impactor = Impactor(diameter=111, density=111, velocity=111,theta=45, depth=0, ttype=3)
+    impactor = Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     print(impactor.get_pdiameter())

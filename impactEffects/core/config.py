@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-'''
+"""
 Filename         :config.py
 Description      :
 Time             :2022/07/10 09:38:07
 Author           :daniel
 Version          :1.0
-'''
+"""
 
 import math
 from enum import Enum, unique
@@ -28,4 +28,4 @@ sqrt = math.sqrt
 
 @unique
 class Choices(Enum):
-    Collins = 0 
+    Collins = 0

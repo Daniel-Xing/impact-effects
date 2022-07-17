@@ -8,8 +8,9 @@ from ans_config import *
 
 
 def test_Kinetic_energy():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = kinetic_energy(impactor)
@@ -18,8 +19,9 @@ def test_Kinetic_energy():
 
 
 def test_kinetic_energy_megatons():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = kinetic_energy_megatons(impactor)
@@ -28,8 +30,9 @@ def test_kinetic_energy_megatons():
 
 
 def test_rec_time():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = rec_time(impactor)
@@ -38,8 +41,9 @@ def test_rec_time():
 
 
 def test_iFactor():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     collins_iFactor, _av, _rStrength = iFactor(impactor, targets)
@@ -48,8 +52,9 @@ def test_iFactor():
 
 
 def test_altitude_of_breakup():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = altitude_of_breakup(impactor, targets)
@@ -59,8 +64,9 @@ def test_altitude_of_breakup():
 
 
 def test_velocity_at_breakup():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = velocity_at_breakup(impactor, targets)
@@ -70,8 +76,9 @@ def test_velocity_at_breakup():
 
 
 def test_dispersion_length_scale():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = dispersion_length_scale(impactor, targets)
@@ -81,8 +88,9 @@ def test_dispersion_length_scale():
 
 
 def test_airburst_altitude():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = airburst_altitude(impactor, targets)
@@ -92,8 +100,9 @@ def test_airburst_altitude():
 
 
 def test_brust_velocity():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = brust_velocity(impactor, targets)
@@ -103,16 +112,18 @@ def test_brust_velocity():
 
 
 def test_dispersion_of_impactor():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = dispersion_of_impactor(impactor, targets)
 
 
 def test_fraction_of_momentum():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = fraction_of_momentum(impactor, targets)
@@ -123,8 +134,9 @@ def test_fraction_of_momentum():
 
 
 def test_cal_trot_change():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_trot_change(impactor, targets)
@@ -133,8 +145,9 @@ def test_cal_trot_change():
 
 
 def test_cal_energy_atmosphere():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_energy_atmosphere(impactor, targets)
@@ -143,8 +156,9 @@ def test_cal_energy_atmosphere():
 
 
 def test_cal_energy_blast_surface():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_energy_blast_surface(impactor, targets)
@@ -154,8 +168,9 @@ def test_cal_energy_blast_surface():
 
 
 def test_cal_mass_of_water():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_mass_of_water(impactor, targets)
@@ -164,8 +179,9 @@ def test_cal_mass_of_water():
 
 
 def test_cal_velocity_projectile():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_velocity_projectile(impactor, targets)
@@ -175,8 +191,9 @@ def test_cal_velocity_projectile():
 
 
 def test_cal_energy_at_seafloor():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_energy_at_seafloor(impactor, targets)
@@ -186,8 +203,9 @@ def test_cal_energy_at_seafloor():
 
 
 def test_cal_ePIcentral_angle():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_ePIcentral_angle(targets)
@@ -197,8 +215,9 @@ def test_cal_ePIcentral_angle():
 
 
 def test_cal_scaling_diameter_constant():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_scaling_diameter_constant(impactor)
@@ -209,8 +228,9 @@ def test_cal_scaling_diameter_constant():
 
 
 def test_cal_anglefac():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_anglefac(impactor)
@@ -220,8 +240,9 @@ def test_cal_anglefac():
 
 
 def test_cal_wdiameter():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     res = cal_wdiameter(impactor, targets)
@@ -232,8 +253,9 @@ def test_cal_wdiameter():
 
 
 def test_cal_transient_crater_diameter():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_transient_crater_diameter(impactor, targets)
@@ -243,8 +265,9 @@ def test_cal_transient_crater_diameter():
 
 
 def test_cal_depthr():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_depthr(impactor, targets)
@@ -254,8 +277,9 @@ def test_cal_depthr():
 
 
 def test_cal_cdiamater():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_cdiamater(impactor, targets)
@@ -265,8 +289,9 @@ def test_cal_cdiamater():
 
 
 def test_cal_depthfr():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_depthfr(impactor, targets)
@@ -276,8 +301,9 @@ def test_cal_depthfr():
 
 
 def test_cal_vCrater_vRation():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_vCrater_vRation(impactor, targets)
@@ -288,8 +314,9 @@ def test_cal_vCrater_vRation():
 
 
 def test_cal_vMelt():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_vMelt(impactor, targets)
@@ -299,8 +326,9 @@ def test_cal_vMelt():
 
 
 def test_cal_mratio_and_mcratio():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_mratio_and_mcratio(impactor, targets)
@@ -311,8 +339,9 @@ def test_cal_mratio_and_mcratio():
 
 
 def test_cal_eject_arrival():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111000, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     res = cal_eject_arrival(impactor, targets)
@@ -323,8 +352,9 @@ def test_cal_eject_arrival():
 
 
 def test_cal_ejecta_thickness():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111000, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     res = cal_ejecta_thickness(impactor, targets)
@@ -335,14 +365,27 @@ def test_cal_ejecta_thickness():
 
 
 def test_cal_themal():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111000, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
-    thermal_exposure_, no_radiation_, max_rad_time_, irradiation_time_, megaton_factor_, thermal_power_ =  \
-        cal_themal(impactor, targets)
-    thermal_exposure, no_radiation, max_rad_time, irradiation_time, megaton_factor, thermal_power = \
-        4.14356223682368, 0, 14.208291667122, 20466.8083549098, 69.9012618159051, 13
+    (
+        thermal_exposure_,
+        no_radiation_,
+        max_rad_time_,
+        irradiation_time_,
+        megaton_factor_,
+        thermal_power_,
+    ) = cal_themal(impactor, targets)
+    (
+        thermal_exposure,
+        no_radiation,
+        max_rad_time,
+        irradiation_time,
+        megaton_factor,
+        thermal_power,
+    ) = (4.14356223682368, 0, 14.208291667122, 20466.8083549098, 69.9012618159051, 13)
 
     assert np.allclose(thermal_exposure, thermal_exposure_)
     assert np.allclose(no_radiation, no_radiation_)
@@ -353,8 +396,9 @@ def test_cal_themal():
 
 
 def test_cal_magnitude():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111000, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     res = cal_magnitude(impactor, targets)
@@ -364,8 +408,9 @@ def test_cal_magnitude():
 
 
 def test_cal_magnitude2():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111000, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     eff_mag = 10.3894097245741
@@ -379,8 +424,9 @@ def test_cal_magnitude2():
 
 
 def test_cal_shock_arrival():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_shock_arrival(impactor, targets)
@@ -390,8 +436,9 @@ def test_cal_shock_arrival():
 
 
 def test_cal_vmax():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_vmax(impactor, targets)
@@ -399,8 +446,9 @@ def test_cal_vmax():
 
 
 def test_cal_dec_level():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_dec_level(impactor, targets)
@@ -409,8 +457,9 @@ def test_cal_dec_level():
 
 
 def test_cal_TsunamiArrivalTime():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     res = cal_TsunamiArrivalTime(impactor, targets)
@@ -421,8 +470,9 @@ def test_cal_TsunamiArrivalTime():
 
 
 def test_cal_WaveAmplitudeUpperLimit():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     res = cal_WaveAmplitudeUpperLimit(impactor, targets)
@@ -433,8 +483,9 @@ def test_cal_WaveAmplitudeUpperLimit():
 
 
 def test_cal_WaveAmplitudeLowerLimit():
-    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-                                                              theta=45, depth=0, ttype=3)
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+    )
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     res = cal_WaveAmplitudeLowerLimit(impactor, targets)

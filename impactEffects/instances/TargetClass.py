@@ -1,20 +1,35 @@
 # -*- encoding: utf-8 -*-
-'''
+"""
 Filename         :Targets.py
 Description      :
 Time             :2022/07/10 09:38:31
 Author           :daniel
 Version          :1.0
-'''
+"""
 
 
 class Target:
+    def __init__(
+        self,
+        depth,
+        distance,
+        density,
+        rhoSurface=1,
+        dragC=2,
+        schaleHeight=8000,
+        fp=7,
+        pEarth=1.794 * 10 ** 32,
+        mEarth=5.97 * 10 ** 24,
+        lEarth=5.86 * 10 ** 33,
+        g=9.8,
+        R_earth=6370,
+        surface_wave_v=5,
+        melt_coeff=8.9 * 10 ** -21,
+        vEarth=1.1 * 10 ** 12,
+        Po=10 ** 5,
+        seefloor_density=2700,
+    ):
 
-    def __init__(self, depth, distance, density, rhoSurface=1, dragC=2, schaleHeight=8000,
-                 fp=7, pEarth=1.794 * 10 ** 32, mEarth=5.97 * 10 ** 24,
-                 lEarth=5.86 * 10 ** 33, g=9.8, R_earth=6370, surface_wave_v=5,
-                 melt_coeff=8.9 * 10 ** -21, vEarth=1.1 * 10 ** 12, Po=10 ** 5, seefloor_density = 2700):
-        
         self.density = density
         self.rhoSurface = rhoSurface  # suface density of atmosphere kg/m^3
         self.dragC = dragC
@@ -79,6 +94,6 @@ class Target:
 
     def get_Po(self):
         return self.Po
-    
+
     def get_density(self):
         return self.density

@@ -1,3 +1,3 @@
 from . import impact
 
-__all__ = ['impact']
+__all__ = ["impact"]
