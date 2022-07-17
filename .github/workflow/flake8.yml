@@ -23,4 +23,4 @@ jobs:
     # add more file here
     - name: Lint with flake8
       run: |
-        pycodestyle $(find ./src -name "*.py")
+        pycodestyle $(find ./impactEffects -name "*.py")
