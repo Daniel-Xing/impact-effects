@@ -102,7 +102,7 @@ def burst_velocity_at_zero(impactor: Impactor, target: Target, type: Choices = C
 
 
 
-def altitude_of_breakup(scaleHeight: float, rStrength: float, iFactor: float, type: Choices = Choices.Collins) -> float:
+def altitude_of_breakup(impactor: Impactor, target: Target, collins_iFactor: float = None, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -115,12 +115,12 @@ def altitude_of_breakup(scaleHeight: float, rStrength: float, iFactor: float, ty
     """
 
     if type is Choices.Collins:
-        return collins_altitude_of_breakup(scaleHeight, rStrength, iFactor)
+        return collins_altitude_of_breakup(impactor, target, collins_iFactor)
 
     return None
 
 
-def velocity_at_breakup(velocity: float, av: float, altitudeBU: float, scaleHeight: float, type: Choices = Choices.Collins) -> float:
+def velocity_at_breakup(impactor: Impactor, target: Target, av: float = None, altitudeBU: float = None, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -133,13 +133,12 @@ def velocity_at_breakup(velocity: float, av: float, altitudeBU: float, scaleHeig
     """
 
     if type is Choices.Collins:
-        return collins_velocity_at_breakup(velocity, av, altitudeBU, scaleHeight)
-
+        return collins_velocity_at_breakup(impactor, target, av, altitudeBU)
+    
     return None
 
 
-def dispersion_length_scale(diameter: float, theta: float, density: float, dragC: float, rhoSurface: float,
-                            altitudeBU: float, scaleHeight: float, type: Choices = Choices.Collins) -> float:
+def dispersion_length_scale(impactor: Impactor, target: Target, altitudeBU: float = None, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -151,7 +150,7 @@ def dispersion_length_scale(diameter: float, theta: float, density: float, dragC
 
     """
     if type is Choices.Collins:
-        return collins_dispersion_length_scale(diameter, theta, density, dragC, rhoSurface, altitudeBU, scaleHeight)
+        return collins_dispersion_length_scale(impactor, target, altitudeBU)
 
     return None
 
@@ -212,7 +211,7 @@ def dispersion_of_impactor(impactor: Impactor, target: Target, l_disper: float =
     return None
 
 
-def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = None):
+def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = None, type: Choices = Choices.Collins) -> float: 
     """
 
     Arguments
@@ -230,7 +229,7 @@ def fraction_of_momentum(impactor: Impactor, target: Target, velocity: float = N
     return None
 
 
-def cal_trot_change(impactor: Impactor, target: Target, velocity: float = None):
+def cal_trot_change(impactor: Impactor, target: Target, velocity: float = None, type: Choices = Choices.Collins) -> float: 
     """
 
     Arguments
@@ -426,7 +425,7 @@ def cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd: float 
     return None
 
 
-def cal_depthr(impactor: Impactor, target: Target, Dtr: float = None):
+def cal_depthr(impactor: Impactor, target: Target, Dtr: float = None, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -443,7 +442,7 @@ def cal_depthr(impactor: Impactor, target: Target, Dtr: float = None):
     return None
 
 
-def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
+def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -460,7 +459,7 @@ def cal_cdiamater(impactor: Impactor, target: Target, Dtr: float = None):
     return None
 
 
-def cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: float = None, cdiameter: float = None):
+def cal_depthfr(impactor: Impactor, target: Target, Dtr: float = None, depthtr: float = None, cdiameter: float = None, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
