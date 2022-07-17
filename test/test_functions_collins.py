@@ -85,15 +85,6 @@ def test_iFactor():
     assert np.allclose(collins_iFactor, i_Factor)
 
 
-# def test_burst_velocity_at_zero():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
-
-    # res = burst_velocity_at_zero(impactor, targets)
-
-
-
 def test_altitude_of_breakup():
     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
                              theta=45, depth=0, ttype=3)
@@ -154,12 +145,12 @@ def test_brust_velocity():
 
 
 
-# def test_dispersion_of_impactor():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
+def test_dispersion_of_impactor():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
+                             theta=45, depth=0, ttype=3)
+    targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
-    # res = dispersion_of_impactor(impactor, targets)
+    res = dispersion_of_impactor(impactor, targets)
 
 
 
@@ -284,19 +275,13 @@ def test_cal_anglefac():
 def test_cal_wdiameter():
     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
                              theta=45, depth=0, ttype=3)
-    targets = TargetClass.Target(depth=0, distance=75, density=2500)
+    targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
-    # res = cal_wdiameter(impactor, targets)
-    # print(res)
-
-
-
-# def test_Kinetic_energy():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
-
-#     res = kinetic_energy(impactor, targets)
+    res = cal_wdiameter(impactor, targets)
+    wdiameter = 873.96211031212
+    print(res, wdiameter)
+    
+    assert np.allclose(res, wdiameter)
 
 
 
@@ -382,48 +367,75 @@ def test_cal_mratio_and_mcratio():
     assert np.allclose(res[1], mcratio)
 
 
-# def test_cal_eject_arrival():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
+def test_cal_eject_arrival():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
+                             theta=45, depth=0, ttype=3)
+    targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
-#     res = cal_eject_arrival(impactor, targets)
-
-
-
-# def test_cal_ejecta_thickness():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
-
-#     res = cal_ejecta_thickness(impactor, targets)
+    res = cal_eject_arrival(impactor, targets)
+    ejecta_arrival = 124.569530217127
+    print(res, ejecta_arrival)
+    
+    assert np.allclose(res, ejecta_arrival)
 
 
 
-# def test_cal_themal():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
+def test_cal_ejecta_thickness():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
+                             theta=45, depth=0, ttype=3)
+    targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
-#     res = cal_themal(impactor, targets)
-
-
-
-# def test_cal_magnitude():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
-
-#     res = cal_magnitude(impactor, targets)
+    res = cal_ejecta_thickness(impactor, targets)
+    ejecta_thickness = 143311.274150426
+    
+    print(res, ejecta_thickness)
+    assert np.allclose(res, ejecta_thickness)
 
 
 
-# def test_cal_magnitude2():
-#     impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111, density=111, velocity=111,
-#                              theta=45, depth=0, ttype=3)
-#     targets = TargetClass.Target(depth=0, distance=75, density=2500)
+def test_cal_themal():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
+                             theta=45, depth=0, ttype=3)
+    targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
-#     res = cal_magnitude2(impactor, targets)
+    thermal_exposure_, no_radiation_, max_rad_time_, irradiation_time_, megaton_factor_, thermal_power_ =  \
+        cal_themal(impactor, targets)
+    thermal_exposure, no_radiation, max_rad_time, irradiation_time, megaton_factor, thermal_power = \
+        4.14356223682368, 0, 14.208291667122, 20466.8083549098, 69.9012618159051, 13
+
+    assert np.allclose(thermal_exposure, thermal_exposure_)
+    assert np.allclose(no_radiation, no_radiation_)
+    assert np.allclose(max_rad_time, max_rad_time_)
+    assert np.allclose(irradiation_time, irradiation_time_)
+    assert np.allclose(megaton_factor, megaton_factor_)
+    assert np.allclose(thermal_power, thermal_power_)
+
+
+def test_cal_magnitude():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
+                             theta=45, depth=0, ttype=3)
+    targets = TargetClass.Target(depth=1111, distance=75, density=1000)
+
+    res = cal_magnitude(impactor, targets)
+    magnitude = 11.9138097245741
+    
+    assert np.allclose(res, magnitude)
+
+
+
+def test_cal_magnitude2():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(diameter=111000, density=111, velocity=111,
+                             theta=45, depth=0, ttype=3)
+    targets = TargetClass.Target(depth=1111, distance=75, density=1000)
+
+    eff_mag = 10.3894097245741
+    seismic_arrival = 15
+    res = cal_magnitude2(impactor, targets)
+    
+    print(res)
+    
+    assert np.allclose(res[0], eff_mag)
+    assert np.allclose(res[1], seismic_arrival)
 
 
 

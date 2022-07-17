@@ -597,7 +597,7 @@ def cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBurst: floa
 
 
 def cal_themal(impactor: Impactor, target: Target, energy_surface: float = None, altitudeBurst: float = None,
-               delta: float = None, velocity: float = None, energy_megatons: float = None, type: Choices = Choices.Collins) -> float:
+               delta: float = None, velocity: float = None, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -609,7 +609,7 @@ def cal_themal(impactor: Impactor, target: Target, energy_surface: float = None,
 
     """
     if type is Choices.Collins:
-        return collins_cal_ejecta_thickness(impactor, target, energy_surface, altitudeBurst, delta, velocity, energy_megatons)
+        return collins_cal_themal(impactor, target, energy_surface, altitudeBurst, delta, velocity)
 
     return None
 
@@ -644,7 +644,7 @@ def cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = 
 
     """
     if type is Choices.Collins:
-        return collins_cal_magnitude2(impactor, target, altitudeBurst, energy_seafloor, distance, surface_wave_v, delta)
+        return collins_cal_magnitude2(impactor, target, altitudeBurst, energy_seafloor, delta)
 
     return None
 

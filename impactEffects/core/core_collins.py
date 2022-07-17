@@ -582,7 +582,6 @@ def collins_cal_wdiameter(impactor: Impactor, target: Target, anglefac: float = 
     # update tdensity which should be return as value
     logging.log(
         logging.INFO, "update the impactor density for seafloor: {}".format(wdiameter))
-    target.density = 2700
 
     return wdiameter
 
@@ -611,9 +610,15 @@ def collins_cal_transient_crater_diameter(impactor: Impactor, target: Target, Cd
     if dispersion == None:
         dispersion = collins_dispersion_of_impactor(impactor, target)
 
-    mass, tdensity, g, pdiameter = impactor.get_mass(
-    ), target.get_density(), target.get_g(), impactor.get_pdiameter()
-    # print("mass: {}, tdensity: {}, g: {}, pdiameter: {}".format(mass, tdensity, g, pdiameter))
+    mass, g, pdiameter = impactor.get_mass(
+    ), target.get_g(), impactor.get_pdiameter()
+    
+    if target.depth != 0:
+        tdensity = target.seefloor_density
+    else:
+        tdensity = target.density
+    
+    print("mass: {}, tdensity: {}, g: {}, pdiameter: {}".format(mass, tdensity, g, pdiameter))
     Dtr = Cd * ((mass / tdensity) ** (1 / 3)) * \
           ((1.61 * g * pdiameter) / (vseafloor * 1000) ** 2) ** (-beta)
     Dtr *= anglefac
@@ -805,6 +810,15 @@ def collins_cal_eject_arrival(impactor: Impactor, target: Target, altitudeBurst:
     -------
 
     """
+    if altitudeBurst == None:
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(impactor, target, i_factor, _rStrength)
+        lDisper = collins_dispersion_length_scale(impactor, target, altitudeBU)
+
+        alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+        altitudeBurst = collins_airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU)
+        
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
@@ -834,15 +848,29 @@ def collins_cal_ejecta_thickness(impactor: Impactor, target: Target, altitudeBur
     -------
 
     """
+    if altitudeBurst == None:
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(impactor, target, i_factor, _rStrength)
+        lDisper = collins_dispersion_length_scale(impactor, target, altitudeBU)
+
+        alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+        altitudeBurst = collins_airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU)
+        
+    if Dtr == None:
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
+        
+        
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
+    print("Dtr: ", Dtr, " distance: ", target.distance)
     ejecta_thickness = Dtr ** 4 / (112 * (target.get_distance() * 1000) ** 3)
     return ejecta_thickness
 
 
 def collins_cal_themal(impactor: Impactor, target: Target, energy_surface: float = None, altitudeBurst: float = None,
-               delta: float = None, velocity: float = None, energy_megatons: float = None):
+               delta: float = None, velocity: float = None):
     """
 
     Arguments
@@ -853,16 +881,37 @@ def collins_cal_themal(impactor: Impactor, target: Target, energy_surface: float
     -------
 
     """
+    
+    
+    if altitudeBurst == None:
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(impactor, target, i_factor, _rStrength)
+        lDisper = collins_dispersion_length_scale(impactor, target, altitudeBU)
+
+        alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+        altitudeBurst = collins_airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU)
+        
+    if velocity == None:
+        velocity = collins_brust_velocity(impactor, target, altitudeBurst=altitudeBurst, altitudeBU= altitudeBU, lDisper= lDisper)
+        
+    if energy_surface == None:
+        _, energy_surface = collins_cal_energy_blast_surface(impactor, target)
+        
+    if delta == None:
+        delta = collins_cal_ePIcentral_angle(target=target)
+    
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
+    energy_megatons = energy_surface / (4.186 * 10**15)
     eta = 3 * 10 ** -3  # factor for scaling thermal energy
     T_star = 3000  # temperature of fireball
     Rf = 2 * 10 ** -6 * (energy_surface) ** (1 / 3)  # Rf is in km
     sigma = 5.67 * 10 ** -8  # Stephan-Boltzmann constant
 
     thermal_exposure = (eta * energy_surface) / \
-                       (2 * PI * (target.get_distance * 1000) ** 2)
+                       (2 * PI * (target.get_distance() * 1000) ** 2)
 
     # h is in km, R_earth is in km
     h = (1 - cos(delta * PI / 180)) * target.get_R_earth()
@@ -900,6 +949,19 @@ def collins_cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: flo
     -------
 
     """
+    if altitudeBurst == None:
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(impactor, target, i_factor, _rStrength)
+        lDisper = collins_dispersion_length_scale(impactor, target, altitudeBU)
+
+        alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+        altitudeBurst = collins_airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU)
+    
+    if energy_seafloor == None:
+        energy_seafloor = collins_cal_energy_at_seafloor(impactor, target)
+        
+    
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
@@ -908,7 +970,7 @@ def collins_cal_magnitude(impactor: Impactor, target: Target, altitudeBurst: flo
 
 
 def collins_cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: float = None, altitudeBurst: float = None,
-                   distance: float = None, surface_wave_v: float = None, delta: float = None) -> float:
+                    delta: float = None) -> float:
     """
 
     Arguments
@@ -919,12 +981,29 @@ def collins_cal_magnitude2(impactor: Impactor, target: Target, energy_seafloor: 
     -------
 
     """
+    if altitudeBurst == None:
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(impactor, target, i_factor, _rStrength)
+        lDisper = collins_dispersion_length_scale(impactor, target, altitudeBU)
+
+        alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+        altitudeBurst = collins_airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU)
+    
+    if energy_seafloor == None:
+        energy_seafloor = collins_cal_energy_at_seafloor(impactor, target)
+        
+    if delta == None:
+        delta = collins_cal_ePIcentral_angle(target=target)
+    
     if altitudeBurst > 0:
         raise ValueError("Altitude of burst is greater than 0")
 
     Ax = 0  # factor for determining "effective magnitude" at given distance
-    magnitude = collins_cal_magnitude(impactor, target, energy_seafloor)
-
+    magnitude = collins_cal_magnitude(impactor, target, altitudeBurst=altitudeBurst, energy_seafloor=energy_seafloor)
+    distance = target.distance
+    surface_wave_v = target.surface_wave_v
+    
     if distance >= 700:
         Ax = 20 * 10 ** (magnitude - 1.66 * (log(delta) / log(10)) - 3.3)
         Ax /= 1000
@@ -1145,8 +1224,10 @@ def collins_cal_TsunamiArrivalTime(impactor: Impactor, target: Target, wdiameter
 
     # Tsunami arrival time assumes linear wave theory
     TsunamiWavelength = 2. * wdiameter
+    print("TsunamiWavelength: ", TsunamiWavelength)
     TsunamiSpeed = sqrt(0.5 * target.get_g() * TsunamiWavelength / PI *
                         tanh(2. * PI * target.get_depth() / TsunamiWavelength))
+    print("TsunamiSpeed: ", TsunamiSpeed)
     TsunamiArrivalTime = target.get_distance() * 1000 / TsunamiSpeed
 
     return TsunamiArrivalTime
