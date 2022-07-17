@@ -1,3 +1,3 @@
-from . import functions
+from . import function
 
-__all__ = ["functions"]
+__all__ = ["function"]

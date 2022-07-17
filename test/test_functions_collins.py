@@ -2,7 +2,7 @@ import numpy as np
 from sympy import re
 import impactEffects.instances.ImpactorClass
 from impactEffects.functions import *
-from impactEffects.functions.functions import *
+from impactEffects.functions.function import *
 from impactEffects.instances import ImpactorClass, TargetClass
 from ans_config import *
 
@@ -385,7 +385,14 @@ def test_cal_themal():
         irradiation_time,
         megaton_factor,
         thermal_power,
-    ) = (4.14356223682368, 0, 14.208291667122, 20466.8083549098, 69.9012618159051, 13)
+    ) = (
+        4.14356223682368,
+        0,
+        14.208291667122,
+        20466.8083549098,
+        69.9012618159051,
+        13,
+    )
 
     assert np.allclose(thermal_exposure, thermal_exposure_)
     assert np.allclose(no_radiation, no_radiation_)

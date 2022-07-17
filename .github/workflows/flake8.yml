@@ -23,4 +23,7 @@ jobs:
     # add more file here
     - name: Lint with flake8
       run: |
-        pycodestyle $(find ./impactEffects -name "*.py")
+        pycodestyle ./impactEffects/core/core_collins.py
+        pycodestyle ./impactEffects/examples/impact.py
+        pycodestyle ./impactEffects/functions/function.py
+        pycodestyle ./impactEffects/instances/*.py

@@ -6,7 +6,6 @@ Time             :2022/07/10 09:37:51
 Author           :daniel
 Version          :1.0
 """
-import logging
 
 from impactEffects.instances.ImpactorClass import *
 from impactEffects.instances.TargetClass import *
@@ -14,12 +13,14 @@ from impactEffects.core.config import *
 from impactEffects.core.core_collins import *
 
 
-def kinetic_energy(impactor: Impactor, type: Choices = Choices.Collins) -> float:
+def kinetic_energy(
+    impactor: Impactor, type: Choices = Choices.Collins
+) -> float:
     """
 
     Arguments
     ---------
-    impactor: Instance of Impactor, containning 
+    impactor: Instance of Impactor, containning
 
     Returns
     -------
@@ -125,7 +126,9 @@ def altitude_of_breakup(
     """
 
     if type is Choices.Collins:
-        return collins_altitude_of_breakup(impactor, target, collins_iFactor)
+        return collins_altitude_of_breakup(
+            impactor, target, collins_iFactor
+        )
 
     return None
 
@@ -149,7 +152,9 @@ def velocity_at_breakup(
     """
 
     if type is Choices.Collins:
-        return collins_velocity_at_breakup(impactor, target, av, altitudeBU)
+        return collins_velocity_at_breakup(
+            impactor, target, av, altitudeBU
+        )
 
     return None
 
@@ -171,7 +176,9 @@ def dispersion_length_scale(
 
     """
     if type is Choices.Collins:
-        return collins_dispersion_length_scale(impactor, target, altitudeBU)
+        return collins_dispersion_length_scale(
+            impactor, target, altitudeBU
+        )
 
     return None
 
@@ -195,7 +202,9 @@ def airburst_altitude(
 
     """
     if type is Choices.Collins:
-        return collins_airburst_altitude(impactor, target, alpha2, lDisper, altitudeBU)
+        return collins_airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU
+        )
 
     return None
 
@@ -415,7 +424,9 @@ def cal_energy_at_seafloor(
     return None
 
 
-def cal_ePIcentral_angle(target: Target, type: Choices = Choices.Collins) -> float:
+def cal_ePIcentral_angle(
+    target: Target, type: Choices = Choices.Collins
+) -> float:
     """
 
     Arguments
@@ -453,7 +464,9 @@ def cal_scaling_diameter_constant(
     return None
 
 
-def cal_anglefac(impactor: Impactor, type: Choices = Choices.Collins) -> float:
+def cal_anglefac(
+    impactor: Impactor, type: Choices = Choices.Collins
+) -> float:
     """
 
     Arguments
@@ -584,7 +597,9 @@ def cal_depthfr(
 
     """
     if type is Choices.Collins:
-        return collins_cal_depthfr(impactor, target, Dtr, depthtr, cdiameter)
+        return collins_cal_depthfr(
+            impactor, target, Dtr, depthtr, cdiameter
+        )
 
     return None
 
@@ -674,7 +689,9 @@ def cal_vMelt(
 
     """
     if type is Choices.Collins:
-        return collins_cal_vMelt(impactor, target, velocity, energy_seafloor)
+        return collins_cal_vMelt(
+            impactor, target, velocity, energy_seafloor
+        )
 
     return None
 
@@ -746,7 +763,9 @@ def cal_ejecta_thickness(
 
     """
     if type is Choices.Collins:
-        return collins_cal_ejecta_thickness(impactor, target, altitudeBurst, Dtr)
+        return collins_cal_ejecta_thickness(
+            impactor, target, altitudeBurst, Dtr
+        )
 
     return None
 
@@ -772,7 +791,12 @@ def cal_themal(
     """
     if type is Choices.Collins:
         return collins_cal_themal(
-            impactor, target, energy_surface, altitudeBurst, delta, velocity
+            impactor,
+            target,
+            energy_surface,
+            altitudeBurst,
+            delta,
+            velocity,
         )
 
     return None
@@ -796,7 +820,9 @@ def cal_magnitude(
 
     """
     if type is Choices.Collins:
-        return collins_cal_magnitude(impactor, target, altitudeBurst, energy_seafloor)
+        return collins_cal_magnitude(
+            impactor, target, altitudeBurst, energy_seafloor
+        )
 
     return None
 
@@ -869,7 +895,9 @@ def cal_vmax(
 
     """
     if type is Choices.Collins:
-        return collins_cal_vmax(impactor, target, energy_blast, altitudeBurst)
+        return collins_cal_vmax(
+            impactor, target, energy_blast, altitudeBurst
+        )
 
     return None
 
@@ -892,7 +920,9 @@ def cal_dec_level(
 
     """
     if type is Choices.Collins:
-        return collins_cal_dec_level(impactor, target, energy_blast, altitudeBurst)
+        return collins_cal_dec_level(
+            impactor, target, energy_blast, altitudeBurst
+        )
 
     return None
 
@@ -936,7 +966,9 @@ def cal_WaveAmplitudeUpperLimit(
 
     """
     if type is Choices.Collins:
-        return collins_cal_WaveAmplitudeUpperLimit(impactor, target, wdiameter)
+        return collins_cal_WaveAmplitudeUpperLimit(
+            impactor, target, wdiameter
+        )
 
     return None
 
@@ -958,6 +990,8 @@ def cal_WaveAmplitudeLowerLimit(
 
     """
     if type is Choices.Collins:
-        return collins_cal_WaveAmplitudeLowerLimit(impactor, target, wdiameter)
+        return collins_cal_WaveAmplitudeLowerLimit(
+            impactor, target, wdiameter
+        )
 
     return None
