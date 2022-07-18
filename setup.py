@@ -4,7 +4,8 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='impactEffects',
-      use_scm_version=True,
+      #   use_scm_version=True,
+      version="0.0.1",
       setup_requires=['setuptools_scm'],
       description="Environment for MPM assessment 3.",
       long_description="Environment for MPM assessement 3.",
@@ -14,6 +15,4 @@ setup(name='impactEffects',
       packages=['impactEffects'])
 
 with open("README.md", "r") as fh:
-  long_description = fh.read()
-
-
+    long_description = fh.read()
