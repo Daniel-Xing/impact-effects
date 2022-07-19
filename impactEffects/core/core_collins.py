@@ -144,7 +144,8 @@ def collins_burst_velocity_at_zero(
 
     # check
     if i_factor < 1:
-        raise ValueError("I_factor should be greater than 1!")
+        logging.warning("I_factor should be greater than 1!")
+        return None
 
     # Burst altitude is zero
     altitudeBurst = 0
@@ -738,7 +739,8 @@ def collins_cal_wdiameter(
 
     """
     if target.depth == 0:
-        raise ValueError("Target depth is 0")
+        logging.warning("Target depth is 0")
+        return None
 
     if velocity is None:
         velocity = collins_brust_velocity(impactor, target)
@@ -985,7 +987,8 @@ def collins_cal_vMelt(
         energy_seafloor = collins_cal_energy_at_seafloor(impactor, target)
 
     if velocity < 12:
-        raise ValueError("Velocity is less than 12 m/s")
+        logging.warning("Velocity is less than 12 m/s")
+        return None
 
     vMelt = (
         target.get_melt_coeff()
@@ -1020,7 +1023,8 @@ def collins_cal_mratio_and_mcratio(
         velocity = collins_brust_velocity(impactor, target)
 
     if velocity < 12:
-        raise ValueError("Velocity is less than 12 m/s")
+        logging.warning("Velocity is less than 12 m/s")
+        return None, None
 
     if Dtr is None:
         Dtr = collins_cal_transient_crater_diameter(impactor, target)
@@ -1062,7 +1066,8 @@ def collins_cal_eject_arrival(
         )
 
     if altitudeBurst > 0:
-        raise ValueError("Altitude of burst is greater than 0")
+        logging.warning("Altitude of burst is greater than 0")
+        return None
 
     phi = (target.get_distance()) / (2 * target.get_R_earth())
     X = (2 * tan(phi)) / (1 + tan(phi))
@@ -1117,7 +1122,8 @@ def collins_cal_ejecta_thickness(
         Dtr = collins_cal_transient_crater_diameter(impactor, target)
 
     if altitudeBurst > 0:
-        raise ValueError("Altitude of burst is greater than 0")
+        logging.warning("Altitude of burst is greater than 0")
+        return None
 
     print("Dtr: ", Dtr, " distance: ", target.distance)
     ejecta_thickness = Dtr ** 4 / (
@@ -1177,7 +1183,15 @@ def collins_cal_themal(
         delta = collins_cal_ePIcentral_angle(target=target)
 
     if altitudeBurst > 0:
-        raise ValueError("Altitude of burst is greater than 0")
+        logging.warning("Altitude of burst is greater than 0")
+
+        return (None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                )
 
     energy_megatons = energy_surface / (4.186 * 10 ** 15)
     eta = 3 * 10 ** -3  # factor for scaling thermal energy
@@ -1256,7 +1270,8 @@ def collins_cal_magnitude(
         energy_seafloor = collins_cal_energy_at_seafloor(impactor, target)
 
     if altitudeBurst > 0:
-        raise ValueError("Altitude of burst is greater than 0")
+        logging.warning("Altitude of burst is greater than 0")
+        return None
 
     magnitude = 0.67 * ((log(energy_seafloor)) / (log(10))) - 5.87
     return magnitude
@@ -1300,7 +1315,8 @@ def collins_cal_magnitude2(
         delta = collins_cal_ePIcentral_angle(target=target)
 
     if altitudeBurst > 0:
-        raise ValueError("Altitude of burst is greater than 0")
+        logging.warning("Altitude of burst is greater than 0")
+        return None, None
 
     Ax = 0  # factor for determining "effective magnitude" at given distance
     magnitude = collins_cal_magnitude(
