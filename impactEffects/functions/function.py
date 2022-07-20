@@ -945,6 +945,8 @@ def cal_TsunamiArrivalTime(
     """
     if type is Choices.Collins:
         return collins_cal_TsunamiArrivalTime(impactor, target, wdiameter)
+    elif type is Choices.Example:
+        return NotImplementedError("Error")
 
     return None
 

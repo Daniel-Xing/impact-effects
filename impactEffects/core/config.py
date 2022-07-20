@@ -29,3 +29,4 @@ sqrt = math.sqrt
 @unique
 class Choices(Enum):
     Collins = 0
+    Example = 256

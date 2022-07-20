@@ -6,6 +6,8 @@ from impactEffects.functions.function import *
 from impactEffects.instances import ImpactorClass, TargetClass
 from ans_config import *
 
+# TODO： add the test for more cases
+
 
 def test_Kinetic_energy():
     impactor = impactEffects.instances.ImpactorClass.Impactor(
