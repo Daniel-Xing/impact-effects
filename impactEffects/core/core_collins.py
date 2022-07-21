@@ -740,7 +740,7 @@ def collins_cal_wdiameter(
     """
     if target.depth == 0:
         logging.warning("Target depth is 0")
-        return None
+        exit(0)
 
     if velocity is None:
         velocity = collins_brust_velocity(impactor, target)
@@ -791,7 +791,7 @@ def collins_cal_transient_crater_diameter(
 
     """
     if Cd is None or beta is None:
-        Cd, beta = collins_cal_scaling_diameter_constant(impactor)
+        Cd, beta = collins_cal_scaling_diameter_constant(target=target)
 
     if anglefac is None:
         anglefac = collins_cal_anglefac(impactor)

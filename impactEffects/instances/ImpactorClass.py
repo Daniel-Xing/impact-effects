@@ -15,12 +15,12 @@ class Impactor:
     __init__
     """
 
-    def __init__(self, diameter, density, velocity, theta, depth, ttype):
+    def __init__(self, diameter, density, velocity, theta):
         self.pdiameter = diameter
         self.density = density
         self.velocity = velocity
         self.theta = theta
-        self.ttype = ttype
+        # self.ttype = ttype
 
         self.mass = None
         self.energy0 = None
@@ -100,6 +100,6 @@ class Impactor:
 
 if __name__ == "__main__":
     impactor = Impactor(
-        diameter=111, density=111, velocity=111, theta=45, depth=0, ttype=3
+        diameter=111, density=111, velocity=111, theta=45
     )
     print(impactor.get_pdiameter())

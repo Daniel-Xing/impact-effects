@@ -445,7 +445,7 @@ def cal_ePIcentral_angle(
 
 
 def cal_scaling_diameter_constant(
-    impactor: Impactor, type: Choices = Choices.Collins
+    target: Target, type: Choices = Choices.Collins
 ) -> float:
     """
 
@@ -459,7 +459,7 @@ def cal_scaling_diameter_constant(
     """
 
     if type is Choices.Collins:
-        return collins_cal_scaling_diameter_constant(impactor)
+        return collins_cal_scaling_diameter_constant(target=target)
 
     return None
 

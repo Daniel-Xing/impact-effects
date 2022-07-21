@@ -14,6 +14,7 @@ class Target:
         depth,
         distance,
         density,
+        ttype = 3,
         rhoSurface=1,
         dragC=2,
         schaleHeight=8000,
@@ -47,6 +48,7 @@ class Target:
         self.distance = distance
         self.Po = Po
         self.seefloor_density = seefloor_density
+        self.ttype = ttype
 
         return
 
