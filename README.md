@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/tensorflow.svg?style=plastic)](https://badge.fury.io/py/tensorflow)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
-> [English](./doc/README_ZH.md) | 中文
+> English | [中文](./doc/README_ZH.md)
 
 
 ## 🍞 Features

@@ -10,7 +10,6 @@ from impactEffects.utils.print import print_airblast, print_change, print_ejecta
 
 
 def get_input():
-    input_fail = True 
     while True:
         pdiameter = float(input("please input diameter of impactor: "))
         pdensity = float(input("please input density of impactor: "))
@@ -159,6 +158,5 @@ def simulateImpactor(impartor: Impactor, targets: Target):
 
 if __name__ == "__main__":
     impactor, target = get_input()
-    # print(impactor.get_density())
     simulateImpactor(impactor, target)
     
