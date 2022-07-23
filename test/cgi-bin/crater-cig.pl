@@ -857,7 +857,7 @@ sub find_thermal
     my $eta = 3 * 10**-3;	                ## factor for scaling thermal energy
     my $T_star = 3000;		                ## temperature of fireball
     $Rf = 2* 10**-6* ($energy_surface)**(1/3);  ## Rf is in km
-    print "Rf = $Rf \n"
+    print "Rf = $Rf \n";
     my $sigma = 5.67 * 10**-8;	                ## Stephan-Boltzmann constant
   
     $thermal_exposure = ($eta * $energy_surface)/(2 * $pi * ($distance* 1000)**2);

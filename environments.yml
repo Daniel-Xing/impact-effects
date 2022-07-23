@@ -3,7 +3,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
- - pip==21.0.1
+ - pip
  - ipython
  - jupyter
  - numpy
@@ -11,5 +11,7 @@ dependencies:
  - scikit-learn
  - pandas
  - sphinx
+ - build
+ - twine
  - pip:
    - -r requirements.txt
