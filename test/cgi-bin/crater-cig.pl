@@ -140,7 +140,7 @@ sub get_data
 {
 
 	# $pdiameter = param("diam");
-  $pdiameter = 111;
+  $pdiameter = 1110000;
 	# $pdensity = param('pdens');
   $pdensity = 111;
 

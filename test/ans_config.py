@@ -1,3 +1,6 @@
+# Case1: Impactor(diameter=111, density=111, velocity=111, theta=45),
+#            Target(depth=0, distance=75, density=2500) - small size of Impactor
+
 mass = 79485913.655865
 energy0 = 4.89672971076956e17
 energy0_megatons = 116.978731743181
@@ -36,3 +39,119 @@ mcratio = 0.00172094753892272
 shock_arrival = 236.817895112731
 vmax = 14.6105435123175
 dec_level = 76.0763196239768
+
+# Case2: Impactor(diameter=111, density=111, velocity=111, theta=45),
+#            Target(depth=1111, distance=75, density=1000) - small size of Impactor, with wdepth is not zero
+
+c2_mass = 79485913.655865
+c2_energy0 = 4.89672971076956e+17
+c2_energy0_megatons = 116.978731743181
+c2_rec_time = 4303.63077758262
+c2_i_Factor = 1.76668348132175e-07
+c2_altitudeBU = 134913.980633488
+c2_vBU = 110999.992750236
+c2_lDisper = 2685214.70569087
+c2_altitudeBurst = 21963.7818243691
+c2_velocity = 12.1758027204639
+c2_linmom = 967804803729.638
+c2_angmom = 4.35925722505549e+15
+c2_new_energy0 = 4.89672971076956e+17
+c2_lratio = 7.43900550350766e-19
+c2_pratio = 5.39467560607379e-21
+c2_trot_change = 5.3449948652072e-11
+c2_energy_atmosphere = 4.83781070895892e+17
+c2_vInput = 111
+c2_velocity = 12.1758027204639
+c2_energy_blast = 115571.206616314
+c2_energy_surface = 4.83781070895892e+17
+c2_mwater = 15204243523.1437
+c2_vseafloor = 1.70072358813468e-72
+c2_energy_seafloor = 1.14954941650126e-130
+c2_delta = 0.674597659836708
+c2_anglefac = 0.890898521133585
+c2_Cd = 1.6
+c2_beta = 0.22
+c2_wdiameter = 873.96211031212
+c2_anglefac = 0.890898521133585
+c2_Dtr = 4.69382306734157e-30
+c2_depthtr = 1.6597677041519e-30
+c2_cdiameter = 5.86727883417696e-30
+c2_depthfr = 1.24900271303198e-30
+c2_vCrater = 1.35368746979364e-98
+c2_vratio = 1.23062497253968e-110
+c2_vMelt = 7.23439747139641e-151
+c2_mratio = 6.57672497399674e-163
+c2_mcratio = 5.34421543585627e-53
+c2_shock_arrival = 236.817895112731
+c2_vmax = 14.6105435123175
+c2_dec_level = 76.0763196239768
+c2_TsunamiWavelength = 1747.92422062424
+c2_TsunamiSpeed = 52.1959778578941
+c2_tdensity = 2700
+c2_TsunamiArrivalTime = 1436.89232538551
+c2_WaveAmplitudeUpperLimit = 0.712889118910467
+c2_WaveAmplitudeLowerLimit = 0.00103553906729725
+
+
+# Case3: Impactor(diameter=1110000, density=111, velocity=111, theta=45),
+#            Target(depth=1111, distance=75, density=1000) - large size of Impactor, with wdepth is not zero
+
+c3_mass = 7.9485913655865e+19
+c3_energy0 = 4.89672971076956e+29
+c3_energy0_megatons = 116978731743181
+c3_rec_time = 7478853131914.41
+c3_i_Factor = 1.76668348132175e-11
+c3_altitudeBU = 134913.981110444
+c3_vBU = 110999.999999275
+c3_lDisper = 26852147857.3661
+c3_altitudeBurst = -125387.910723571
+c3_dispersion = 1110004.153695
+c3_velocity = 110.984712190262
+c3_linmom = 8.82172125027616e+24
+c3_angmom = 3.97354424668002e+28
+c3_new_energy0 = 4.89672971076956e+29
+c3_lratio = 6.78079222982939e-06
+c3_pratio = 4.91734740818069e-08
+c3_trot_change = 487.206248649573
+c3_energy_atmosphere = 1.34874084649689e+26
+c3_vInput = 111
+c3_velocity = 110.984712190262
+c3_energy_blast = 1.16946511464956e+17
+c3_energy_surface = 4.89538096992307e+29
+c3_mwater = 1520424352314370000
+c3_vseafloor = 109.138422906073
+c3_energy_seafloor = 4.73386122739974e+29
+c3_delta = 0.674597659836708
+c3_anglefac = 0.890898521133585
+c3_Cd = 1.6
+c3_beta = 0.22
+c3_wdiameter = 3046417.69932654
+c3_Cd = 1.6
+c3_mass = 7.9485913655865e+19
+c3_tdensity = 2700
+c3_g = 9.8
+c3_pdiameter = 1110000
+c3_vseafloor = 109.138422906073
+c3_g = 9.8
+c3_beta = 0.22
+c3_anglefac = 0.890898521133585
+c3_Dtr = 1848238.65010135
+c3_dispersion = 1110004.153695
+c3_depthtr = 653549.734830746
+c3_cdiameter = 4942571.47834878
+c3_depthfr = 3828.96648197785
+c3_vCrater = 826442052.974972
+c3_vratio = 0.000751310957249975
+c3_vMelt = 2979135407.47769
+c3_mratio = 0.0027083049158888
+c3_mcratio = 3.60477228470355
+c3_ejecta_arrival = 124.569530217127
+c3_Dtr = 1848238.65010135
+c3_distance = 75
+c3_ejecta_thickness = 246962139.432673
+c3_d_frag = 80.5396143347466
+c3_Rf = 15762.5143182907
+c3_thermal_exposure, c3_no_radiation, c3_max_rad_time, c3_irradiation_time, c3_megaton_factor, c3_thermal_power = 4.1551872478978, 0, 142.024194208558, 204837.365953657, 221.138594606025, 16
+c3_magnitude = 14.012394400066
+c3_eff_mag = 12.487994400066
+c3_seismic_arrival = 15
