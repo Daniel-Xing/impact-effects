@@ -5,7 +5,7 @@ def numeric_checker(num) -> bool:
 
 
 def positive_checker(num) -> bool:
-    if num <= 0:
+    if num < 0:
         return False
     return True
 

@@ -8,7 +8,7 @@ Version          :1.0
 """
 
 
-from ..utils.checker import numeric_checker, positive_checker
+from .checker import numeric_checker, positive_checker
 
 
 class Target:
@@ -77,7 +77,7 @@ class Target:
         if positive_checker(rhoSurface) == False:
             raise ValueError("rhoSurface must be positive")
 
-        self.density = rhoSurface
+        self.rhoSurface = rhoSurface
 
     def set_dragC(self, dragC):
         if numeric_checker(dragC) == False:
@@ -85,7 +85,7 @@ class Target:
         if positive_checker(dragC) == False:
             raise ValueError("dragC must be positive")
 
-        self.density = dragC
+        self.dragC = dragC
 
     def set_fp(self, fp):
         if numeric_checker(fp) == False:
