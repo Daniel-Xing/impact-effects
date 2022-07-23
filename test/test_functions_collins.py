@@ -373,6 +373,8 @@ def test_cal_themal():
     targets = TargetClass.Target(depth=1111, distance=75, density=1000)
 
     (
+        h,
+        Rf,
         thermal_exposure_,
         no_radiation_,
         max_rad_time_,
@@ -451,7 +453,7 @@ def test_cal_vmax():
     targets = TargetClass.Target(depth=0, distance=75, density=2500)
 
     res = cal_vmax(impactor, targets)
-    assert np.allclose(res, vmax)
+    assert np.allclose(res[0], vmax)
 
 
 def test_cal_dec_level():

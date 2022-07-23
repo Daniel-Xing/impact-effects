@@ -770,6 +770,23 @@ def cal_ejecta_thickness(
     return None
 
 
+def cal_d_frag(impactor: Impactor, target: Target, cdiameter: float = None, altitudeBurst: float = None, Dtr: float = None, type: Choices = Choices.Collins) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_d_frag(impactor, target, cdiameter, altitudeBurst, Dtr)
+
+    return None
+
+
 def cal_themal(
     impactor: Impactor,
     target: Target,
@@ -897,6 +914,25 @@ def cal_vmax(
     if type is Choices.Collins:
         return collins_cal_vmax(
             impactor, target, energy_blast, altitudeBurst
+        )
+
+    return None
+
+def cal_shock_damage(impactor: Impactor, target: Target, opressure: float = None, 
+                             vmax: float = None, type: Choices = Choices.Collins,) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_shock_damage(
+            impactor, target, opressure, vmax
         )
 
     return None

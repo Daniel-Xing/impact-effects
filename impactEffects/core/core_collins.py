@@ -173,7 +173,7 @@ def collins_burst_velocity_at_zero(
     else:
         velocity_at_surface = _vSurface
 
-    return velocity_at_surface
+    return velocity_at_surface/1000
 
 
 def collins_altitude_of_breakup(
@@ -546,7 +546,7 @@ def collins_cal_energy_atmosphere(
     if velocity is None:
         velocity = collins_brust_velocity(impactor, target)
 
-    print("velocity: ", velocity, " origin_vel:", impactor.get_velocity())
+    # print("velocity: ", velocity, " origin_vel:", impactor.get_velocity())
     energy_atmosphere = (
         0.5
         * impactor.get_mass()
@@ -765,7 +765,7 @@ def collins_cal_wdiameter(
     # update tdensity which should be return as value
     logging.log(
         logging.INFO,
-        "update the impactor density for seafloor: {}".format(wdiameter),
+        "update the impactor density for seafloor: %f".format(wdiameter),
     )
 
     return wdiameter
@@ -813,11 +813,11 @@ def collins_cal_transient_crater_diameter(
     else:
         tdensity = target.density
 
-    print(
-        "mass: {}, tdensity: {}, g: {}, pdiameter: {}".format(
-            mass, tdensity, g, pdiameter
-        )
-    )
+    # print(
+    #     "mass: {, tdensity: {, g: {, pdiameter: {".format(
+    #         mass, tdensity, g, pdiameter
+    #     )
+    # )
     Dtr = (
         Cd
         * ((mass / tdensity) ** (1 / 3))
@@ -1132,6 +1132,41 @@ def collins_cal_ejecta_thickness(
     return ejecta_thickness
 
 
+def collins_cal_d_frag(impactor: Impactor, target: Target, cdiameter: float = None, altitudeBurst: float = None, Dtr: float = None) -> float:
+
+    if altitudeBurst is None:
+        i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
+        altitudeBU = collins_altitude_of_breakup(
+            impactor, target, i_factor, _rStrength
+        )
+        lDisper = collins_dispersion_length_scale(
+            impactor, target, altitudeBU
+        )
+
+        alpha2 = (target.get_fp() ** 2 - 1) ** (1 / 2)
+        altitudeBurst = collins_airburst_altitude(
+            impactor, target, alpha2, lDisper, altitudeBU
+        )
+
+    if altitudeBurst > 0:
+        logging.warning("Altitude of burst is greater than 0")
+        exit(1)
+
+    if Dtr is None:
+        Dtr = collins_cal_transient_crater_diameter(impactor, target)
+    if cdiameter is None:
+        cdiameter = collins_cal_cdiamater(impactor, target, Dtr)
+
+    # compute mean fragment size
+    a2 = 2.65
+    half_diameter = (cdiameter/1000)/2  # half of final crater diameter in km
+    dc = 2400 * half_diameter**-1.62
+
+    d_frag = dc*(half_diameter/target.distance)**a2
+
+    return d_frag
+
+
 def collins_cal_themal(
     impactor: Impactor,
     target: Target,
@@ -1185,13 +1220,14 @@ def collins_cal_themal(
     if altitudeBurst > 0:
         logging.warning("Altitude of burst is greater than 0")
 
-        return (None,
-                None,
-                None,
-                None,
-                None,
-                None,
-                )
+        return (
+            None, None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        )
 
     energy_megatons = energy_surface / (4.186 * 10 ** 15)
     eta = 3 * 10 ** -3  # factor for scaling thermal energy
@@ -1227,6 +1263,8 @@ def collins_cal_themal(
     thermal_exposure /= 10 ** thermal_power
 
     return (
+        h,
+        Rf,
         thermal_exposure,
         no_radiation,
         max_rad_time,
@@ -1485,7 +1523,64 @@ def collins_cal_vmax(
         vsound / (1 + (6 * opressure) / (7 * Po)) ** (1 / 2)
     )
 
-    return vmax
+    return vmax, opressure
+
+
+def collins_cal_shock_damage(impactor: Impactor, target: Target, opressure: float = None, vmax: float = None) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+
+    if opressure == None or vmax == None:
+        vmax, opressure = collins_cal_vmax(impactor=impactor, target=target)
+
+    # damage descriptions:  structures
+    shock_damage = ""
+    if opressure >= 42600:
+        shock_damage += "Multistory wall-bearing buildings will collapse.\n"
+    elif opressure >= 38500:
+        shock_damage += " Multistory wall-bearing buildings will experience severe cracking and interior partitions will be blown down\n"
+
+    if opressure >= 26800:
+        shock_damage += " Wood frame buildings will almost completely collapse.\n"
+    elif opressure >= 22900:
+        shock_damage += " Interior partitions of wood frame buildings will be blown down.  Roof will be severely damaged.\n"
+
+    if opressure >= 273000:
+        shock_damage += " Multistory steel-framed office-type buildings will suffer extreme frame distortion, incipient collapse.\n"
+
+    if opressure >= 121000:
+        shock_damage += " Highway truss bridges will collapse.\n"
+    elif opressure >= 100000:
+        shock_damage += " Highway truss bridges will suffer substantial distortion of bracing.\n"
+
+    if opressure >= 379000:
+        shock_damage += " Highway girder bridges will collapse.\n"
+
+    # damage descriptions:  glass, transportation, forrests
+    if opressure >= 6900:
+        shock_damage += " Glass windows will shatter.\n"
+    elif opressure >= 690:
+        shock_damage += " Glass windows may shatter.\n"
+
+    if opressure >= 426000:
+        shock_damage += " Cars and trucks will be largely displaced and grossly distorted and will require rebuilding before use.\n"
+    elif opressure >= 297000:
+        shock_damage += " Cars and trucks will be overturned and displaced, requiring major repairs.\n"
+
+    if vmax >= 62:
+        shock_damage += " Up to 90 percent of trees blown down remainder stripped of branches and leaves.\n"
+    elif vmax >= 40:
+        shock_damage += " About 30 percent of trees blown down remainder have some branches and leaves blown off.\n"
+
+    return shock_damage
 
 
 def collins_cal_dec_level(
@@ -1612,7 +1707,7 @@ def collins_cal_TsunamiArrivalTime(
 
     # Tsunami arrival time assumes linear wave theory
     TsunamiWavelength = 2.0 * wdiameter
-    print("TsunamiWavelength: ", TsunamiWavelength)
+    # print("TsunamiWavelength: ", TsunamiWavelength)
     TsunamiSpeed = sqrt(
         0.5
         * target.get_g()
@@ -1620,7 +1715,7 @@ def collins_cal_TsunamiArrivalTime(
         / PI
         * tanh(2.0 * PI * target.get_depth() / TsunamiWavelength)
     )
-    print("TsunamiSpeed: ", TsunamiSpeed)
+    # print("TsunamiSpeed: ", TsunamiSpeed)
     TsunamiArrivalTime = target.get_distance() * 1000 / TsunamiSpeed
 
     return TsunamiArrivalTime
