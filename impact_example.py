@@ -158,11 +158,7 @@ def simulateImpactor(impartor: Impactor, targets: Target):
 
 
 if __name__ == "__main__":
-    # impactor, target = get_input()
+    impactor, target = get_input()
     # print(impactor.get_density())
-    impactor = impactEffects.instances.ImpactorClass.Impactor(
-        diameter=111, density=111, velocity=111, theta=45
-    )
-    targets = TargetClass.Target(depth=100, distance=75, density=1000)
-    simulateImpactor(impactor, targets)
+    simulateImpactor(impactor, target)
     

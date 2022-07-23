@@ -164,7 +164,7 @@ def collins_burst_velocity_at_zero(
     )
 
     # Define the surface velocity assuming continual spreading using Eq. 8
-    _vSurface = impactor.vInput * 1000 * math.exp(-_av)
+    _vSurface = impactor.velocity * 1000 * math.exp(-_av)
 
     # Take the maximum of the extrapolated surface velocity
     # and the terminal velocity
@@ -173,7 +173,7 @@ def collins_burst_velocity_at_zero(
     else:
         velocity_at_surface = _vSurface
 
-    return velocity_at_surface/1000
+    return velocity_at_surface / 1000
 
 
 def collins_altitude_of_breakup(
@@ -241,6 +241,8 @@ def collins_velocity_at_breakup(
             impactor, target, collins_iFactor
         )
 
+    # print the value of av, altitudeBu
+    print(av, altitudeBU)
     # m/s
     return (
         impactor.velocity
@@ -1132,7 +1134,13 @@ def collins_cal_ejecta_thickness(
     return ejecta_thickness
 
 
-def collins_cal_d_frag(impactor: Impactor, target: Target, cdiameter: float = None, altitudeBurst: float = None, Dtr: float = None) -> float:
+def collins_cal_d_frag(
+    impactor: Impactor,
+    target: Target,
+    cdiameter: float = None,
+    altitudeBurst: float = None,
+    Dtr: float = None,
+) -> float:
 
     if altitudeBurst is None:
         i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
@@ -1159,10 +1167,12 @@ def collins_cal_d_frag(impactor: Impactor, target: Target, cdiameter: float = No
 
     # compute mean fragment size
     a2 = 2.65
-    half_diameter = (cdiameter/1000)/2  # half of final crater diameter in km
-    dc = 2400 * half_diameter**-1.62
+    half_diameter = (
+        cdiameter / 1000
+    ) / 2  # half of final crater diameter in km
+    dc = 2400 * half_diameter ** -1.62
 
-    d_frag = dc*(half_diameter/target.distance)**a2
+    d_frag = dc * (half_diameter / target.distance) ** a2
 
     return d_frag
 
@@ -1221,7 +1231,8 @@ def collins_cal_themal(
         logging.warning("Altitude of burst is greater than 0")
 
         return (
-            None, None,
+            None,
+            None,
             None,
             None,
             None,
@@ -1526,7 +1537,12 @@ def collins_cal_vmax(
     return vmax, opressure
 
 
-def collins_cal_shock_damage(impactor: Impactor, target: Target, opressure: float = None, vmax: float = None) -> float:
+def collins_cal_shock_damage(
+    impactor: Impactor,
+    target: Target,
+    opressure: float = None,
+    vmax: float = None,
+) -> float:
     """
 
     Arguments
@@ -1549,7 +1565,9 @@ def collins_cal_shock_damage(impactor: Impactor, target: Target, opressure: floa
         shock_damage += " Multistory wall-bearing buildings will experience severe cracking and interior partitions will be blown down\n"
 
     if opressure >= 26800:
-        shock_damage += " Wood frame buildings will almost completely collapse.\n"
+        shock_damage += (
+            " Wood frame buildings will almost completely collapse.\n"
+        )
     elif opressure >= 22900:
         shock_damage += " Interior partitions of wood frame buildings will be blown down.  Roof will be severely damaged.\n"
 

@@ -36,7 +36,8 @@ class Target:
 
         if density == 1000 and depth == 0:
             raise ValueError(
-                "density and depth can not be equal to 1000 and 0")
+                "density and depth can not be equal to 1000 and 0"
+            )
 
         self.set_density(density=density)
         self.set_rhoSurface(rhoSurface=rhoSurface)
@@ -195,7 +196,9 @@ class Target:
         if numeric_checker(seefloor_density) == False:
             raise ValueError("seefloor_density must be numeric")
         if positive_checker(seefloor_density) == False:
-            raise ValueError("seefloor_density must be seefloor_densitysitive")
+            raise ValueError(
+                "seefloor_density must be seefloor_densitysitive"
+            )
 
         self.seefloor_density = seefloor_density
 
