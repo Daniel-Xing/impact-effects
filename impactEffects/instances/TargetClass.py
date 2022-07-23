@@ -8,7 +8,7 @@ Version          :1.0
 """
 
 
-from impactEffects.utils.checker import numeric_checker, positive_checker, positive_num
+from ..utils.checker import numeric_checker, positive_checker
 
 
 class Target:
@@ -33,25 +33,6 @@ class Target:
         Po=10 ** 5,
         seefloor_density=2700,
     ):
-
-        # self.density = density
-        # self.rhoSurface = rhoSurface  # suface density of atmosphere kg/m^3
-        # self.dragC = dragC
-        # self.fp = fp
-        # self.schaleHeight = schaleHeight
-        # self.pEarth = pEarth
-        # self.mEarth = mEarth
-        # self.lEarth = lEarth
-        # self.g = g
-        # self.R_earth = R_earth
-        # self.surface_wave_v = surface_wave_v
-        # self.melt_coeff = melt_coeff
-        # self.vEarth = vEarth
-        # self.depth = depth
-        # self.distance = distance
-        # self.Po = Po
-        # self.seefloor_density = seefloor_density
-        # self.ttype = ttype
 
         if density == 1000 and depth == 0:
             raise ValueError(

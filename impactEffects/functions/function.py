@@ -918,8 +918,9 @@ def cal_vmax(
 
     return None
 
-def cal_shock_damage(impactor: Impactor, target: Target, opressure: float = None, 
-                             vmax: float = None, type: Choices = Choices.Collins,) -> float:
+
+def cal_shock_damage(impactor: Impactor, target: Target, opressure: float = None,
+                     vmax: float = None, type: Choices = Choices.Collins,) -> float:
     """
 
     Arguments
