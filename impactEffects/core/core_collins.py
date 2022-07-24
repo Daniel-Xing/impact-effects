@@ -242,7 +242,7 @@ def collins_velocity_at_breakup(
         )
 
     # print the value of av, altitudeBu
-    print(av, altitudeBU)
+    # print(av, altitudeBU)
     # m/s
     return (
         impactor.velocity
