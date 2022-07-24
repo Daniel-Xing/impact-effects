@@ -5,6 +5,7 @@
 
 > English | [中文](./doc/README_ZH.md)
 
+The impact of asteroids and comets is one of the core issues of planet science research. Research and modeling impacts help us understand the process and evaluate the possible impact of the impact. This is a broad demand for many researchers. This project provides a Python Library to help researchers modeling and evaluating the corresponding consequences, providing necessary functions and interfaces.
 
 ## 🍞 Features
 - features

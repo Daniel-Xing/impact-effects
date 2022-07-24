@@ -10,7 +10,9 @@
 
 ## 🍞 Features
 
-- features
+- 支持[Earth Impact Effects Program](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1945-5100.2005.tb00157.x)中的重点函数计算，能够模拟撞击事件的发生和可能的后果。
+- 良好的接口设计，能够让研究者轻松地使用这个库并单独计算相关的物理参数。
+- 易于安装，支持PiPy3和Python3.6以上的版本，支持PIP安装。
 
 
 ##  🖥 Install
