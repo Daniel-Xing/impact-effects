@@ -26,6 +26,9 @@ pip install impactEffect
 ImapctEffect 是非常易于使用的，你可以使用以下方法来建模撞击事件：
 
 ```python
+from impactEffects.functions.function import *
+from impactEffects.instances import ImpactorClass, TargetClass
+
 # calculate the kinetic energy of impactor
 impactor = impactEffects.instances.ImpactorClass.Impactor(
         diameter=111, density=111, velocity=111, theta=45
@@ -78,6 +81,19 @@ Damage Description:  Glass windows may shatter.
 
 ##  🍕 develop
 
-如果你需要进行二次开发，
+如果你需要进行二次开发，最简单的方式是提交一个issue或者pull request，我们会尽可能的帮助你。下面是一些可能有用的帮助:
+
+```bash
+# 克隆项目
+git clone git@github.com:acse-dx121/impact-effects.git
+
+# 查看项目结构
+cd impact-effects
+```
+
+所有的源代码被放在了一个名为 `impactEffects` 的目录下。
+- instances： inst
+
+```bash
 
 
