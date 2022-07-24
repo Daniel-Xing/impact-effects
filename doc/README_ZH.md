@@ -92,8 +92,23 @@ cd impact-effects
 ```
 
 所有的源代码被放在了一个名为 `impactEffects` 的目录下。
-- instances： inst
+- instances： 包含了所有的实例类，包括撞击者和目标。
+- functions： 包含了所有的函数，包括计算撞击力的函数和撞击事件的计算函数。这里定义了所有的接口。具体的计算逻辑在core下。
+- core：核心计算逻辑，目前只支持[Earth Impact Effects Program](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1945-5100.2005.tb00157.x)
+- utils: 包含一些工具函数
 
-```bash
+**对现有计算逻辑进行更改**
+核心逻辑被放在impactEffect/core下，找到对应函数进行更改。在完成更改之后，贡献者应当测试更改是否是有效的。基本的测试为保证test目录下的所有测试通过。
+
+```python
+# under the source path
+pytest
+```
+
+**新增计算逻辑**
+如果需要新增计算逻辑，建议按照以下几步完成。
+1. 在 core包内新增相关文件，并完成计算逻辑。修改__init__.py文件, 添加心动模块。
+2. 在 function包内新增相关文件，并完成接口函数。
+3. 在 test目录下，新增测试文件，并完成测试。
 
 
