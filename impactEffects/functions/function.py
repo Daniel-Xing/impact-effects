@@ -152,9 +152,7 @@ def velocity_at_breakup(
     """
 
     if type is Choices.Collins:
-        return collins_velocity_at_breakup(
-            impactor, target, av, altitudeBU
-        )
+        return collins_velocity_at_breakup(impactor, target, av, altitudeBU)
 
     return None
 
@@ -176,9 +174,7 @@ def dispersion_length_scale(
 
     """
     if type is Choices.Collins:
-        return collins_dispersion_length_scale(
-            impactor, target, altitudeBU
-        )
+        return collins_dispersion_length_scale(impactor, target, altitudeBU)
 
     return None
 
@@ -770,7 +766,14 @@ def cal_ejecta_thickness(
     return None
 
 
-def cal_d_frag(impactor: Impactor, target: Target, cdiameter: float = None, altitudeBurst: float = None, Dtr: float = None, type: Choices = Choices.Collins) -> float:
+def cal_d_frag(
+    impactor: Impactor,
+    target: Target,
+    cdiameter: float = None,
+    altitudeBurst: float = None,
+    Dtr: float = None,
+    type: Choices = Choices.Collins,
+) -> float:
     """
 
     Arguments
@@ -782,7 +785,9 @@ def cal_d_frag(impactor: Impactor, target: Target, cdiameter: float = None, alti
 
     """
     if type is Choices.Collins:
-        return collins_cal_d_frag(impactor, target, cdiameter, altitudeBurst, Dtr)
+        return collins_cal_d_frag(
+            impactor, target, cdiameter, altitudeBurst, Dtr
+        )
 
     return None
 
@@ -919,8 +924,13 @@ def cal_vmax(
     return None
 
 
-def cal_shock_damage(impactor: Impactor, target: Target, opressure: float = None,
-                     vmax: float = None, type: Choices = Choices.Collins,) -> float:
+def cal_shock_damage(
+    impactor: Impactor,
+    target: Target,
+    opressure: float = None,
+    vmax: float = None,
+    type: Choices = Choices.Collins,
+) -> float:
     """
 
     Arguments
@@ -932,9 +942,7 @@ def cal_shock_damage(impactor: Impactor, target: Target, opressure: float = None
 
     """
     if type is Choices.Collins:
-        return collins_cal_shock_damage(
-            impactor, target, opressure, vmax
-        )
+        return collins_cal_shock_damage(impactor, target, opressure, vmax)
 
     return None
 
