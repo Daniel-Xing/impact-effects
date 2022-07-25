@@ -231,12 +231,11 @@ def collins_velocity_at_breakup(
     -------
 
     """
-    if av == 0:
+    if av == 0 or altitudeBU == 0:
         collins_iFactor, av, rStrength = collins_cal_iFactor(
             impactor, target
         )
 
-    if altitudeBU == 0:
         altitudeBU = collins_altitude_of_breakup(
             impactor, target, collins_iFactor
         )
@@ -344,7 +343,7 @@ def collins_brust_velocity(
 
     if vBu == 0:
         i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
-        vBU = collins_velocity_at_breakup(impactor, target, _av, altitudeBU)
+        vBu = collins_velocity_at_breakup(impactor, target, _av, altitudeBU)
 
     if lDisper == 0:
         lDisper = collins_dispersion_length_scale(
@@ -369,6 +368,7 @@ def collins_brust_velocity(
         * exp(-altitudeBU / (2 * target.get_schaleHeight()))
     )  # Assuming drag coefficient of 2
 
+    print("vBU: ", vBu)
     if altitudeBurst > 0:
         # Evaluate Eq. 19 (without factor lL_0^2 l_disper * pdiameter**2)
         expfac = (
@@ -386,7 +386,7 @@ def collins_brust_velocity(
         # Evaluate velocity at burst using Eq. 17
         # (note that factor l_disper * pdiameter**2
         # in expfac cancels with same factor in vFac)
-        velocity = vBU * exp(-expfac * vFac)
+        velocity = vBu * exp(-expfac * vFac)
     else:
         # Define (l/H) for use in Eq. 20
         altitudeScale = target.get_schaleHeight() / lDisper
@@ -408,7 +408,7 @@ def collins_brust_velocity(
         )
 
         # Evaluate velocity at the surface using Eq. 17
-        velocity = vBU * exp(-vFac * integral)
+        velocity = vBu * exp(-vFac * integral)
 
     return velocity / 1000
 
