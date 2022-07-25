@@ -140,9 +140,9 @@ sub get_data
 {
 
 	# $pdiameter = param("diam");
-  $pdiameter = 1110000;
+  $pdiameter = 111;
 	# $pdensity = param('pdens');
-  $pdensity = 111;
+  $pdensity = 111000;
 
   if($pdensity eq ''){
       $pdensity = param('pdens_select');  
@@ -161,7 +161,7 @@ sub get_data
   # $theta = param('theta');
   # $tdensity = param('tdens');
   $theta = 45;
-  $tdensity = 1000;
+  $tdensity = 111;
   if($tdensity == 1000){
     $depth = 1111;
 	}else{
@@ -178,7 +178,7 @@ sub get_data
 	$ttype = 3;
 	    	
   # $distance = param('dist');
-  $distance = 75;
+  $distance = 111;
 
 	my $dunits;
 	# $dunits = param('distanceUnits');
@@ -395,7 +395,7 @@ sub calc_energy {
 
     ### Compute energy of airburst, or energy after deceleration by atmosphere
     $energy_atmosphere = 0.5 * $mass * (($vInput * 1000)**2 - ($velocity * 1000)**2);
-    print "energy_atmosphere = $energy_atmosphere, vInput = $vInput, velocity = $velocity\n";
+    print "energy_atmosphere = $energy_atmosphere, vInput = $vInput, velocity = $velocity, altitudeBurst: = $altitudeBurst\n";
     if ($altitudeBurst > 0) {
       # Blast energy is airburst energy (kTons)
       $energy_blast = $energy_atmosphere / (4.186 * 10**12);
@@ -532,6 +532,7 @@ sub atmospheric_entry
           ## Evaluate velocity at the surface using Eq. 17
           $velocity = $vBU * exp(- $vFac * $integral);
 
+          print "lDisper = $lDisper\n";
           ## Evaluate dispersion of impactor at impact using Eq. 15
           $dispersion = $pdiameter * (1 + 4 * $altitudeScale**2 * (exp($altitudeBU / (2 * $scaleHeight)) - 1)**2)**(1/2);
           print "dispersion = $dispersion\n";
@@ -1198,11 +1199,11 @@ EOF
 
       ### Melt thickness for complex crater (not melt pool)
       if($mcratio < 1){
-	print "<dd>Roughly half the melt remains in the crater";
-	if($Dtr >= 3200){
-	  FormatDistance($melt_thickness*1000,$DistMet,$UnitMet,$DistImp,$UnitImp);
-	  printf(", where its average thickness is <b>%g %s ( = %g %s )</b>. \n", $DistMet,$UnitMet,$DistImp,$UnitImp);
-	}
+	      print "<dd>Roughly half the melt remains in the crater";
+	      if($Dtr >= 3200){
+          FormatDistance($melt_thickness*1000,$DistMet,$UnitMet,$DistImp,$UnitImp);
+          printf(", where its average thickness is <b>%g %s ( = %g %s )</b>. \n", $DistMet,$UnitMet,$DistImp,$UnitImp);
+        }
       }
     }else{
       print "<dd>At this impact velocity ( < 12 km/s), little shock melting of the target occurs.";

@@ -573,6 +573,31 @@ def cal_cdiamater(
 
     return 0
 
+def cal_brecciaThickness(
+    impactor: Impactor,
+    target: Target,
+    Dtr: float = 0,
+    depthtr: float = 0,
+    cdiameter: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_brecciaThickness(
+            impactor, target, Dtr, depthtr, cdiameter
+        )
+
+    return 0
+
 
 def cal_depthfr(
     impactor: Impactor,

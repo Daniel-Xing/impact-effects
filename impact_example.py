@@ -6,7 +6,7 @@ import impactEffects.instances.ImpactorClass
 from impactEffects.functions import *
 from impactEffects.functions.function import *
 from impactEffects.instances import ImpactorClass, TargetClass
-from impactEffects.utils.print import print_airblast, print_change, print_ejecta, print_energy, print_recurrencetime, print_atmospheric_entry, print_seismic, print_thermal, print_tsunami
+from impactEffects.utils.print import print_airblast, print_change, print_crater, print_ejecta, print_energy, print_recurrencetime, print_atmospheric_entry, print_seismic, print_thermal, print_tsunami
 
 
 def get_input():
@@ -18,12 +18,13 @@ def get_input():
         tdensity = float(input("please input the density of target: "))
         depth = float(input("please input the depth(meters): "))
         distance = float(input("please input the distance: "))
-        
+
         try:
             impactor = impactEffects.instances.ImpactorClass.Impactor(
-                diameter=pdiameter, density=pdensity, velocity= v_input, theta=theta
+                diameter=pdiameter, density=pdensity, velocity=v_input, theta=theta
             )
-            targets = TargetClass.Target(depth=depth, distance=distance, density=tdensity)
+            targets = TargetClass.Target(
+                depth=depth, distance=distance, density=tdensity)
             break
         except:
             print("Input error, please retry or exit.")
@@ -38,19 +39,23 @@ def get_input():
 
     return impactor, targets
 
+
 def simulateImpactor(impartor: Impactor, targets: Target):
-    
+
     # cal_energy
     _kinetic_energy = kinetic_energy(impactor)
     _kinetic_energy_megatons = kinetic_energy_megatons(impactor)
     print_energy(_kinetic_energy, _kinetic_energy_megatons)
 
     _rec_time = rec_time(impactor)
+    print(_rec_time)
     print_recurrencetime(_rec_time)
 
-    ## atmospheric_entry
+    # atmospheric_entry
     collins_iFactor, _av, _rStrength = iFactor(impactor, targets)
-    
+    print(collins_iFactor)
+
+    altitudeBU, altitudeBurst, dispersion, energy_surface, energy_megatons = 0, 0, 0, 0, 0
     if collins_iFactor >= 1:
         velocity = burst_velocity_at_zero(impactor, targets)
     else:
@@ -70,19 +75,20 @@ def simulateImpactor(impartor: Impactor, targets: Target):
     trot_change = cal_trot_change(impactor, targets)
     energy_atmosphere = cal_energy_atmosphere(impactor, targets)
     energy_blast, energy_surface = cal_energy_blast_surface(impactor, targets)
-    
-    
+
     mwater = cal_mass_of_water(impactor, targets)
     vseafloor = cal_velocity_projectile(impactor, targets)
+    print("vseafloor", vseafloor)
     energy_seafloor = cal_energy_at_seafloor(impactor, targets)
     delta = cal_ePIcentral_angle(targets)
-    ## end_cal_energy
+    # end_cal_energy
 
     # find_crater
     Cd, beta = cal_scaling_diameter_constant(target=targets)
     anglefac = cal_anglefac(impactor)
 
-    if targets.depth != 0:    
+    wdiameter = 0
+    if targets.depth != 0:
         wdiameter = cal_wdiameter(impactor, targets)
 
     Dtr = cal_transient_crater_diameter(impactor, targets)
@@ -92,6 +98,7 @@ def simulateImpactor(impartor: Impactor, targets: Target):
     cdiameter = cal_cdiamater(impactor, targets)
 
     depthfr = cal_depthfr(impactor, targets)
+    brecciaThickness = cal_brecciaThickness(impactor, targets)
 
     vCrater, vRatio = cal_vCrater_vRation(impactor, targets)
 
@@ -99,20 +106,21 @@ def simulateImpactor(impartor: Impactor, targets: Target):
 
     mratio, mcratio = cal_mratio_and_mcratio(impactor, targets)
     # end find_crater
-    
+
     print_change(vRatio, mratio, lratio, trot_change, pratio)
-    
+
     energy_megatons = energy_surface / (4.186 * 10**15)
     if impactor.get_mass() <= 1.5707963e12:
         print_atmospheric_entry(impactor.get_mass(), impactor.velocity, velocity, collins_iFactor, altitudeBU,
                                 altitudeBurst, impactor.density, dispersion, impactor.theta, energy_surface, energy_megatons)
-        
-    if altitudeBurst <= 0:
-        ejecta_arrival = cal_eject_arrival(impactor, targets)
 
-        ejecta_thickness = cal_ejecta_thickness(impactor, targets)
-        d_frag = cal_d_frag(impactor = impactor, target=targets, cdiameter=cdiameter, altitudeBurst = altitudeBurst, Dtr = Dtr)
-        
+    if altitudeBurst <= 0:
+        ejecta_arrival=cal_eject_arrival(impactor, targets)
+
+        ejecta_thickness=cal_ejecta_thickness(impactor, targets)
+        d_frag=cal_d_frag(impactor = impactor, target = targets,
+                          cdiameter = cdiameter, altitudeBurst = altitudeBurst, Dtr = Dtr)
+
         if velocity >= 15:
             (
                 h, 
@@ -130,6 +138,8 @@ def simulateImpactor(impartor: Impactor, targets: Target):
 
         eff_mag, seismic_arrival = cal_magnitude2(impactor, targets)
         
+        print_crater(vMelt, Dtr, targets.depth, wdiameter, impactor.pdiameter, dispersion,
+                 collins_iFactor, depthtr, mratio, mcratio, cdiameter, depthfr, brecciaThickness, velocity)
         if targets.distance * 1000 <= Dtr/2:
             print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance, 
                          Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
@@ -157,6 +167,10 @@ def simulateImpactor(impartor: Impactor, targets: Target):
 
 
 if __name__ == "__main__":
-    impactor, target = get_input()
+    # impactor, target = get_input()
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111000, velocity=111, theta=45
+    )
+    target = TargetClass.Target(depth=0, distance=111, density=2750)
     simulateImpactor(impactor, target)
     
