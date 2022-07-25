@@ -23,7 +23,6 @@ jobs:
     # add more file here
     - name: Lint with flake8
       run: |
-        pycodestyle ./impactEffects/core/core_collins.py
-        pycodestyle ./impactEffects/examples/impact.py
-        pycodestyle ./impactEffects/functions/function.py
+        pycodestyle ./impactEffects/core/*
+        pycodestyle ./impactEffects/functions/*
         pycodestyle ./impactEffects/instances/*.py

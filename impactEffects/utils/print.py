@@ -339,7 +339,7 @@ def print_thermal(
     # Is fireball above the horizon?
     if no_radiation == 1:
         print(
-            "The fireball is below the horizon. There is no direct thermal radiation.\n</dl>\n"
+            "The fireball is below the horizon. There is no direct thermal radiation."
         )
         return
 
@@ -365,13 +365,10 @@ def print_thermal(
 
     # Thermal exposure
     if thermal_power == 0:
-        print(
-            "Thermal Exposure:  %.2f Joules/m<sup2</sup>"
-            % (thermal_exposure)
-        )
+        print("Thermal Exposure:  %.2f Joules/m<sup2" % (thermal_exposure))
     else:
         print(
-            "Thermal Exposure:  %.2f x 10<sup>%.0f</sup> Joules/m<sup>2</sup>"
+            "Thermal Exposure:  %.2f x 10^%.0f Joules/m^2"
             % (thermal_exposure, thermal_power)
         )
 
@@ -390,7 +387,7 @@ def print_thermal(
 
 def print_seismic(magnitude, seismic_arrival):
     # seismic results
-    print("<dl>\n<dt>\n<h2>Seismic Effects:</h2>\n")
+    print("Seismic Effects:")
     print("What does this mean?")
 
     # Don' print results if magnitude very small
@@ -555,6 +552,127 @@ def print_tsunami(
         )
 
     print("")
+
+
+def print_crater(
+    vMelt,
+    Dtr,
+    depth,
+    wdiameter,
+    pdiameter,
+    dispersion,
+    collinsIFactor,
+    depthtr,
+    mratio,
+    mcratio,
+    cdiameter,
+    depthfr,
+    brecciaThickness,
+    velocity,
+):
+    melt_thickness = vMelt / (PI * (Dtr / 2000) ** 2)
+
+    # crater results
+    print("Crater Dimensions:")
+
+    # Print details of crater in water layer
+    if depth != 0:
+        print(
+            "The crater opened in the water has a diameter of %f %s ( = %f %s )."
+            % (wdiameter, "meters", wdiameter * 3.28, "feets",)
+        )
+        if Dtr > 0:
+            print("For the crater formed in the seafloor:")
+
+    # Report consequences of atmospheric disruption
+    if pdiameter < 1000:
+        if dispersion >= Dtr:
+            print(
+                "The result of the impact is a crater field, not a single crater.  The following dimensions are for the crater produced by the largest fragment."
+            )
+
+        elif collinsIFactor < 1:
+            print(
+                "Crater shape is normal in spite of atmospheric crushing fragments are not significantly dispersed."
+            )
+
+    # Report transient crater dimensions
+    print("Transient Crater Diameter:")
+
+    print("%f %s ( = %f %s )" % (Dtr, "meters", Dtr * 3.28, "feets"))
+    print(
+        "Transient Crater Depth:  %f %s ( = %f %s )"
+        % (depthtr, "meters", depthtr * 3.28, "feets")
+    )
+
+    # If melt volume is equivalent to the volume of the Earth finish
+    if mratio == 1:
+        return
+
+    # Report final crater dimensions
+    print("Final Crater Diameter:")
+
+    print(
+        "%f %s ( = %f %s )"
+        % (cdiameter, "meters", cdiameter * 3.28, "feets")
+    )
+    print(
+        "Final Crater Depth:  %f %s ( = %f %s )"
+        % (depthfr, "meters", depthfr * 3.28, "feets")
+    )
+
+    # Report the type of crater formed
+    if mcratio >= 1:
+        print(
+            "The final crater is replaced by a large, circular melt province."
+        )
+    elif cdiameter >= 3200:
+        print("complex crater .")
+    else:
+        print("simple crater ")
+        print(
+            "The floor of the crater is underlain by a lens of broken rock debris (breccia) with a maximum thickness of %f %s ( = %f %s )."
+            % (brecciaThickness, "meters", brecciaThickness * 3.28, "feets")
+        )
+
+    # Report the melt volume and thickness
+    if velocity >= 12 and mratio < 0.1:
+
+        # Melt volume
+        if vMelt < 0.001:
+            print(
+                "The volume of the target melted or vaporized is %f m^3 = %f feet^3"
+                % (vMelt * 10 ** 9, vMelt * 10 ** 9 * 3.28 ** 3)
+            )
+        else:
+            print(
+                "The volume of the target melted or vaporized is %f km^3 = %f miles^3"
+                % (vMelt, vMelt * 0.2399)
+            )
+
+            # Melt thickness for complex crater (not melt pool)
+        if mcratio < 1:
+            print("Roughly half the melt remains in the crater")
+            if Dtr >= 3200:
+                print(
+                    ", where its average thickness is %f %s ( = %f %s ). \n"
+                    % (
+                        melt_thickness * 1000,
+                        "meters",
+                        melt_thickness * 1000 * 3.28,
+                        "feets",
+                    )
+                )
+        else:
+            print(
+                "At this impact velocity ( < 12 km/s), little shock melting of the target occurs."
+            )
+
+    # Melt pool
+    if mcratio >= 1:
+        print("Melt volume = %f times the crater volume\n" % (mcratio))
+
+    print("At this size, the crater forms in its own melt pool.")
 
 
 if __name__ == "__main__":

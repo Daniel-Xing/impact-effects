@@ -65,137 +65,137 @@ class Target:
     """
 
     def set_density(self, density):
-        if numeric_checker(density) == False:
+        if not numeric_checker(density):
             raise ValueError("density must be numeric")
-        if positive_checker(density) == False:
+        if not positive_checker(density):
             raise ValueError("density must be positive")
 
         self.density = density
 
     def set_rhoSurface(self, rhoSurface):
-        if numeric_checker(rhoSurface) == False:
+        if not numeric_checker(rhoSurface):
             raise ValueError("rhoSurface must be numeric")
-        if positive_checker(rhoSurface) == False:
+        if not positive_checker(rhoSurface):
             raise ValueError("rhoSurface must be positive")
 
         self.rhoSurface = rhoSurface
 
     def set_dragC(self, dragC):
-        if numeric_checker(dragC) == False:
+        if not numeric_checker(dragC):
             raise ValueError("dragC must be numeric")
-        if positive_checker(dragC) == False:
+        if not positive_checker(dragC):
             raise ValueError("dragC must be positive")
 
         self.dragC = dragC
 
     def set_fp(self, fp):
-        if numeric_checker(fp) == False:
+        if not numeric_checker(fp):
             raise ValueError("fp must be numeric")
-        if positive_checker(fp) == False:
+        if not positive_checker(fp):
             raise ValueError("fp must be positive")
 
         self.fp = fp
 
     def set_schaleHeight(self, schaleHeight):
-        if numeric_checker(schaleHeight) == False:
+        if not numeric_checker(schaleHeight):
             raise ValueError("schaleHeight must be numeric")
-        if positive_checker(schaleHeight) == False:
+        if not positive_checker(schaleHeight):
             raise ValueError("schaleHeight must be positive")
 
         self.schaleHeight = schaleHeight
 
     def set_pEarth(self, pEarth):
-        if numeric_checker(pEarth) == False:
+        if not numeric_checker(pEarth):
             raise ValueError("pEarth must be numeric")
-        if positive_checker(pEarth) == False:
+        if not positive_checker(pEarth):
             raise ValueError("pEarth must be positive")
 
         self.pEarth = pEarth
 
     def set_mEarth(self, mEarth):
-        if numeric_checker(mEarth) == False:
+        if not numeric_checker(mEarth):
             raise ValueError("mEarth must be numeric")
-        if positive_checker(mEarth) == False:
+        if not positive_checker(mEarth):
             raise ValueError("mEarth must be positive")
 
         self.mEarth = mEarth
 
     def set_lEarth(self, lEarth):
-        if numeric_checker(lEarth) == False:
+        if not numeric_checker(lEarth):
             raise ValueError("lEarth must be numeric")
-        if positive_checker(lEarth) == False:
+        if not positive_checker(lEarth):
             raise ValueError("lEarth must be positive")
 
         self.lEarth = lEarth
 
     def set_g(self, g):
-        if numeric_checker(g) == False:
+        if not numeric_checker(g):
             raise ValueError("g must be numeric")
-        if positive_checker(g) == False:
+        if not positive_checker(g):
             raise ValueError("g must be positive")
 
         self.g = g
 
     def set_R_earth(self, R_earth):
-        if numeric_checker(R_earth) == False:
+        if not numeric_checker(R_earth):
             raise ValueError("R_earth must be numeric")
-        if positive_checker(R_earth) == False:
+        if not positive_checker(R_earth):
             raise ValueError("R_earth must be positive")
 
         self.R_earth = R_earth
 
     def set_surface_wave_v(self, surface_wave_v):
-        if numeric_checker(surface_wave_v) == False:
+        if not numeric_checker(surface_wave_v):
             raise ValueError("surface_wave_v must be numeric")
-        if positive_checker(surface_wave_v) == False:
+        if not positive_checker(surface_wave_v):
             raise ValueError("surface_wave_v must be positive")
 
         self.surface_wave_v = surface_wave_v
 
     def set_melt_coeff(self, melt_coeff):
-        if numeric_checker(melt_coeff) == False:
+        if not numeric_checker(melt_coeff):
             raise ValueError("melt_coeff must be numeric")
-        if positive_checker(melt_coeff) == False:
+        if not positive_checker(melt_coeff):
             raise ValueError("melt_coeff must be positive")
 
         self.melt_coeff = melt_coeff
 
     def set_vEarth(self, vEarth):
-        if numeric_checker(vEarth) == False:
+        if not numeric_checker(vEarth):
             raise ValueError("vEarth must be numeric")
-        if positive_checker(vEarth) == False:
+        if not positive_checker(vEarth):
             raise ValueError("vEarth must be positive")
 
         self.vEarth = vEarth
 
     def set_depth(self, depth):
-        if numeric_checker(depth) == False:
+        if not numeric_checker(depth):
             raise ValueError("depth must be numeric")
-        if positive_checker(depth) == False:
+        if not positive_checker(depth):
             raise ValueError("depth must be positive")
 
         self.depth = depth
 
     def set_distance(self, distance):
-        if numeric_checker(distance) == False:
+        if not numeric_checker(distance):
             raise ValueError("distance must be numeric")
-        if positive_checker(distance) == False:
+        if not positive_checker(distance):
             raise ValueError("distance must be positive")
 
         self.distance = distance
 
     def set_Po(self, Po):
-        if numeric_checker(Po) == False:
+        if not numeric_checker(Po):
             raise ValueError("Po must be numeric")
-        if positive_checker(Po) == False:
+        if not positive_checker(Po):
             raise ValueError("Po must be positive")
 
         self.Po = Po
 
     def set_seefloor_density(self, seefloor_density):
-        if numeric_checker(seefloor_density) == False:
+        if not numeric_checker(seefloor_density):
             raise ValueError("seefloor_density must be numeric")
-        if positive_checker(seefloor_density) == False:
+        if not positive_checker(seefloor_density):
             raise ValueError(
                 "seefloor_density must be seefloor_densitysitive"
             )
@@ -203,9 +203,9 @@ class Target:
         self.seefloor_density = seefloor_density
 
     def set_ttype(self, ttype):
-        if numeric_checker(ttype) == False:
+        if not numeric_checker(ttype):
             raise ValueError("ttype must be numeric")
-        if positive_checker(ttype) == False:
+        if not positive_checker(ttype):
             raise ValueError("ttype must be ttypesitive")
 
         self.ttype = ttype

@@ -18,11 +18,19 @@ class Impactor:
     """
 
     def __init__(
-        self, diameter, density, velocity, theta,
-        velocity_upper=3 * 10 ** 5, velocity_lower=0,
-        theta_upper=90, theta_lower=0,
-        diameter_upper=Inf, diameter_lower=0,
-        density_upper=Inf, density_lower=0,
+        self,
+        diameter,
+        density,
+        velocity,
+        theta,
+        velocity_upper=3 * 10 ** 5,
+        velocity_lower=0,
+        theta_upper=90,
+        theta_lower=0,
+        diameter_upper=Inf,
+        diameter_lower=0,
+        density_upper=Inf,
+        density_lower=0,
     ):
         # set velocity upper and lower bounds
         self.velocity_upper = velocity_upper
@@ -59,12 +67,18 @@ class Impactor:
     # define setter function for pdiameter
     def set_pdiameter(self, pdiameter):
         # check if the value is numeric
-        if numeric_checker(pdiameter) == False:
-            raise TypeError("pdiameter must be a numeric value, float or int.")
+        if not numeric_checker(pdiameter):
+            raise TypeError(
+                "pdiameter must be a numeric value, float or int."
+            )
         # check if pdiameter is within the bounds
-        if pdiameter > self.diameter_upper or pdiameter < self.diameter_lower:
+        if (
+            pdiameter > self.diameter_upper
+            or pdiameter < self.diameter_lower
+        ):
             raise ValueError(
-                "pdiameter must be within the bounds: {} < pdiameter < {}".format(
+                "pdiameter must be within the bounds: {} < pdiameter < {}".
+                format(
                     self.diameter_lower, self.diameter_upper
                 )
             )
@@ -73,8 +87,10 @@ class Impactor:
     # define setter function for density
     def set_density(self, density):
         # check if the value is numeric
-        if numeric_checker(density) == False:
-            raise TypeError("density must be a numeric value, float or int.")
+        if not numeric_checker(density):
+            raise TypeError(
+                "density must be a numeric value, float or int."
+            )
         # check if density is within the bounds
         if density > self.density_upper or density < self.density_lower:
             raise ValueError(
@@ -87,21 +103,23 @@ class Impactor:
     # define setter function for velocity
     def set_velocity(self, velocity):
         # check if the value is numeric
-        if numeric_checker(velocity) == False:
-            raise TypeError("velocity must be a numeric value, float or int.")
+        if not numeric_checker(velocity):
+            raise TypeError(
+                "velocity must be a numeric value, float or int."
+            )
         # check if velocity is within the bounds
         if velocity > self.velocity_upper or velocity < self.velocity_lower:
             raise ValueError(
-                "velocity must be within the bounds: {} < velocity < {}".format(
-                    self.velocity_lower, self.velocity_upper
-                )
+                "velocity must be within the bounds: {} < velocity < {}".
+                format(self.velocity_lower, self.velocity_upper
+                       )
             )
         self.velocity = velocity
 
     # define setter function for theta
     def set_theta(self, theta):
         # check if the value is numeric
-        if numeric_checker(theta) == False:
+        if not numeric_checker(theta):
             raise TypeError("theta must be a numeric value, float or int.")
         # check if theta is within the bounds
         if theta > self.theta_upper or theta < self.theta_lower:
@@ -111,7 +129,7 @@ class Impactor:
                 )
             )
         self.theta = theta
-        
+
     def get_energy0(self) -> float:
         if self.energy0 is None:
             self.calculate_energy0()
@@ -145,7 +163,7 @@ class Impactor:
 
     def get_theta(self):
         return self.theta
-    
+
     # calculate the mass of the impactor
     def calculate_mass(self):
         self.mass = ((PI * self.pdiameter ** 3) / 6) * self.density

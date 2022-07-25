@@ -29,7 +29,7 @@ def kinetic_energy(
     if type is Choices.Collins:
         return collins_kinetic_energy(impactor)
 
-    return None
+    return 0
 
 
 def kinetic_energy_megatons(
@@ -48,7 +48,7 @@ def kinetic_energy_megatons(
     if type is Choices.Collins:
         return collins_kinetic_energy_megatons(impactor)
 
-    return None
+    return 0
 
 
 def rec_time(impactor: Impactor, type: Choices = Choices.Collins) -> float:
@@ -66,7 +66,7 @@ def rec_time(impactor: Impactor, type: Choices = Choices.Collins) -> float:
     if type is Choices.Collins:
         return collins_rec_time(impactor)
 
-    return None
+    return 0
 
 
 def iFactor(
@@ -86,7 +86,7 @@ def iFactor(
     if type is Choices.Collins:
         return collins_cal_iFactor(impactor, target)
 
-    return None
+    return 0
 
 
 def burst_velocity_at_zero(
@@ -105,13 +105,13 @@ def burst_velocity_at_zero(
     if type is Choices.Collins:
         return collins_burst_velocity_at_zero(impactor, target)
 
-    return None
+    return 0
 
 
 def altitude_of_breakup(
     impactor: Impactor,
     target: Target,
-    collins_iFactor: float = None,
+    collins_iFactor: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -130,14 +130,14 @@ def altitude_of_breakup(
             impactor, target, collins_iFactor
         )
 
-    return None
+    return 0
 
 
 def velocity_at_breakup(
     impactor: Impactor,
     target: Target,
-    av: float = None,
-    altitudeBU: float = None,
+    av: float = 0,
+    altitudeBU: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -154,13 +154,13 @@ def velocity_at_breakup(
     if type is Choices.Collins:
         return collins_velocity_at_breakup(impactor, target, av, altitudeBU)
 
-    return None
+    return 0
 
 
 def dispersion_length_scale(
     impactor: Impactor,
     target: Target,
-    altitudeBU: float = None,
+    altitudeBU: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -176,15 +176,15 @@ def dispersion_length_scale(
     if type is Choices.Collins:
         return collins_dispersion_length_scale(impactor, target, altitudeBU)
 
-    return None
+    return 0
 
 
 def airburst_altitude(
     impactor: Impactor,
     target: Target,
-    alpha2: float = None,
-    lDisper: float = None,
-    altitudeBU: float = None,
+    alpha2: float = 0,
+    lDisper: float = 0,
+    altitudeBU: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -202,16 +202,16 @@ def airburst_altitude(
             impactor, target, alpha2, lDisper, altitudeBU
         )
 
-    return None
+    return 0
 
 
 def brust_velocity(
     impactor: Impactor,
     target: Target,
-    altitudeBurst: float = None,
-    altitudeBU: float = None,
-    vBu: float = None,
-    lDisper: float = None,
+    altitudeBurst: float = 0,
+    altitudeBU: float = 0,
+    vBu: float = 0,
+    lDisper: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -230,15 +230,15 @@ def brust_velocity(
             impactor, target, altitudeBurst, altitudeBU, vBu, lDisper
         )
 
-    return None
+    return 0
 
 
 def dispersion_of_impactor(
     impactor: Impactor,
     target: Target,
-    l_disper: float = None,
-    altitude_bu: float = None,
-    altitude_burst: float = None,
+    l_disper: float = 0,
+    altitude_bu: float = 0,
+    altitude_burst: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -257,13 +257,13 @@ def dispersion_of_impactor(
             impactor, target, l_disper, altitude_bu, altitude_burst
         )
 
-    return None
+    return 0
 
 
 def fraction_of_momentum(
     impactor: Impactor,
     target: Target,
-    velocity: float = None,
+    velocity: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -280,13 +280,13 @@ def fraction_of_momentum(
     if type is Choices.Collins:
         return collins_fraction_of_momentum(impactor, target, velocity)
 
-    return None
+    return 0
 
 
 def cal_trot_change(
     impactor: Impactor,
     target: Target,
-    velocity: float = None,
+    velocity: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -303,13 +303,13 @@ def cal_trot_change(
     if type is Choices.Collins:
         return collins_cal_trot_change(impactor, target, velocity)
 
-    return None
+    return 0
 
 
 def cal_energy_atmosphere(
     impactor: Impactor,
     target: Target,
-    velocity: float = None,
+    velocity: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -326,15 +326,15 @@ def cal_energy_atmosphere(
     if type is Choices.Collins:
         return collins_cal_energy_atmosphere(impactor, target, velocity)
 
-    return None
+    return 0
 
 
 def cal_energy_blast_surface(
     impactor: Impactor,
     target: Target,
-    velocity: float = None,
-    altitudeBurst: float = None,
-    energy_atmosphere: float = None,
+    velocity: float = 0,
+    altitudeBurst: float = 0,
+    energy_atmosphere: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -352,7 +352,7 @@ def cal_energy_blast_surface(
             impactor, target, velocity, altitudeBurst, energy_atmosphere
         )
 
-    return None
+    return 0
 
 
 def cal_mass_of_water(
@@ -372,13 +372,13 @@ def cal_mass_of_water(
     if type is Choices.Collins:
         return collins_cal_mass_of_water(impactor, target)
 
-    return None
+    return 0
 
 
 def cal_velocity_projectile(
     impactor: Impactor,
     target: Target,
-    velocity: float = None,
+    velocity: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -395,13 +395,13 @@ def cal_velocity_projectile(
     if type is Choices.Collins:
         return collins_cal_velocity_projectile(impactor, target, velocity)
 
-    return None
+    return 0
 
 
 def cal_energy_at_seafloor(
     impactor: Impactor,
     target: Target,
-    vseafloor: float = None,
+    vseafloor: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -417,7 +417,7 @@ def cal_energy_at_seafloor(
     if type is Choices.Collins:
         return collins_cal_energy_at_seafloor(impactor, target, vseafloor)
 
-    return None
+    return 0
 
 
 def cal_ePIcentral_angle(
@@ -437,7 +437,7 @@ def cal_ePIcentral_angle(
     if type is Choices.Collins:
         return collins_cal_ePIcentral_angle(target)
 
-    return None
+    return 0
 
 
 def cal_scaling_diameter_constant(
@@ -457,7 +457,7 @@ def cal_scaling_diameter_constant(
     if type is Choices.Collins:
         return collins_cal_scaling_diameter_constant(target=target)
 
-    return None
+    return 0
 
 
 def cal_anglefac(
@@ -477,14 +477,14 @@ def cal_anglefac(
     if type is Choices.Collins:
         return collins_cal_anglefac(impactor)
 
-    return None
+    return 0
 
 
 def cal_wdiameter(
     impactor: Impactor,
     target: Target,
-    anglefac: float = None,
-    velocity: float = None,
+    anglefac: float = 0,
+    velocity: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -500,16 +500,16 @@ def cal_wdiameter(
     if type is Choices.Collins:
         return collins_cal_wdiameter(impactor, target, anglefac, velocity)
 
-    return None
+    return 0
 
 
 def cal_transient_crater_diameter(
     impactor: Impactor,
     target: Target,
-    Cd: float = None,
-    beta: float = None,
-    anglefac: float = None,
-    vseafloor: float = None,
+    Cd: float = 0,
+    beta: float = 0,
+    anglefac: float = 0,
+    vseafloor: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -527,13 +527,13 @@ def cal_transient_crater_diameter(
             impactor, target, Cd, beta, anglefac, vseafloor
         )
 
-    return None
+    return 0
 
 
 def cal_depthr(
     impactor: Impactor,
     target: Target,
-    Dtr: float = None,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -549,13 +549,13 @@ def cal_depthr(
     if type is Choices.Collins:
         return collins_cal_depthr(impactor, target, Dtr)
 
-    return None
+    return 0
 
 
 def cal_cdiamater(
     impactor: Impactor,
     target: Target,
-    Dtr: float = None,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -571,15 +571,41 @@ def cal_cdiamater(
     if type is Choices.Collins:
         return collins_cal_cdiamater(impactor, target, Dtr)
 
-    return None
+    return 0
+
+
+def cal_brecciaThickness(
+    impactor: Impactor,
+    target: Target,
+    Dtr: float = 0,
+    depthtr: float = 0,
+    cdiameter: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_brecciaThickness(
+            impactor, target, Dtr, depthtr, cdiameter
+        )
+
+    return 0
 
 
 def cal_depthfr(
     impactor: Impactor,
     target: Target,
-    Dtr: float = None,
-    depthtr: float = None,
-    cdiameter: float = None,
+    Dtr: float = 0,
+    depthtr: float = 0,
+    cdiameter: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -597,13 +623,13 @@ def cal_depthfr(
             impactor, target, Dtr, depthtr, cdiameter
         )
 
-    return None
+    return 0
 
 
 def cal_vCrater(
     impactor: Impactor,
     target: Target,
-    Dtr: float = None,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -619,14 +645,14 @@ def cal_vCrater(
     if type is Choices.Collins:
         return collins_cal_vCrater(impactor, target, Dtr)
 
-    return None
+    return 0
 
 
 def cal_vratio(
     impactor: Impactor,
     target: Target,
-    vCrater: float = None,
-    Dtr: float = None,
+    vCrater: float = 0,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -642,13 +668,13 @@ def cal_vratio(
     if type is Choices.Collins:
         return collins_cal_vratio(impactor, target, vCrater, Dtr)
 
-    return None
+    return 0
 
 
 def cal_vCrater_vRation(
     impactor: Impactor,
     target: Target,
-    Dtr: float = None,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -664,14 +690,14 @@ def cal_vCrater_vRation(
     if type is Choices.Collins:
         return collins_cal_vCrater_vRation(impactor, target, Dtr)
 
-    return None
+    return 0
 
 
 def cal_vMelt(
     impactor: Impactor,
     target: Target,
-    velocity: float = None,
-    energy_seafloor: float = None,
+    velocity: float = 0,
+    energy_seafloor: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -689,16 +715,16 @@ def cal_vMelt(
             impactor, target, velocity, energy_seafloor
         )
 
-    return None
+    return 0
 
 
 def cal_mratio_and_mcratio(
     impactor: Impactor,
     target: Target,
-    velocity: float = None,
-    vMelt: float = None,
-    vCrater: float = None,
-    Dtr: float = None,
+    velocity: float = 0,
+    vMelt: float = 0,
+    vCrater: float = 0,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -716,13 +742,13 @@ def cal_mratio_and_mcratio(
             impactor, target, velocity, vMelt, vCrater, Dtr
         )
 
-    return None
+    return 0
 
 
 def cal_eject_arrival(
     impactor: Impactor,
     target: Target,
-    altitudeBurst: float = None,
+    altitudeBurst: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -738,14 +764,14 @@ def cal_eject_arrival(
     if type is Choices.Collins:
         return collins_cal_eject_arrival(impactor, target, altitudeBurst)
 
-    return None
+    return 0
 
 
 def cal_ejecta_thickness(
     impactor: Impactor,
     target: Target,
-    altitudeBurst: float = None,
-    Dtr: float = None,
+    altitudeBurst: float = 0,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -763,15 +789,15 @@ def cal_ejecta_thickness(
             impactor, target, altitudeBurst, Dtr
         )
 
-    return None
+    return 0
 
 
 def cal_d_frag(
     impactor: Impactor,
     target: Target,
-    cdiameter: float = None,
-    altitudeBurst: float = None,
-    Dtr: float = None,
+    cdiameter: float = 0,
+    altitudeBurst: float = 0,
+    Dtr: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -789,16 +815,16 @@ def cal_d_frag(
             impactor, target, cdiameter, altitudeBurst, Dtr
         )
 
-    return None
+    return 0
 
 
 def cal_themal(
     impactor: Impactor,
     target: Target,
-    energy_surface: float = None,
-    altitudeBurst: float = None,
-    delta: float = None,
-    velocity: float = None,
+    energy_surface: float = 0,
+    altitudeBurst: float = 0,
+    delta: float = 0,
+    velocity: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -821,14 +847,14 @@ def cal_themal(
             velocity,
         )
 
-    return None
+    return 0
 
 
 def cal_magnitude(
     impactor: Impactor,
     target: Target,
-    altitudeBurst: float = None,
-    energy_seafloor: float = None,
+    altitudeBurst: float = 0,
+    energy_seafloor: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -846,17 +872,17 @@ def cal_magnitude(
             impactor, target, altitudeBurst, energy_seafloor
         )
 
-    return None
+    return 0
 
 
 def cal_magnitude2(
     impactor: Impactor,
     target: Target,
-    energy_seafloor: float = None,
-    altitudeBurst: float = None,
-    distance: float = None,
-    surface_wave_v: float = None,
-    delta: float = None,
+    energy_seafloor: float = 0,
+    altitudeBurst: float = 0,
+    distance: float = 0,
+    surface_wave_v: float = 0,
+    delta: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -874,13 +900,13 @@ def cal_magnitude2(
             impactor, target, altitudeBurst, energy_seafloor, delta
         )
 
-    return None
+    return 0
 
 
 def cal_shock_arrival(
     impactor: Impactor,
     target: Target,
-    altitudeBurst: float = None,
+    altitudeBurst: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -896,14 +922,14 @@ def cal_shock_arrival(
     if type is Choices.Collins:
         return collins_cal_shock_arrival(impactor, target, altitudeBurst)
 
-    return None
+    return 0
 
 
 def cal_vmax(
     impactor: Impactor,
     target: Target,
-    energy_blast: float = None,
-    altitudeBurst: float = None,
+    energy_blast: float = 0,
+    altitudeBurst: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -921,14 +947,14 @@ def cal_vmax(
             impactor, target, energy_blast, altitudeBurst
         )
 
-    return None
+    return 0
 
 
 def cal_shock_damage(
     impactor: Impactor,
     target: Target,
-    opressure: float = None,
-    vmax: float = None,
+    opressure: float = 0,
+    vmax: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -944,14 +970,14 @@ def cal_shock_damage(
     if type is Choices.Collins:
         return collins_cal_shock_damage(impactor, target, opressure, vmax)
 
-    return None
+    return 0
 
 
 def cal_dec_level(
     impactor: Impactor,
     target: Target,
-    energy_blast: float = None,
-    altitudeBurst: float = None,
+    energy_blast: float = 0,
+    altitudeBurst: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -969,13 +995,13 @@ def cal_dec_level(
             impactor, target, energy_blast, altitudeBurst
         )
 
-    return None
+    return 0
 
 
 def cal_TsunamiArrivalTime(
     impactor: Impactor,
     target: Target,
-    wdiameter: float = None,
+    wdiameter: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -993,13 +1019,13 @@ def cal_TsunamiArrivalTime(
     elif type is Choices.Example:
         return NotImplementedError("Error")
 
-    return None
+    return 0
 
 
 def cal_WaveAmplitudeUpperLimit(
     impactor: Impactor,
     target: Target,
-    wdiameter: float = None,
+    wdiameter: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -1017,13 +1043,13 @@ def cal_WaveAmplitudeUpperLimit(
             impactor, target, wdiameter
         )
 
-    return None
+    return 0
 
 
 def cal_WaveAmplitudeLowerLimit(
     impactor: Impactor,
     target: Target,
-    wdiameter: float = None,
+    wdiameter: float = 0,
     type: Choices = Choices.Collins,
 ) -> float:
     """
@@ -1041,4 +1067,4 @@ def cal_WaveAmplitudeLowerLimit(
             impactor, target, wdiameter
         )
 
-    return None
+    return 0
