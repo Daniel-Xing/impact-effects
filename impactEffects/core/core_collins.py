@@ -466,9 +466,7 @@ def collins_cal_velocity(impactor: Impactor, target: Target,) -> float:
         return collins_brust_velocity(
             impactor=impactor,
             target=target,
-            av=_av,
-            rStrength=_rStrength,
-            i_factor=i_factor,
+            collins_iFactor=i_factor,
         )
 
 
