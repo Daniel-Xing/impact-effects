@@ -573,6 +573,7 @@ def cal_cdiamater(
 
     return 0
 
+
 def cal_brecciaThickness(
     impactor: Impactor,
     target: Target,

@@ -128,9 +128,7 @@ def collins_cal_iFactor(impactor: Impactor, target: Target) -> float:
 
 
 def collins_burst_velocity_at_zero(
-    impactor: Impactor,
-    target: Target,
-    i_factor: float = 0,
+    impactor: Impactor, target: Target, i_factor: float = 0,
 ) -> float:
     """
 
@@ -457,16 +455,21 @@ def collins_brust_velocity(
     return velocity / 1000
 
 
-def collins_cal_velocity(
-    impactor: Impactor,
-    target: Target,
-) -> float:
+def collins_cal_velocity(impactor: Impactor, target: Target,) -> float:
     i_factor, _av, _rStrength = collins_cal_iFactor(impactor, target)
 
     if i_factor >= 1:
-        return collins_burst_velocity_at_zero(impactor=impactor, target=target, i_factor=i_factor)
+        return collins_burst_velocity_at_zero(
+            impactor=impactor, target=target, i_factor=i_factor
+        )
     else:
-        return collins_brust_velocity(impactor=impactor, target=target, av=_av, rStrength=_rStrength, i_factor=i_factor)
+        return collins_brust_velocity(
+            impactor=impactor,
+            target=target,
+            av=_av,
+            rStrength=_rStrength,
+            i_factor=i_factor,
+        )
 
 
 def collins_dispersion_of_impactor(
@@ -645,9 +648,7 @@ def collins_cal_energy_blast_surface(
         altitudeBurst = collins_airburst_altitude(
             impactor, target, alpha2, lDisper, altitudeBU
         )
-        velocity = collins_cal_velocity(
-            impactor, target
-        )
+        velocity = collins_cal_velocity(impactor, target)
 
     if energy_atmosphere == 0:
         energy_atmosphere = collins_cal_energy_atmosphere(
@@ -894,9 +895,7 @@ def collins_cal_transient_crater_diameter(
     return Dtr
 
 
-def collins_cal_depthr(
-    impactor: Impactor, target: Target, Dtr: float = 0
-):
+def collins_cal_depthr(impactor: Impactor, target: Target, Dtr: float = 0):
     """
 
     Arguments
@@ -1313,10 +1312,7 @@ def collins_cal_themal(
         )
 
     if velocity == 0:
-        velocity = collins_cal_velocity(
-            impactor,
-            target,
-        )
+        velocity = collins_cal_velocity(impactor, target,)
 
     if energy_surface == 0:
         _, energy_surface = collins_cal_energy_blast_surface(
@@ -1661,22 +1657,29 @@ def collins_cal_shock_damage(
     if opressure >= 42600:
         shock_damage += "Multistory wall-bearing buildings will collapse.\n"
     elif opressure >= 38500:
-        shock_damage += " Multistory wall-bearing buildings will experience severe cracking and interior partitions will be blown down\n"
+        shock_damage += " Multistory wall-bearing \
+            buildings will experience \
+            severe cracking and interior \
+                partitions will be blown down\n"
 
     if opressure >= 26800:
         shock_damage += (
             " Wood frame buildings will almost completely collapse.\n"
         )
     elif opressure >= 22900:
-        shock_damage += " Interior partitions of wood frame buildings will be blown down.  Roof will be severely damaged.\n"
+        shock_damage += " Interior partitions of wood frame \
+            buildings will be blown down.  Roof will be severely damaged.\n"
 
     if opressure >= 273000:
-        shock_damage += " Multistory steel-framed office-type buildings will suffer extreme frame distortion, incipient collapse.\n"
+        shock_damage += " Multistory steel-framed office-type \
+            buildings will suffer extreme frame \
+                distortion, incipient collapse.\n"
 
     if opressure >= 121000:
         shock_damage += " Highway truss bridges will collapse.\n"
     elif opressure >= 100000:
-        shock_damage += " Highway truss bridges will suffer substantial distortion of bracing.\n"
+        shock_damage += " Highway truss bridges will suffer \
+            substantial distortion of bracing.\n"
 
     if opressure >= 379000:
         shock_damage += " Highway girder bridges will collapse.\n"
@@ -1688,14 +1691,18 @@ def collins_cal_shock_damage(
         shock_damage += " Glass windows may shatter.\n"
 
     if opressure >= 426000:
-        shock_damage += " Cars and trucks will be largely displaced and grossly distorted and will require rebuilding before use.\n"
+        shock_damage += " Cars and trucks will be largely displaced \
+            and grossly distorted and will require rebuilding before use.\n"
     elif opressure >= 297000:
-        shock_damage += " Cars and trucks will be overturned and displaced, requiring major repairs.\n"
+        shock_damage += " Cars and trucks will be overturned \
+            and displaced, requiring major repairs.\n"
 
     if vmax >= 62:
-        shock_damage += " Up to 90 percent of trees blown down remainder stripped of branches and leaves.\n"
+        shock_damage += " Up to 90 percent of trees blown down \
+            remainder stripped of branches and leaves.\n"
     elif vmax >= 40:
-        shock_damage += " About 30 percent of trees blown down remainder have some branches and leaves blown off.\n"
+        shock_damage += " About 30 percent of trees blown down \
+            remainder have some branches and leaves blown off.\n"
 
     return shock_damage
 
