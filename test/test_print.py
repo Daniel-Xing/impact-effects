@@ -9,39 +9,11 @@ from impactEffects.instances import ImpactorClass, TargetClass
 from impactEffects.utils.print import print_airblast, print_change, print_crater, print_ejecta, print_energy, print_recurrencetime, print_atmospheric_entry, print_seismic, print_thermal, print_tsunami
 
 
-def get_input():
-    while True:
-        pdiameter = float(input("please input diameter of impactor: "))
-        pdensity = float(input("please input density of impactor: "))
-        v_input = float(input("please input the velocity of impactor: "))
-        theta = float(input("please input the theta of impactor: "))
-        tdensity = float(input("please input the density of target: "))
-        depth = float(input("please input the depth(meters): "))
-        distance = float(input("please input the distance: "))
-
-        try:
-            impactor = impactEffects.instances.ImpactorClass.Impactor(
-                diameter=pdiameter, density=pdensity, velocity=v_input, theta=theta
-            )
-            targets = TargetClass.Target(
-                depth=depth, distance=distance, density=tdensity)
-            break
-        except:
-            print("Input error, please retry or exit.")
-            retry = input("Do you want to retry?(0:false, 1:true)")
-            if retry == "0":
-                exit(0)
-            elif retry == "1":
-                continue
-            else:
-                print("error: input is not 0/1 .")
-                exit(1)
-
-    return impactor, targets
-
-
-def simulateImpactor(impartor: Impactor, targets: Target):
-
+def test_print():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111000, velocity=111, theta=45
+    )
+    targets = TargetClass.Target(depth=0, distance=111, density=2750)
     # cal_energy
     _kinetic_energy = kinetic_energy(impactor)
     _kinetic_energy_megatons = kinetic_energy_megatons(impactor)
@@ -115,15 +87,15 @@ def simulateImpactor(impartor: Impactor, targets: Target):
                                 altitudeBurst, impactor.density, dispersion, impactor.theta, energy_surface, energy_megatons)
 
     if altitudeBurst <= 0:
-        ejecta_arrival=cal_eject_arrival(impactor, targets)
+        ejecta_arrival = cal_eject_arrival(impactor, targets)
 
-        ejecta_thickness=cal_ejecta_thickness(impactor, targets)
-        d_frag=cal_d_frag(impactor = impactor, target = targets,
-                          cdiameter = cdiameter, altitudeBurst = altitudeBurst, Dtr = Dtr)
+        ejecta_thickness = cal_ejecta_thickness(impactor, targets)
+        d_frag = cal_d_frag(impactor=impactor, target=targets,
+                            cdiameter=cdiameter, altitudeBurst=altitudeBurst, Dtr=Dtr)
 
         if velocity >= 15:
             (
-                h, 
+                h,
                 Rf,
                 thermal_exposure_,
                 no_radiation_,
@@ -133,44 +105,38 @@ def simulateImpactor(impartor: Impactor, targets: Target):
                 thermal_power_,
             ) = cal_themal(impactor, targets)
 
-
         magnitude = cal_magnitude(impactor, targets)
 
         eff_mag, seismic_arrival = cal_magnitude2(impactor, targets)
-        
+
         print_crater(vMelt, Dtr, targets.depth, wdiameter, impactor.pdiameter, dispersion,
-                 collins_iFactor, depthtr, mratio, mcratio, cdiameter, depthfr, brecciaThickness, velocity)
+                     collins_iFactor, depthtr, mratio, mcratio, cdiameter, depthfr, brecciaThickness, velocity)
         if targets.distance * 1000 <= Dtr/2:
-            print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance, 
+            print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
                          Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
             return
-        
-        print_thermal(velocity, no_radiation_, max_rad_time_, targets.distance, Rf, 
+
+        print_thermal(velocity, no_radiation_, max_rad_time_, targets.distance, Rf,
                       h, thermal_power_, thermal_exposure_, irradiation_time_)
         print_seismic(magnitude, seismic_arrival)
-        print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance, 
+        print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
                      Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
-    
+
     # Compute the effects of the airblast and print
     shock_arrival = cal_shock_arrival(impactor, targets)
     vmax, opressure = cal_vmax(impactor, targets)
-    shock_damage = cal_shock_damage(impactor=impactor, target=targets, opressure=opressure, vmax=vmax)
+    shock_damage = cal_shock_damage(
+        impactor=impactor, target=targets, opressure=opressure, vmax=vmax)
     dec_level = cal_dec_level(impactor, targets)
-    print_airblast(opressure, vmax, shock_arrival, targets.distance, altitudeBurst, dec_level, shock_damage)
-    
+    print_airblast(opressure, vmax, shock_arrival,
+                   targets.distance, altitudeBurst, dec_level, shock_damage)
+
     # Compute the tsunami amplitude if water layer present
     if targets.depth > 0:
         TsunamiArrivalTime = cal_TsunamiArrivalTime(impactor, targets)
-        WaveAmplitudeUpperLimit = cal_WaveAmplitudeUpperLimit(impactor, targets)
-        WaveAmplitudeLowerLimit = cal_WaveAmplitudeLowerLimit(impactor, targets)
-        print_tsunami(targets.distance, wdiameter, TsunamiArrivalTime, WaveAmplitudeLowerLimit, WaveAmplitudeUpperLimit)
-
-
-if __name__ == "__main__":
-    impactor, target = get_input()
-    # impactor = impactEffects.instances.ImpactorClass.Impactor(
-    #     diameter=111, density=111000, velocity=111, theta=45
-    # )
-    target = TargetClass.Target(depth=0, distance=111, density=2750)
-    simulateImpactor(impactor, target)
-    
+        WaveAmplitudeUpperLimit = cal_WaveAmplitudeUpperLimit(
+            impactor, targets)
+        WaveAmplitudeLowerLimit = cal_WaveAmplitudeLowerLimit(
+            impactor, targets)
+        print_tsunami(targets.distance, wdiameter, TsunamiArrivalTime,
+                      WaveAmplitudeLowerLimit, WaveAmplitudeUpperLimit)

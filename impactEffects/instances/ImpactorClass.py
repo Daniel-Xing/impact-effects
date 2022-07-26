@@ -23,7 +23,7 @@ class Impactor:
         density,
         velocity,
         theta,
-        velocity_upper=3 * 10 ** 5,
+        velocity_upper=3e5,
         velocity_lower=0,
         theta_upper=90,
         theta_lower=0,
