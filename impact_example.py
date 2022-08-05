@@ -43,13 +43,15 @@ def get_input():
 def simulateImpactor(impartor: Impactor, targets: Target):
 
     # cal_energy
+    energy_disc, rec_disc, change_disc, atmos_disc, crater_disc, eject_disc, themal_disc, seismic_disc, ejecta_disc, airblast_disc, tsunami_disc = \
+        "", "", "", "", "", "", "", "", "", "", ""
     _kinetic_energy = kinetic_energy(impactor)
     _kinetic_energy_megatons = kinetic_energy_megatons(impactor)
-    print_energy(_kinetic_energy, _kinetic_energy_megatons)
+    energy_disc = print_energy(_kinetic_energy, _kinetic_energy_megatons)
 
     _rec_time = rec_time(impactor)
     print(_rec_time)
-    print_recurrencetime(_rec_time)
+    rec_disc = print_recurrencetime(_rec_time)
 
     # atmospheric_entry
     collins_iFactor, _av, _rStrength = iFactor(impactor, targets)
@@ -107,23 +109,23 @@ def simulateImpactor(impartor: Impactor, targets: Target):
     mratio, mcratio = cal_mratio_and_mcratio(impactor, targets)
     # end find_crater
 
-    print_change(vRatio, mratio, lratio, trot_change, pratio)
+    change_disc = print_change(vRatio, mratio, lratio, trot_change, pratio)
 
     energy_megatons = energy_surface / (4.186 * 10**15)
     if impactor.get_mass() <= 1.5707963e12:
-        print_atmospheric_entry(impactor.get_mass(), impactor.velocity, velocity, collins_iFactor, altitudeBU,
-                                altitudeBurst, impactor.density, dispersion, impactor.theta, energy_surface, energy_megatons)
+        atmos_disc = print_atmospheric_entry(impactor.get_mass(), impactor.velocity, velocity, collins_iFactor, altitudeBU,
+                                             altitudeBurst, impactor.density, dispersion, impactor.theta, energy_surface, energy_megatons)
 
     if altitudeBurst <= 0:
-        ejecta_arrival=cal_eject_arrival(impactor, targets)
+        ejecta_arrival = cal_eject_arrival(impactor, targets)
 
-        ejecta_thickness=cal_ejecta_thickness(impactor, targets)
-        d_frag=cal_d_frag(impactor = impactor, target = targets,
-                          cdiameter = cdiameter, altitudeBurst = altitudeBurst, Dtr = Dtr)
+        ejecta_thickness = cal_ejecta_thickness(impactor, targets)
+        d_frag = cal_d_frag(impactor=impactor, target=targets,
+                            cdiameter=cdiameter, altitudeBurst=altitudeBurst, Dtr=Dtr)
 
         if velocity >= 15:
             (
-                h, 
+                h,
                 Rf,
                 thermal_exposure_,
                 no_radiation_,
@@ -133,37 +135,43 @@ def simulateImpactor(impartor: Impactor, targets: Target):
                 thermal_power_,
             ) = cal_themal(impactor, targets)
 
-
         magnitude = cal_magnitude(impactor, targets)
 
         eff_mag, seismic_arrival = cal_magnitude2(impactor, targets)
-        
-        print_crater(vMelt, Dtr, targets.depth, wdiameter, impactor.pdiameter, dispersion,
-                 collins_iFactor, depthtr, mratio, mcratio, cdiameter, depthfr, brecciaThickness, velocity)
+
+        crater_disc = print_crater(vMelt, Dtr, targets.depth, wdiameter, impactor.pdiameter, dispersion,
+                                   collins_iFactor, depthtr, mratio, mcratio, cdiameter, depthfr, brecciaThickness, velocity)
         if targets.distance * 1000 <= Dtr/2:
-            print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance, 
-                         Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
+            eject_disc = print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
+                                      Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
             return
-        
-        print_thermal(velocity, no_radiation_, max_rad_time_, targets.distance, Rf, 
-                      h, thermal_power_, thermal_exposure_, irradiation_time_)
-        print_seismic(magnitude, seismic_arrival)
-        print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance, 
-                     Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
-    
+
+        themal_disc = print_thermal(velocity, no_radiation_, max_rad_time_, targets.distance, Rf,
+                                    h, thermal_power_, thermal_exposure_, irradiation_time_)
+        seismic_disc = print_seismic(magnitude, seismic_arrival)
+        ejecta_disc = print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
+                                   Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
+
     # Compute the effects of the airblast and print
     shock_arrival = cal_shock_arrival(impactor, targets)
     vmax, opressure = cal_vmax(impactor, targets)
-    shock_damage = cal_shock_damage(impactor=impactor, target=targets, opressure=opressure, vmax=vmax)
+    shock_damage = cal_shock_damage(
+        impactor=impactor, target=targets, opressure=opressure, vmax=vmax)
     dec_level = cal_dec_level(impactor, targets)
-    print_airblast(opressure, vmax, shock_arrival, targets.distance, altitudeBurst, dec_level, shock_damage)
-    
+    airblast_disc = print_airblast(opressure, vmax, shock_arrival,
+                                   targets.distance, altitudeBurst, dec_level, shock_damage)
+
     # Compute the tsunami amplitude if water layer present
     if targets.depth > 0:
         TsunamiArrivalTime = cal_TsunamiArrivalTime(impactor, targets)
-        WaveAmplitudeUpperLimit = cal_WaveAmplitudeUpperLimit(impactor, targets)
-        WaveAmplitudeLowerLimit = cal_WaveAmplitudeLowerLimit(impactor, targets)
-        print_tsunami(targets.distance, wdiameter, TsunamiArrivalTime, WaveAmplitudeLowerLimit, WaveAmplitudeUpperLimit)
+        WaveAmplitudeUpperLimit = cal_WaveAmplitudeUpperLimit(
+            impactor, targets)
+        WaveAmplitudeLowerLimit = cal_WaveAmplitudeLowerLimit(
+            impactor, targets)
+        tsunami_disc = print_tsunami(targets.distance, wdiameter, TsunamiArrivalTime,
+                                     WaveAmplitudeLowerLimit, WaveAmplitudeUpperLimit)
+
+    return energy_disc, rec_disc, change_disc, atmos_disc, crater_disc, eject_disc, themal_disc, seismic_disc, ejecta_disc, airblast_disc, tsunami_disc
 
 
 if __name__ == "__main__":
@@ -173,4 +181,3 @@ if __name__ == "__main__":
     # )
     target = TargetClass.Target(depth=0, distance=111, density=2750)
     simulateImpactor(impactor, target)
-    
