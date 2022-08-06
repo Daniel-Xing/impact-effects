@@ -22,6 +22,16 @@ Include 3 types of cases:
 """
 
 
+def test_simulator():
+    impactor = impactEffects.instances.ImpactorClass.Impactor(
+        diameter=111, density=111, velocity=111, theta=45
+    )
+    targets = TargetClass.Target(depth=0, distance=75, density=2500)
+
+    res = simulateImpactor(impactor, targets)
+    print(res)
+
+
 def test_Kinetic_energy():
     impactor = impactEffects.instances.ImpactorClass.Impactor(
         diameter=111, density=111, velocity=111, theta=45

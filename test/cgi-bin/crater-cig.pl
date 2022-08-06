@@ -241,9 +241,6 @@ sub check_data
 		$valid_data = 0;
 		$valid[6] = 0;
 	}
-	
-
-
 }
 
 
