@@ -1,11 +1,13 @@
 # Impact Effect Simulator Library
 
 [![Python](https://img.shields.io/pypi/pyversions/tensorflow.svg?style=plastic)](https://badge.fury.io/py/tensorflow)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > English | [中文](./doc/README_ZH.md)
 
 The impact of asteroids and comets is one of the core issues of planet science research. Research and modeling impacts help us understand the process and evaluate the possible impact of the impact. This is a broad demand for many researchers. This project provides a Python Library to help researchers modeling and evaluating the corresponding consequences, providing necessary functions and interfaces.
+
+This Project is based on [Earth Impact Effects Program: A Web-based computer program for calculating the regional environmental consequences of a meteoroid impact on Earth](https://doi.org/10.1111/j.1945-5100.2005.tb00157.x), under the guidance of [Professor Gareth Collins](http://www.imperial.ac.uk/people/g.collins) and [Dr Thomas M Guide to build Davison](https://www.imperial.ac.uk/people/thomas.davison).
 
 ## 🍞 Features
 - Support the key functions in [Earth Impact Effects Program](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1945-5100.2005.tb00157.x), which can simulate the occurrence and possible consequences of the impact event.
