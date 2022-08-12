@@ -138,72 +138,55 @@ if($valid_data == 0){
 
 sub get_data
 {
+  # print '$ARGV[0] ---> ',$ARGV[0],"\n",
+  #     '$ARGV[1] ---> ',$ARGV[1],"\n",
+  #     '$ARGV[2] ---> ',$ARGV[2],"\n",
+  #     '$ARGV[3] ---> ',$ARGV[3],"\n",
+  #     '$ARGV[4] ---> ',$ARGV[4],"\n";
 
 	# $pdiameter = param("diam");
-  $pdiameter = 111;
+  $pdiameter = $ARGV[0];
 	# $pdensity = param('pdens');
-  $pdensity = 111000;
-
-  if($pdensity eq ''){
-      $pdensity = param('pdens_select');  
-  }
+  $pdensity = $ARGV[1];
 
   # $vInput = param('vel');
-  $vInput = 111;
-  
-  my $vUnits;
-  # $vUnits = param('velocityUnits');
-  $vUnits = 1;
-  if($vUnits == 2){
-    $vInput *= 1.61;
-  }
+  $vInput = $ARGV[2];
 
   # $theta = param('theta');
   # $tdensity = param('tdens');
-  $theta = 45;
-  $tdensity = 111;
-  if($tdensity == 1000){
-    $depth = 1111;
-	}else{
-		$depth = 0;
-	}
-    	
-  my $depthUnits;
-  # $depthUnits = param('wdepthUnits');
-  $depthUnits = 1;
-  if($depthUnits == 2){
-    $depth *= 0.3048;
-  }
+  $theta = $ARGV[3];
+  $tdensity = $ARGV[4];
+  $depth = $ARGV[5];
   
 	$ttype = 3;
 	    	
   # $distance = param('dist');
-  $distance = 111;
+  $distance = $ARGV[6];
 
-	my $dunits;
+	# my $dunits;
 	# $dunits = param('distanceUnits');
-  $dunits = 1;
-	if($dunits == 2){
-		$distance *= 1.61;
-	}
+  # $dunits = 1;
+	# if($dunits == 2){
+	# 	$distance *= 1.61;
+	# }
 
-	my $punits;	
-	# $punits = param('diameterUnits');
-  $punits = 1;
-	if($punits == 2){
-		$pdiameter *= 1000;
-	}elsif($punits == 3){
-		$pdiameter *= 0.3048;
-	}elsif($punits == 4){
-		$pdiameter *= 1609.34;
-	}
+	# my $punits;	
+	# # $punits = param('diameterUnits');
+  # $punits = 1;
+	# if($punits == 2){
+	# 	$pdiameter *= 1000;
+	# }elsif($punits == 3){
+	# 	$pdiameter *= 0.3048;
+	# }elsif($punits == 4){
+	# 	$pdiameter *= 1609.34;
+	# }
 
-	my $vunits;
-	# $vunits = param('velocityUnits');
-  $vunits = 1;                      
-	if($vunits == 2){
-		$velocity *= 1.61;
-	}
+	# my $vunits;
+	# # $vunits = param('velocityUnits');
+  # $vunits = 1;                      
+	# if($vunits == 2){
+	# 	$velocity *= 1.61;
+	# }
 }
 
 
@@ -276,7 +259,7 @@ sub impact_effects
     ### Actually use mass threshold to allow for density effect.
     #if ($pdiameter <= 1000) {
     if ($mass <= 1.5707963E12) {
-      print_atmospheric_entry();
+      # print_atmospheric_entry();
     }
 
     ### If the impactor does not airburst, compute:
@@ -392,7 +375,8 @@ sub calc_energy {
 
     ### Compute energy of airburst, or energy after deceleration by atmosphere
     $energy_atmosphere = 0.5 * $mass * (($vInput * 1000)**2 - ($velocity * 1000)**2);
-    print "energy_atmosphere = $energy_atmosphere, vInput = $vInput, velocity = $velocity, altitudeBurst: = $altitudeBurst\n";
+    print "energy_atmosphere = $energy_atmosphere\n";
+    print "altitudeBurst = $altitudeBurst\n";
     if ($altitudeBurst > 0) {
       # Blast energy is airburst energy (kTons)
       $energy_blast = $energy_atmosphere / (4.186 * 10**12);
@@ -614,8 +598,12 @@ sub find_crater()
       print "ok\n";
       $Dtr /= 2;			# impact of largest fragment (with diameter = 1/2 initial diameter)
     }
-    print "Cd = $Cd， mass = $mass， tdensity = $tdensity， g = $g pdiameter = $pdiameter， vseafloor = $vseafloor， g = $g， beta = $beta\n";
-    print "anglefac = $anglefac, Dtr = $Dtr, dispersion = $dispersion\n";
+
+    print "Cd = $Cd\n";
+    print "beta = $beta\n";
+    print "anglefac = $anglefac \n";
+    print "Dtr = $Dtr \n";
+    print "dispersion = $dispersion\n";
     
     $depthtr = $Dtr / 2.828;
     print "depthtr = $depthtr\n";

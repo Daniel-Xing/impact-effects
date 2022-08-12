@@ -180,6 +180,28 @@ def dispersion_length_scale(
     return 0
 
 
+def cal_lDisper(
+    impactor: Impactor,
+    target: Target,
+    altitudeBU: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_dispersion_length_scale(impactor, target, altitudeBU)
+
+    return 0
+
+
 def airburst_altitude(
     impactor: Impactor,
     target: Target,
@@ -356,7 +378,53 @@ def cal_energy_blast_surface(
     return 0
 
 
+def cal_energy_surface(
+    impactor: Impactor,
+    target: Target,
+    velocity: float = 0,
+    altitudeBurst: float = 0,
+    energy_atmosphere: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_energy_blast_surface(
+            impactor, target, velocity, altitudeBurst, energy_atmosphere
+        )[1]
+
+    return 0
+
+
 def cal_mass_of_water(
+    impactor: Impactor, target: Target, type: Choices = Choices.Collins
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+
+    if type is Choices.Collins:
+        return collins_cal_mass_of_water(impactor, target)
+
+    return 0
+
+
+def cal_mwater(
     impactor: Impactor, target: Target, type: Choices = Choices.Collins
 ) -> float:
     """
@@ -421,6 +489,28 @@ def cal_energy_at_seafloor(
     return 0
 
 
+def cal_energy_seafloor(
+    impactor: Impactor,
+    target: Target,
+    vseafloor: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_energy_at_seafloor(impactor, target, vseafloor)
+
+    return 0
+
+
 def cal_ePIcentral_angle(
     target: Target, type: Choices = Choices.Collins
 ) -> float:
@@ -457,6 +547,46 @@ def cal_scaling_diameter_constant(
 
     if type is Choices.Collins:
         return collins_cal_scaling_diameter_constant(target=target)
+
+    return 0
+
+
+def cal_Cd(
+    target: Target, type: Choices = Choices.Collins
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+
+    if type is Choices.Collins:
+        return collins_cal_scaling_diameter_constant(target=target)[0]
+
+    return 0
+
+
+def cal_beta(
+    target: Target, type: Choices = Choices.Collins
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+
+    if type is Choices.Collins:
+        return collins_cal_scaling_diameter_constant(target=target)[1]
 
     return 0
 
@@ -532,6 +662,28 @@ def cal_transient_crater_diameter(
 
 
 def cal_depthr(
+    impactor: Impactor,
+    target: Target,
+    Dtr: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_depthr(impactor, target, Dtr)
+
+    return 0
+
+
+def cal_depthtr(
     impactor: Impactor,
     target: Target,
     Dtr: float = 0,
@@ -694,6 +846,50 @@ def cal_vCrater_vRation(
     return 0
 
 
+def cal_vCrater(
+    impactor: Impactor,
+    target: Target,
+    Dtr: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_vCrater_vRation(impactor, target, Dtr)[0]
+
+    return 0
+
+
+def cal_vration(
+    impactor: Impactor,
+    target: Target,
+    Dtr: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_vCrater_vRation(impactor, target, Dtr)[1]
+
+    return 0
+
+
 def cal_vMelt(
     impactor: Impactor,
     target: Target,
@@ -742,6 +938,60 @@ def cal_mratio_and_mcratio(
         return collins_cal_mratio_and_mcratio(
             impactor, target, velocity, vMelt, vCrater, Dtr
         )
+
+    return 0
+
+
+def cal_mratio(
+    impactor: Impactor,
+    target: Target,
+    velocity: float = 0,
+    vMelt: float = 0,
+    vCrater: float = 0,
+    Dtr: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_mratio_and_mcratio(
+            impactor, target, velocity, vMelt, vCrater, Dtr
+        )[0]
+
+    return 0
+
+
+def cal_mcratio(
+    impactor: Impactor,
+    target: Target,
+    velocity: float = 0,
+    vMelt: float = 0,
+    vCrater: float = 0,
+    Dtr: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_mratio_and_mcratio(
+            impactor, target, velocity, vMelt, vCrater, Dtr
+        )[1]
 
     return 0
 
@@ -900,6 +1150,62 @@ def cal_magnitude2(
         return collins_cal_magnitude2(
             impactor, target, altitudeBurst, energy_seafloor, delta
         )
+
+    return 0
+
+
+def cal_eff_mag(
+    impactor: Impactor,
+    target: Target,
+    energy_seafloor: float = 0,
+    altitudeBurst: float = 0,
+    distance: float = 0,
+    surface_wave_v: float = 0,
+    delta: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_magnitude2(
+            impactor, target, altitudeBurst, energy_seafloor, delta
+        )[0]
+
+    return 0
+
+
+def cal_seismic_arrival(
+    impactor: Impactor,
+    target: Target,
+    energy_seafloor: float = 0,
+    altitudeBurst: float = 0,
+    distance: float = 0,
+    surface_wave_v: float = 0,
+    delta: float = 0,
+    type: Choices = Choices.Collins,
+) -> float:
+    """
+
+    Arguments
+    ---------
+
+
+    Returns
+    -------
+
+    """
+    if type is Choices.Collins:
+        return collins_cal_magnitude2(
+            impactor, target, altitudeBurst, energy_seafloor, delta
+        )[1]
 
     return 0
 
