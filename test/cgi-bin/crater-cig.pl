@@ -376,7 +376,6 @@ sub calc_energy {
     ### Compute energy of airburst, or energy after deceleration by atmosphere
     $energy_atmosphere = 0.5 * $mass * (($vInput * 1000)**2 - ($velocity * 1000)**2);
     print "energy_atmosphere = $energy_atmosphere\n";
-    print "altitudeBurst = $altitudeBurst\n";
     if ($altitudeBurst > 0) {
       # Blast energy is airburst energy (kTons)
       $energy_blast = $energy_atmosphere / (4.186 * 10**12);
@@ -391,6 +390,7 @@ sub calc_energy {
         $energy_blast = $energy_surface / (4.186 * 10**12);
       }
     }
+    print "altitudeBurst = $altitudeBurst\n";
 
     print "energy_blast = $energy_blast\n";
     print "energy_surface = $energy_surface\n";
@@ -749,6 +749,10 @@ sub air_blast
     ### Arrival time is straight line distance divided by sound speed
     $slantRange = ($distance**2 + ($altitudeBurst/1000)**2)**(1/2); # for air burst, distance is slant range from explosion
     $shock_arrival = ($slantRange * 1000)/$vsound; # distance in meters divided by velocity of sound in m/s
+    print "distance = $distance \n";
+    print "altitudeBurst = $altitudeBurst \n";
+    print "vsound = $vsound \n";
+    print "slantRange = $slantRange\n";
     print "shock_arrival = $shock_arrival\n";
 
     ### Scale distance to equivalent for a kiloton explosion

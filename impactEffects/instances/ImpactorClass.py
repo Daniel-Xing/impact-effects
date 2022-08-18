@@ -62,6 +62,8 @@ class Impactor:
         self.energy0_megatons = None
         self.rec_time = None
 
+        self.altitudeBurst = 0
+
         return
 
     # define setter function for pdiameter
@@ -201,6 +203,14 @@ class Impactor:
 
         energy0_megatons = self.get_energy0_megatons()
         self.rec_time = max(self.rec_time, 110 * energy0_megatons ** 0.77)
+
+
+# class ImpactorPopulation(Impactor):
+
+#     def __init__(
+#         pdiameter: generator
+#     ):
+#         super.__init__()
 
 
 if __name__ == "__main__":
