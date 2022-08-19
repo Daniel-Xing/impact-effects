@@ -1427,6 +1427,7 @@ def collins_cal_themal(
             0,
             0,
             0,
+            0,
         )
 
     energy_megatons = energy_surface / (4.186 * 10 ** 15)

@@ -205,14 +205,6 @@ class Impactor:
         self.rec_time = max(self.rec_time, 110 * energy0_megatons ** 0.77)
 
 
-# class ImpactorPopulation(Impactor):
-
-#     def __init__(
-#         pdiameter: generator
-#     ):
-#         super.__init__()
-
-
 if __name__ == "__main__":
     impactor = Impactor(diameter=111, density=111, velocity=111, theta=45)
     print(impactor.get_pdiameter())
