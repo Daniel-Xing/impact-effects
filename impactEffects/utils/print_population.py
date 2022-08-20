@@ -13,7 +13,7 @@ def Global_change(vratio, mratio, lratio, trot_change, pratio):
     trot_change:
     pratio:
     """
-    global_change = ""
+    global_change = "Global change:\n"
 
     # vratio
     global_change += " %f %% probability: " % (
