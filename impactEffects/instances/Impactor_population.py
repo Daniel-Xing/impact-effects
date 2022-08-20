@@ -66,6 +66,15 @@ class ImpactorPopulation:
         self.rec_time = None
 
         self.altitudeBurst = 0
+        
+        self.instances = []
+        for diamter in self.pdiameter:
+            # print("aaa", diamter, "type: ", type(diamter))
+            self.instances.append(
+                Impactor(diameter=diamter,
+                         density=self.density,
+                         velocity=self.velocity,
+                         theta=self.theta))
 
         return
 
@@ -216,14 +225,6 @@ class ImpactorPopulation:
     def Instances(self):
         """Now, only support diamater
         """
-        self.instances = []
-        for diamter in self.pdiameter:
-            # print("aaa", diamter, "type: ", type(diamter))
-            self.instances.append(
-                Impactor(diameter=diamter,
-                         density=self.density,
-                         velocity=self.velocity,
-                         theta=self.theta))
         return self.instances
 
 

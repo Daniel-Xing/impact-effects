@@ -139,7 +139,7 @@ def simulateImpactor(impartor: Impactor, targets: Target):
     depthtr = cal_depthr(impactor, targets)
 
     cdiameter = cal_cdiamater(impactor, targets)
-    print("-----------------cal_cdiameter:", cdiameter)
+    # print("-----------------cal_cdiameter:", cdiameter)
 
     depthfr = cal_depthfr(impactor, targets)
     brecciaThickness = cal_brecciaThickness(impactor, targets)
