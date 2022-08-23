@@ -1,5 +1,3 @@
-from sre_compile import dis
-from this import d
 from impactEffects.core.config import *
 
 

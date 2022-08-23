@@ -30,3 +30,15 @@ sqrt = math.sqrt
 class Choices(Enum):
     Collins = 0
     Example = 256
+
+
+DEBUG = True
+
+
+# def DPRINT(*values: object,
+#            sep: str | None = ...,
+#            end: str | None = ...,
+#            file: SupportsWrite[str] | None = ...,
+#            flush: Literal[False] = ...,):
+#     if DEBUG:
+#         print(msg)

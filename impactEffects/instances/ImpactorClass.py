@@ -62,6 +62,8 @@ class Impactor:
         self.energy0_megatons = None
         self.rec_time = None
 
+        self.altitudeBurst = 0
+
         return
 
     # define setter function for pdiameter

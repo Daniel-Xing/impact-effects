@@ -109,20 +109,18 @@ if($valid_data == 0){
 	&impact_effects();
 }
 
-# dist=75
-# diam=111
-# pdens=111
+# dist=100
+# distanceUnits=1
+# diam=1
+# diameterUnits=2
+# pdens=3000
 # pdens_select=0
-# vel=111
+# vel=20
+# 4=1
 # theta=45
-# tdens=2750
-# tdens_select=0
-
-# dist=75 distanceUnits=1 
-# diam=111 diameterUnits=1 
-# pdens=111 pdens_select=3000 
-# vel=111 velocityUnits=1 theta=111
-# wdepth= wdepthUnits=1 tdens=2750
+# wdepth=
+# wdepthUnits=1
+# tdens=2500
 
 sub get_data
 {
