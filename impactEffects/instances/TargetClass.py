@@ -179,8 +179,8 @@ class Target:
     def set_distance(self, distance):
         if not numeric_checker(distance):
             raise ValueError("distance must be numeric")
-        if not positive_checker(distance):
-            raise ValueError("distance must be positive")
+        # if not positive_checker(distance):
+        #     raise ValueError("distance must be positive")
 
         self.distance = distance
 

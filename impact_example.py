@@ -11,33 +11,36 @@ from impactEffects.utils.print import print_airblast, print_change, print_crater
 
 def get_input():
     while True:
-        pdiameter = float(input("please input diameter of impactor: "))
-        diameterUnit = int(
-            input("please input the unit of diameter: 1 for km, 2 for m "))
-        # pdiameter = 1000
+        # pdiameter = float(input("please input diameter of impactor: "))
+        # diameterUnit = int(
+        #     input("please input the unit of diameter: 1 for km, 2 for m "))
+        pdiameter = 18
+        diameterUnit = 1
 
-        pdensity = float(input("please input density(kg/m^3) of impactor: "))
-        # pdensity = 3000
+        # pdensity = float(input("please input density(kg/m^3) of impactor: "))
+        pdensity = 2700
 
-        v_input = float(input("please input the velocity of impactor: "))
-        velocityUnits = int(
-            input("please input the unit of velocity: 1 for km/s, 2 for mile/s ")
-        )
-        # v_input = 20
+        # v_input = float(input("please input the velocity of impactor: "))
+        # velocityUnits = int(
+        #     input("please input the unit of velocity: 1 for km/s, 2 for mile/s ")
+        # )
+        v_input = 20
+        velocityUnits = 1
 
-        theta = float(input("please input the theta(degrees) of impactor: "))
-        # theta = 45
+        # theta = float(input("please input the theta(degrees) of impactor: "))
+        theta = 60
 
-        tdensity = float(input("please input the density(kg/m^3) of target: "))
-        # tdensity = 2500
+        # tdensity = float(input("please input the density(kg/m^3) of target: "))
+        tdensity = 1000
 
-        depth = float(input("please input the depth(meters): "))
-        # depth = 0
+        # depth = float(input("please input the depth(meters): "))
+        depth = 500
 
-        distance = float(input("please input the distance: "))
-        distanceUnit = int(
-            input("please input the unit of distance: 1 for km, 2 for m "))
-        # distance = 100
+        # distance = float(input("please input the distance: "))
+        # distanceUnit = int(
+        #     input("please input the unit of distance: 1 for km, 2 for m "))
+        distance = 200
+        distanceUnit = 1
 
         try:
             if diameterUnit == 1:
@@ -176,6 +179,17 @@ def simulateImpactor(impartor: Impactor, targets: Target):
                 megaton_factor_,
                 thermal_power_,
             ) = cal_themal(impactor, targets)
+        else:
+            (
+                h,
+                Rf,
+                thermal_exposure_,
+                no_radiation_,
+                max_rad_time_,
+                irradiation_time_,
+                megaton_factor_,
+                thermal_power_,
+            ) = 0, 0, 0, 0, 0, 0, 0, 0
 
         magnitude = cal_magnitude(impactor, targets)
 
@@ -183,15 +197,21 @@ def simulateImpactor(impartor: Impactor, targets: Target):
 
         crater_disc = print_crater(vMelt, Dtr, targets.depth, wdiameter, impactor.pdiameter, dispersion,
                                    collins_iFactor, depthtr, mratio, mcratio, cdiameter, depthfr, brecciaThickness, velocity)
+
+        try:
+            enerm_pow = int(log(energy_megatons)/log(10))
+        except:
+            enerm_pow = -inf
+
         if targets.distance * 1000 <= Dtr/2:
-            eject_disc = print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
+            eject_disc = print_ejecta(energy_megatons, enerm_pow, targets.distance,
                                       Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
             return
 
         themal_disc = print_thermal(velocity, no_radiation_, max_rad_time_, targets.distance, Rf,
                                     h, thermal_power_, thermal_exposure_, irradiation_time_)
         seismic_disc = print_seismic(magnitude, seismic_arrival)
-        ejecta_disc = print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
+        ejecta_disc = print_ejecta(energy_megatons, enerm_pow, targets.distance,
                                    Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
 
     # Compute the effects of the airblast and print

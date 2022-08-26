@@ -1,3 +1,4 @@
+from cmath import inf
 from impactEffects.core.config import *
 
 
@@ -202,17 +203,29 @@ def print_atmospheric_entry(
     en_power = int(en_power)
     en /= 10 ** en_power
 
-    ens_power = log(energy_surface) / log(10)
-    ens_power = int(ens_power)
-    energy_surface /= 10 ** ens_power
+    try:
+        ens_power = log(energy_surface) / log(10)
+        ens_power = int(ens_power)
+        energy_surface /= 10 ** ens_power
+    except:
+        energy_surface = energy_surface
+        ens_power = -inf
 
-    enmton_power = log(en_mton) / log(10)
-    enmton_power = int(enmton_power)
-    en_mton /= 10 ** enmton_power
+    try:
+        enmton_power = log(en_mton) / log(10)
+        enmton_power = int(enmton_power)
+        en_mton /= 10 ** enmton_power
+    except:
+        en_mton = en_mton
+        enmton_power = -inf
 
-    megaton_power = log(energy_megatons) / log(10)
-    megaton_power = int(megaton_power)
-    energy_megatons /= 10 ** megaton_power
+    try:
+        megaton_power = log(energy_megatons) / log(10)
+        megaton_power = int(megaton_power)
+        energy_megatons /= 10 ** megaton_power
+    except:
+        energy_megatons = energy_megatons
+        megaton_power = -inf
 
     discribe = ""
 
