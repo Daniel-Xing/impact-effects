@@ -1,7 +1,3 @@
-from tkinter.tix import InputOnly
-import numpy as np
-from sqlalchemy import false
-from sympy import re
 import impactEffects.instances.ImpactorClass
 from impactEffects.functions import *
 from impactEffects.functions.function import *

@@ -122,14 +122,13 @@ def Test(pdiameter=111,
                       resMap[k], " Value from library", res)
 
 
-def test_auto():
-    pdiameter = 1000
-    pdensity = 3000
-    velocity = 20
-    theta = 45
-    tdensity = 2500
-    depth = 0
-    distance = 100
+def test_auto(pdiameter=1000,
+              pdensity=3000,
+              velocity=20,
+              theta=45,
+              tdensity=2500,
+              depth=0,
+              distance=100):
 
     cmd = "cd cgi-bin && ./crater-cig.pl %d %d %d %d %d %d %d" % (
         pdiameter, pdensity, velocity, theta, tdensity, depth, distance)
