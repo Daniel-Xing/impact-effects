@@ -70,17 +70,12 @@ class Impactor:
     def set_pdiameter(self, pdiameter):
         # check if the value is numeric
         if not numeric_checker(pdiameter):
-            raise TypeError(
-                "pdiameter must be a numeric value, float or int."
-            )
+            raise TypeError("pdiameter must be a numeric value, float or int.")
         # check if pdiameter is within the bounds
-        if (
-            pdiameter > self.diameter_upper
-            or pdiameter < self.diameter_lower
-        ):
+        if pdiameter > self.diameter_upper or pdiameter < self.diameter_lower:
             raise ValueError(
-                "pdiameter must be within the bounds: {} < pdiameter < {}".
-                format(
+                "pdiameter must be \
+                    within the bounds: {} < pdiameter < {}".format(
                     self.diameter_lower, self.diameter_upper
                 )
             )
@@ -90,9 +85,7 @@ class Impactor:
     def set_density(self, density):
         # check if the value is numeric
         if not numeric_checker(density):
-            raise TypeError(
-                "density must be a numeric value, float or int."
-            )
+            raise TypeError("density must be a numeric value, float or int.")
         # check if density is within the bounds
         if density > self.density_upper or density < self.density_lower:
             raise ValueError(
@@ -106,15 +99,14 @@ class Impactor:
     def set_velocity(self, velocity):
         # check if the value is numeric
         if not numeric_checker(velocity):
-            raise TypeError(
-                "velocity must be a numeric value, float or int."
-            )
+            raise TypeError("velocity must be a numeric value, float or int.")
         # check if velocity is within the bounds
         if velocity > self.velocity_upper or velocity < self.velocity_lower:
             raise ValueError(
-                "velocity must be within the bounds: {} < velocity < {}".
-                format(self.velocity_lower, self.velocity_upper
-                       )
+                "velocity must be\
+                within the bounds: {} < velocity < {}".format(
+                    self.velocity_lower, self.velocity_upper
+                )
             )
         self.velocity = velocity
 

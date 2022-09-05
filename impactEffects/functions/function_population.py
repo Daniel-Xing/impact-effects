@@ -25,6 +25,7 @@ def cal_lratio_population(
 
     return 0
 
+
 def cal_pratio_population(
     impactor: ImpactorPopulation,
     target: Target,
@@ -92,6 +93,7 @@ def cal_vration_population(
 
     return [0]
 
+
 def cal_mratio_population(
     impactor: ImpactorPopulation,
     target: Target,
@@ -140,13 +142,7 @@ def cal_themal_population(
     """
     if type is Choices.Collins:
         return collins_cal_themal_population(
-            impactor,
-            target,
-            energy_surface,
-            altitudeBurst,
-            delta,
-            velocity,
+            impactor, target, energy_surface, altitudeBurst, delta, velocity,
         )
 
     return [0]
-    

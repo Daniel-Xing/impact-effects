@@ -19,7 +19,7 @@ MAX_SAMPLE_NUM = 1e8
 
 
 class ImpactorPopulation:
-    """Example for supporting impactor population, 
+    """Example for supporting impactor population,
     only type of diameter is ProbabilityDistribution
 
     Parameters
@@ -66,40 +66,45 @@ class ImpactorPopulation:
         self.rec_time = None
 
         self.altitudeBurst = 0
-        
+
         self.instances = []
         for diamter in self.pdiameter:
             # print("aaa", diamter, "type: ", type(diamter))
             self.instances.append(
-                Impactor(diameter=diamter,
-                         density=self.density,
-                         velocity=self.velocity,
-                         theta=self.theta))
+                Impactor(
+                    diameter=diamter,
+                    density=self.density,
+                    velocity=self.velocity,
+                    theta=self.theta,
+                )
+            )
 
         return
 
     # define setter function for pdiameter
     def set_pdiameter(self, pdiameter, pdiameterNumber):
-        """set after check 
+        """set after check
 
         Args:
             pdiameter (_type_): _description_
         """
         if type(pdiameterNumber) != int:
-            raise TypeError(
-                "pdiameterNumber must be a numeric value, int."
-            )
+            raise TypeError("pdiameterNumber must be a numeric value, int.")
 
-        if pdiameterNumber < MIN_SAMPLE_NUM or pdiameterNumber > MAX_SAMPLE_NUM:
+        if (
+            pdiameterNumber < MIN_SAMPLE_NUM
+            or pdiameterNumber > MAX_SAMPLE_NUM
+        ):
             raise ValueError(
-                "pdiameterNumber must be within the bounds: {} < density < {}".format(
+                "pdiameterNumber must be\
+                    within the bounds: {} < density < {}".format(
                     MIN_SAMPLE_NUM, MAX_SAMPLE_NUM
                 )
             )
 
         try:
             pdiameter.sample(pdiameterNumber)
-        except:
+        except Exception:
             raise NotImplementedError("no sample function found in pdiameter")
 
         self.pdiameter = pdiameter.sample(pdiameterNumber)
@@ -108,9 +113,7 @@ class ImpactorPopulation:
     def set_density(self, density):
         # check if the value is numeric
         if not numeric_checker(density):
-            raise TypeError(
-                "density must be a numeric value, float or int."
-            )
+            raise TypeError("density must be a numeric value, float or int.")
         # check if density is within the bounds
         if density > self.density_upper or density < self.density_lower:
             raise ValueError(
@@ -124,15 +127,14 @@ class ImpactorPopulation:
     def set_velocity(self, velocity):
         # check if the value is numeric
         if not numeric_checker(velocity):
-            raise TypeError(
-                "velocity must be a numeric value, float or int."
-            )
+            raise TypeError("velocity must be a numeric value, float or int.")
         # check if velocity is within the bounds
         if velocity > self.velocity_upper or velocity < self.velocity_lower:
             raise ValueError(
-                "velocity must be within the bounds: {} < velocity < {}".
-                format(self.velocity_lower, self.velocity_upper
-                       )
+                "velocity must be\
+                    within the bounds: {} < velocity < {}".format(
+                    self.velocity_lower, self.velocity_upper
+                )
             )
         self.velocity = velocity
 
@@ -229,14 +231,12 @@ class ImpactorPopulation:
 
 
 if __name__ == "__main__":
-    uniformDistribution = UniformDistribution(
-        10, 1000, int(time.time()))
+    uniformDistribution = UniformDistribution(10, 1000, int(time.time()))
 
     # print(uniformDistribution.sample(10))
 
-    impactor = ImpactorPopulation(diameter=uniformDistribution,
-                                  density=1000,
-                                  velocity=1000,
-                                  theta=45)
+    impactor = ImpactorPopulation(
+        diameter=uniformDistribution, density=1000, velocity=1000, theta=45
+    )
     print(impactor.get_pdiameter())
     print(impactor.Instances())

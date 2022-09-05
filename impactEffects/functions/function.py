@@ -14,7 +14,9 @@ from impactEffects.core.core_collins import *
 from impactEffects.utils.print import *
 
 
-def cal_mass(impactor: Impactor, target: Target, type: Choices = Choices.Collins) -> float:
+def cal_mass(
+    impactor: Impactor, target: Target, type: Choices = Choices.Collins
+) -> float:
     """
 
     Arguments
@@ -87,7 +89,9 @@ def rec_time(impactor: Impactor, type: Choices = Choices.Collins) -> float:
     return 0
 
 
-def cal_rec_time(impactor: Impactor, target: Target, type: Choices = Choices.Collins) -> float:
+def cal_rec_time(
+    impactor: Impactor, target: Target, type: Choices = Choices.Collins
+) -> float:
     """
 
     Arguments
@@ -162,9 +166,7 @@ def altitude_of_breakup(
     """
 
     if type is Choices.Collins:
-        return collins_altitude_of_breakup(
-            impactor, target, collins_iFactor
-        )
+        return collins_altitude_of_breakup(impactor, target, collins_iFactor)
 
     return 0
 
@@ -647,10 +649,9 @@ def cal_velocity_projectile(
     return 0
 
 
-def cal_velocity(impactor: Impactor,
-                 target: Target,
-                 type: Choices = Choices.Collins,
-                 ) -> float:
+def cal_velocity(
+    impactor: Impactor, target: Target, type: Choices = Choices.Collins,
+) -> float:
     if type is Choices.Collins:
         return collins_cal_velocity(impactor, target)
 
@@ -741,9 +742,7 @@ def cal_scaling_diameter_constant(
     return 0
 
 
-def cal_Cd(
-    target: Target, type: Choices = Choices.Collins
-) -> float:
+def cal_Cd(target: Target, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -761,9 +760,7 @@ def cal_Cd(
     return 0
 
 
-def cal_beta(
-    target: Target, type: Choices = Choices.Collins
-) -> float:
+def cal_beta(target: Target, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -781,9 +778,7 @@ def cal_beta(
     return 0
 
 
-def cal_anglefac(
-    impactor: Impactor, type: Choices = Choices.Collins
-) -> float:
+def cal_anglefac(impactor: Impactor, type: Choices = Choices.Collins) -> float:
     """
 
     Arguments
@@ -982,9 +977,7 @@ def cal_depthfr(
 
     """
     if type is Choices.Collins:
-        return collins_cal_depthfr(
-            impactor, target, Dtr, depthtr, cdiameter
-        )
+        return collins_cal_depthfr(impactor, target, Dtr, depthtr, cdiameter)
 
     return 0
 
@@ -1118,9 +1111,7 @@ def cal_vMelt(
 
     """
     if type is Choices.Collins:
-        return collins_cal_vMelt(
-            impactor, target, velocity, energy_seafloor
-        )
+        return collins_cal_vMelt(impactor, target, velocity, energy_seafloor)
 
     return 0
 
@@ -1300,12 +1291,7 @@ def cal_themal(
     """
     if type is Choices.Collins:
         return collins_cal_themal(
-            impactor,
-            target,
-            energy_surface,
-            altitudeBurst,
-            delta,
-            velocity,
+            impactor, target, energy_surface, altitudeBurst, delta, velocity,
         )
 
     return 0
@@ -1460,9 +1446,7 @@ def cal_vmax(
 
     """
     if type is Choices.Collins:
-        return collins_cal_vmax(
-            impactor, target, energy_blast, altitudeBurst
-        )
+        return collins_cal_vmax(impactor, target, energy_blast, altitudeBurst)
 
     return 0
 
@@ -1556,9 +1540,7 @@ def cal_WaveAmplitudeUpperLimit(
 
     """
     if type is Choices.Collins:
-        return collins_cal_WaveAmplitudeUpperLimit(
-            impactor, target, wdiameter
-        )
+        return collins_cal_WaveAmplitudeUpperLimit(impactor, target, wdiameter)
 
     return 0
 
@@ -1580,9 +1562,7 @@ def cal_WaveAmplitudeLowerLimit(
 
     """
     if type is Choices.Collins:
-        return collins_cal_WaveAmplitudeLowerLimit(
-            impactor, target, wdiameter
-        )
+        return collins_cal_WaveAmplitudeLowerLimit(impactor, target, wdiameter)
 
     return 0
 
@@ -1590,8 +1570,19 @@ def cal_WaveAmplitudeLowerLimit(
 def simulateImpactor(impactor: Impactor, targets: Target):
 
     # cal_energy
-    energy_disc, rec_disc, change_disc, atmos_disc, crater_disc, eject_disc, themal_disc, seismic_disc, ejecta_disc, airblast_disc, tsunami_disc = \
-        "", "", "", "", "", "", "", "", "", "", ""
+    (
+        energy_disc,
+        rec_disc,
+        change_disc,
+        atmos_disc,
+        crater_disc,
+        eject_disc,
+        themal_disc,
+        seismic_disc,
+        ejecta_disc,
+        airblast_disc,
+        tsunami_disc,
+    ) = ("", "", "", "", "", "", "", "", "", "", "")
     _kinetic_energy = kinetic_energy(impactor)
     _kinetic_energy_megatons = kinetic_energy_megatons(impactor)
     energy_disc = print_energy(_kinetic_energy, _kinetic_energy_megatons)
@@ -1604,7 +1595,13 @@ def simulateImpactor(impactor: Impactor, targets: Target):
     collins_iFactor, _av, _rStrength = iFactor(impactor, targets)
     # print(collins_iFactor)
 
-    altitudeBU, altitudeBurst, dispersion, energy_surface, energy_megatons = 0, 0, 0, 0, 0
+    altitudeBU, altitudeBurst, dispersion, energy_surface, energy_megatons = (
+        0,
+        0,
+        0,
+        0,
+        0,
+    )
     if collins_iFactor >= 1:
         velocity = burst_velocity_at_zero(impactor, targets)
     else:
@@ -1658,17 +1655,33 @@ def simulateImpactor(impactor: Impactor, targets: Target):
 
     change_disc = print_change(vRatio, mratio, lratio, trot_change, pratio)
 
-    energy_megatons = energy_surface / (4.186 * 10**15)
+    energy_megatons = energy_surface / (4.186 * 10 ** 15)
     if impactor.get_mass() <= 1.5707963e12:
-        atmos_disc = print_atmospheric_entry(impactor.get_mass(), impactor.velocity, velocity, collins_iFactor, altitudeBU,
-                                             altitudeBurst, impactor.density, dispersion, impactor.theta, energy_surface, energy_megatons)
+        atmos_disc = print_atmospheric_entry(
+            impactor.get_mass(),
+            impactor.velocity,
+            velocity,
+            collins_iFactor,
+            altitudeBU,
+            altitudeBurst,
+            impactor.density,
+            dispersion,
+            impactor.theta,
+            energy_surface,
+            energy_megatons,
+        )
 
     if altitudeBurst <= 0:
         ejecta_arrival = cal_eject_arrival(impactor, targets)
 
         ejecta_thickness = cal_ejecta_thickness(impactor, targets)
-        d_frag = cal_d_frag(impactor=impactor, target=targets,
-                            cdiameter=cdiameter, altitudeBurst=altitudeBurst, Dtr=Dtr)
+        d_frag = cal_d_frag(
+            impactor=impactor,
+            target=targets,
+            cdiameter=cdiameter,
+            altitudeBurst=altitudeBurst,
+            Dtr=Dtr,
+        )
 
         if velocity >= 15:
             (
@@ -1686,36 +1699,104 @@ def simulateImpactor(impactor: Impactor, targets: Target):
 
         eff_mag, seismic_arrival = cal_magnitude2(impactor, targets)
 
-        crater_disc = print_crater(vMelt, Dtr, targets.depth, wdiameter, impactor.pdiameter, dispersion,
-                                   collins_iFactor, depthtr, mratio, mcratio, cdiameter, depthfr, brecciaThickness, velocity)
-        if targets.distance * 1000 <= Dtr/2:
-            eject_disc = print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
-                                      Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
+        crater_disc = print_crater(
+            vMelt,
+            Dtr,
+            targets.depth,
+            wdiameter,
+            impactor.pdiameter,
+            dispersion,
+            collins_iFactor,
+            depthtr,
+            mratio,
+            mcratio,
+            cdiameter,
+            depthfr,
+            brecciaThickness,
+            velocity,
+        )
+        if targets.distance * 1000 <= Dtr / 2:
+            eject_disc = print_ejecta(
+                energy_megatons,
+                int(log(energy_megatons) / log(10)),
+                targets.distance,
+                Rf,
+                Dtr,
+                cdiameter,
+                ejecta_arrival,
+                ejecta_thickness,
+                d_frag,
+            )
             return
 
-        themal_disc = print_thermal(velocity, no_radiation_, max_rad_time_, targets.distance, Rf,
-                                    h, thermal_power_, thermal_exposure_, irradiation_time_)
+        themal_disc = print_thermal(
+            velocity,
+            no_radiation_,
+            max_rad_time_,
+            targets.distance,
+            Rf,
+            h,
+            thermal_power_,
+            thermal_exposure_,
+            irradiation_time_,
+        )
         seismic_disc = print_seismic(magnitude, seismic_arrival)
-        ejecta_disc = print_ejecta(energy_megatons, int(log(energy_megatons)/log(10)), targets.distance,
-                                   Rf, Dtr, cdiameter, ejecta_arrival, ejecta_thickness, d_frag)
+        ejecta_disc = print_ejecta(
+            energy_megatons,
+            int(log(energy_megatons) / log(10)),
+            targets.distance,
+            Rf,
+            Dtr,
+            cdiameter,
+            ejecta_arrival,
+            ejecta_thickness,
+            d_frag,
+        )
 
     # Compute the effects of the airblast and print
     shock_arrival = cal_shock_arrival(impactor, targets)
     vmax, opressure = cal_vmax(impactor, targets)
     shock_damage = cal_shock_damage(
-        impactor=impactor, target=targets, opressure=opressure, vmax=vmax)
+        impactor=impactor, target=targets, opressure=opressure, vmax=vmax
+    )
     dec_level = cal_dec_level(impactor, targets)
-    airblast_disc = print_airblast(opressure, vmax, shock_arrival,
-                                   targets.distance, altitudeBurst, dec_level, shock_damage)
+    airblast_disc = print_airblast(
+        opressure,
+        vmax,
+        shock_arrival,
+        targets.distance,
+        altitudeBurst,
+        dec_level,
+        shock_damage,
+    )
 
     # Compute the tsunami amplitude if water layer present
     if targets.depth > 0:
         TsunamiArrivalTime = cal_TsunamiArrivalTime(impactor, targets)
         WaveAmplitudeUpperLimit = cal_WaveAmplitudeUpperLimit(
-            impactor, targets)
+            impactor, targets
+        )
         WaveAmplitudeLowerLimit = cal_WaveAmplitudeLowerLimit(
-            impactor, targets)
-        tsunami_disc = print_tsunami(targets.distance, wdiameter, TsunamiArrivalTime,
-                                     WaveAmplitudeLowerLimit, WaveAmplitudeUpperLimit)
+            impactor, targets
+        )
+        tsunami_disc = print_tsunami(
+            targets.distance,
+            wdiameter,
+            TsunamiArrivalTime,
+            WaveAmplitudeLowerLimit,
+            WaveAmplitudeUpperLimit,
+        )
 
-    return energy_disc, rec_disc, change_disc, atmos_disc, crater_disc, eject_disc, themal_disc, seismic_disc, ejecta_disc, airblast_disc, tsunami_disc
+    return (
+        energy_disc,
+        rec_disc,
+        change_disc,
+        atmos_disc,
+        crater_disc,
+        eject_disc,
+        themal_disc,
+        seismic_disc,
+        ejecta_disc,
+        airblast_disc,
+        tsunami_disc,
+    )

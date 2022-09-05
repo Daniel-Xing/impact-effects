@@ -196,9 +196,7 @@ class Target:
         if not numeric_checker(seefloor_density):
             raise ValueError("seefloor_density must be numeric")
         if not positive_checker(seefloor_density):
-            raise ValueError(
-                "seefloor_density must be seefloor_densitysitive"
-            )
+            raise ValueError("seefloor_density must be seefloor_densitysitive")
 
         self.seefloor_density = seefloor_density
 
