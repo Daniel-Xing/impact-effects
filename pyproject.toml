@@ -16,7 +16,7 @@ license = {file = "LICENSE"}
 name = "ImpactEffect"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "0.0.7"
+version = "1.0.0"
 
 [project.urls]
 "Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
